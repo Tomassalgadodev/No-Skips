@@ -1,34 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 import './Header.css';
 
-class Header extends Component {
+import SearchForm from "../SearchForm/SearchForm";
 
-    constructor() {
-        super();
-        this.state = {
-            artistInput: ''
-        }
-    }
+const Header = () => {
 
-    handleChange = e => {
-        this.setState({
-            artistInput: e.target.value
-        })
-    }
-
-    render() {
         return (
             <header>
                 <h1>No Skips</h1>
-                <form>
-                    <input placeholder="Search for Artists" value={this.state.artistInput} onChange={this.handleChange} />
-                    <button>Search</button>
-                </form>
+                <SearchForm />
                 <button>Sign Up</button>
                 <button>Log In</button>
             </header>
         )
-    }
 }
 
 export default Header;
