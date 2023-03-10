@@ -5,6 +5,7 @@ import './App.css';
 import Header from '../Header/Header';
 import HomePage from '../HomePage/HomePage';
 import SearchPage from '../SearchPage/SearchPage';
+import ArtistPage from '../ArtistPage/ArtistPage';
 
 class App extends Component {
   constructor() {
@@ -27,6 +28,11 @@ class App extends Component {
         <Route exact path='/search/:searchTerm' render={({ match }) => {
           return (
             <SearchPage searchTerm={match.params.searchTerm} />
+          )
+        }}/>
+        <Route exact path='/artist/:artistID' render={({ match }) => {
+          return (
+            <ArtistPage artistID={match.params.artistID}/>
           )
         }}/>
       </React.Fragment>

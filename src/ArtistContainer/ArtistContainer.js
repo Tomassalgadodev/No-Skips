@@ -6,14 +6,16 @@ import noArtist from '../assets/noArtist.png';
 
 const ArtistContainer = ({ artistData }) => {
 
-console.log(artistData)
-
     const artistCards = artistData.map((dataPoint, index) => {
+
+        const artistID = dataPoint.artistLink.split('/').pop();
+
         return (
             <ArtistCard 
                 artistImage={dataPoint.artistImage === 'No Image' ? noArtist : dataPoint.artistImage}
                 artistName={dataPoint.artistName}
                 artistLink={dataPoint.artistLink}
+                artistID={artistID}
                 key={index}
             />
         )
