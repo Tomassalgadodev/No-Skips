@@ -1,4 +1,4 @@
-export default artistData = [
+const artistData = [
     {
       artistImage: 'https://i.scdn.co/image/ab6761610000f1781b6a15dd91dd174fcbebd791',
       artistName: 'Kublai Khan TX',
@@ -50,3 +50,5 @@ export default artistData = [
       artistLink: 'https://open.spotify.com/artist/2pbct1ni3yLLAfzrSXQDrH'
     }
   ]
+
+  export default artistData;
