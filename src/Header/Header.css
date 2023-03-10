@@ -3,3 +3,7 @@ header {
     align-items: center;
     justify-content: space-around;
 }
+
+.home-button:hover {
+    cursor: pointer;
+}

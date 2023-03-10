@@ -1,34 +1,36 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import './SearchForm.css';
 
-class SearchForm extends Component {
+const SearchForm = () => {
 
-    constructor() {
-        super();
-        this.state = {
-            artistInput: ''
-        }
+    const [ artistInput, setArtist ] = useState('');
+    
+    const history = useHistory();
+
+    const handleChange = e => {
+        setArtist(e.target.value)
     }
 
-    handleChange = e => {
-        this.setState({
-            artistInput: e.target.value
-        })
-    }
-
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault();
-        console.log(this.state.artistInput)
+        console.log(artistInput);
+        history.push(`/search/${artistInput}`);
     }
 
-    render() {
-        return (
-                <form onSubmit={this.handleSubmit}>
-                    <input placeholder="Search for Artists" value={this.state.artistInput} onChange={this.handleChange} />
-                    <button>Search</button>
-                </form>
-        )
-    }
+
+    return (
+            <form 
+                onSubmit={handleSubmit}
+            >
+                <input 
+                    placeholder="Search for Artists" 
+                    value={artistInput} 
+                    onChange={handleChange} 
+                />
+                <button>Search</button>
+            </form>
+    )
 }
 
 export default SearchForm;

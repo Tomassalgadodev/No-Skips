@@ -2,17 +2,19 @@ import React from "react";
 import './Header.css';
 
 import SearchForm from "../SearchForm/SearchForm";
+import { useHistory } from "react-router-dom";
 
 const Header = () => {
+    const history = useHistory();
 
-        return (
-            <header>
-                <h1>No Skips</h1>
-                <SearchForm />
-                <button>Sign Up</button>
-                <button>Log In</button>
-            </header>
-        )
+    return (
+        <header>
+            <h1 className="home-button" onClick={() => history.push('/')}>No Skips</h1>
+            <SearchForm />
+            <button>Sign Up</button>
+            <button>Log In</button>
+        </header>
+    )
 }
 
 export default Header;
