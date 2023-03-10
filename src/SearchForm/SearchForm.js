@@ -16,9 +16,14 @@ class SearchForm extends Component {
         })
     }
 
+    handleSubmit = e => {
+        e.preventDefault();
+        console.log(this.state.artistInput)
+    }
+
     render() {
         return (
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <input placeholder="Search for Artists" value={this.state.artistInput} onChange={this.handleChange} />
                     <button>Search</button>
                 </form>
