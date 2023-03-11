@@ -1,7 +1,16 @@
 import React from "react";
 import './AlbumContainer.css'
 
-const AlbumContainer = () => {
+import AlbumCard from "../AlbumCard/AlbumCard";
+
+const AlbumContainer = ({ albumData }) => {
+
+    const albumCards = albumData.map(album => {
+        return (
+            
+        )
+    })
+
     return (
         <h3>-- Albums go here --</h3>
     )

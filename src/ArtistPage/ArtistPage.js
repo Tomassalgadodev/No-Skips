@@ -4,12 +4,12 @@ import albumData from "../albumData";
 
 import AlbumContainer from "../AlbumContainer/AlbumContainer";
 
-const ArtistPage = ({ artistID }) => {
+const ArtistPage = ({ artistID, albumData }) => {
     return (
         <div>
             <h2>-- This is where the Artist page will go --</h2>
             <p>Artist ID: {artistID}</p>
-            <AlbumContainer />
+            <AlbumContainer albumData={albumData} />
         </div>
     )
 }
