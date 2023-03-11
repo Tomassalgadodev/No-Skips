@@ -5,14 +5,22 @@ import AlbumCard from "../AlbumCard/AlbumCard";
 
 const AlbumContainer = ({ albumData }) => {
 
-    const albumCards = albumData.map(album => {
+    const albumCards = albumData.map((album, index) => {
         return (
-            
+            <AlbumCard 
+                albumArt={album.albumArt}
+                albumTitle={album.albumTitle}
+                yearReleased={album.yearReleased}
+                link={album.link}
+                key={index}
+            />
         )
     })
 
     return (
-        <h3>-- Albums go here --</h3>
+        <div>
+            {albumCards}
+        </div>
     )
 }
 
