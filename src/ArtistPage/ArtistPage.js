@@ -1,6 +1,5 @@
 import React from "react";
 import './ArtistPage.css';
-import albumData from "../albumData";
 import singleArtistData from "../singleArtistData";
 
 import AlbumContainer from "../AlbumContainer/AlbumContainer";
@@ -18,7 +17,7 @@ const ArtistPage = ({ artistID }) => {
                 <p>Artist ID: {artistID}</p>
                 {/* <img className="artist-image" src={artistImage}/> */}
             </div>
-            <AlbumContainer albumData={albumData} />
+            <AlbumContainer albumData={singleArtistData.albums} />
         </div>
     )
 }
