@@ -1,5 +1,6 @@
 import React from "react";
 import './ArtistPage.css';
+import albumData from "../albumData";
 
 const ArtistPage = ({ artistID }) => {
     return (
