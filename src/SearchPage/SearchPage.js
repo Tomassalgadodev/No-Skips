@@ -20,13 +20,15 @@ const SearchPage = ({ searchTerm }) => {
     }, []);
 
 
-    return (
-        <React.Fragment>
-            <h1>-- This is where the Search Page will go --</h1>
-            <p>Search Term: {searchTerm}</p>
-            <ArtistContainer artistData={artistData} />
-        </React.Fragment>
-    )
+    if (!loading) {
+        return (
+            <ArtistContainer artistData={searchResults.artists} />
+        )
+    } else {
+        return (
+            <h2>-- LOADING --</h2>
+        )
+    }
 }
  
 export default SearchPage;
