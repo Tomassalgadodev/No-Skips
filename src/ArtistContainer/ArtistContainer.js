@@ -27,5 +27,5 @@ const ArtistContainer = ({ artistData }) => {
         </div>
     )
 }
-
+ 
 export default ArtistContainer;
