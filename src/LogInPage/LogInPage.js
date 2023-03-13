@@ -4,8 +4,9 @@ import './LogInPage.css';
 const LogInPage = () => {
     return (
         <form className="log-in-form">
-            <input placeholder="Username"/>
-            <input placeholder="Password"/>
+            <h2>Welcome back!</h2>
+            <input placeholder="Username" required/>
+            <input placeholder="Password" required/>
             <button>Log In</button>
         </form>
     )

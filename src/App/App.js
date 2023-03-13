@@ -7,6 +7,7 @@ import HomePage from '../HomePage/HomePage';
 import SearchPage from '../SearchPage/SearchPage';
 import ArtistPage from '../ArtistPage/ArtistPage';
 import LogInPage from '../LogInPage/LogInPage';
+import SignUpPage from '../SignUpPage/SignUpPage';
 
 class App extends Component {
   constructor() {
@@ -39,6 +40,11 @@ class App extends Component {
         <Route exact path='/login' render={() => {
           return (
             <LogInPage />
+          )
+        }}/>
+        <Route exact path='/signup' render={() => {
+          return (
+            <SignUpPage />
           )
         }}/>
       </React.Fragment>

@@ -15,6 +15,7 @@ const SearchForm = () => {
     const handleSubmit = e => {
         e.preventDefault();
         history.push(`/search/${artistInput}`);
+        setArtist('');
     }
 
 
@@ -26,6 +27,7 @@ const SearchForm = () => {
                     placeholder="Search for Artists" 
                     value={artistInput} 
                     onChange={handleChange} 
+                    required
                 />
                 <button>Search</button>
             </form>
