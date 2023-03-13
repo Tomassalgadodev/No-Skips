@@ -19,7 +19,10 @@ const ArtistPage = ({ artistID }) => {
             .then(data => {
                 setArtistData(data);
                 setLoading(false);
-                artistImage = data.artistInfo.artistImage.substring(23, singleArtistData.artistImage.length - 3);
+                artistImage = data.artistInfo.artistImage;
+                if (artistImage.includes('background')) {
+                    artistImage = artistImage.substring(23, singleArtistData.artistImage.length - 3);
+                }
             })
 
     }, [artistID]);
@@ -32,7 +35,6 @@ const ArtistPage = ({ artistID }) => {
                     style={{backgroundImage: `url(${artistImage})`}}
                 >
                     <h2>{artistData.artistInfo.artistName}</h2>
-                    {/* <img className="artist-image" src={artistImage}/> */}
                 </div>
                 <AlbumContainer albumData={artistData.artistInfo.albums} />
             </div>

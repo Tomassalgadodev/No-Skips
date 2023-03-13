@@ -12,7 +12,7 @@ const Header = () => {
             <h1 className="home-button" onClick={() => history.push('/')}>No Skips</h1>
             <SearchForm />
             <button>Sign Up</button>
-            <button>Log In</button>
+            <button onClick={() => history.push('/login')}>Log In</button>
         </header>
     )
 }

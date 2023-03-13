@@ -14,7 +14,6 @@ const SearchForm = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log(artistInput);
         history.push(`/search/${artistInput}`);
     }
 
