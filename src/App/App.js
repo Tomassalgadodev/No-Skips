@@ -39,6 +39,7 @@ class App extends Component {
   }
 
   loginUser = (loginInfo) => {
+    console.log(loginInfo)
     this.setState({
       loggedIn: true,
       accountInfo: loginInfo.user
@@ -67,7 +68,9 @@ class App extends Component {
         }}/>
         <Route exact path='/login' render={() => {
           return (
-            <LogInPage />
+            <LogInPage 
+              loginUser={this.loginUser}
+            />
           )
         }}/>
         <Route exact path='/signup' render={() => {

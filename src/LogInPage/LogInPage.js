@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './LogInPage.css';
 
-const LogInPage = () => {
+const LogInPage = ({ loginUser }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -12,11 +12,11 @@ const LogInPage = () => {
 
         try {
 
-            const loginInfo = { username, password };
+            const loginBody = { username, password };
 
             const attempt = await fetch('http://localhost:8000/api/v1/login', {
                 method: 'POST',
-                body: JSON.stringify(loginInfo),
+                body: JSON.stringify(loginBody),
                 headers: {
                     "Content-Type": "application/JSON"
                 }
@@ -26,9 +26,9 @@ const LogInPage = () => {
                 throw new Error ('Login failed');
             }
 
-            const loginSuccess = await attempt.json();
+            const loginInfo = await attempt.json();
 
-            console.log(loginSuccess);
+            loginUser(loginInfo);
 
         } catch (err) {
             // Show message on page that user failed their login
