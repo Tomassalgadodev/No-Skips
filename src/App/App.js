@@ -86,7 +86,9 @@ class App extends Component {
         }}/>
         <Route exact path='/signup' render={() => {
           return (
-            <SignUpPage />
+            <SignUpPage 
+              loggedIn={this.state.loggedIn}
+            />
           )
         }}/>
       </React.Fragment>

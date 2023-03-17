@@ -1,7 +1,15 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import './SignUpPage.css';
 
-const SignUpPage = () => {
+const SignUpPage = ({ loggedIn }) => {
+
+    if (loggedIn) {
+        return (
+            <Redirect to='/' />
+        )
+    }
+
     return (
         <form className="sign-up-form">
             <h2>Create an account</h2>

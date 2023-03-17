@@ -42,8 +42,6 @@ const LogInPage = ({ loginUser, loggedIn }) => {
         }
     }
 
-    console.log(loggedIn)
-
     if (loggedIn) {
         return (
             <Redirect to='/' />
