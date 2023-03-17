@@ -19,7 +19,8 @@ const LogInPage = ({ loginUser }) => {
                 body: JSON.stringify(loginBody),
                 headers: {
                     "Content-Type": "application/JSON"
-                }
+                },
+                credentials: 'include'
             });
     
             if (!attempt.ok) {

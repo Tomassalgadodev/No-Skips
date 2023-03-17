@@ -21,7 +21,9 @@ class App extends Component {
 
   componentDidMount = async () => {
     try {
-      const user = await fetch('http://localhost:8000/api/v1/userdata');
+      const user = await fetch('http://localhost:8000/api/v1/userdata', {
+        credentials: 'include'
+      });
 
       if (!user.ok) {
         if (user.status === 401) {
@@ -45,6 +47,10 @@ class App extends Component {
       accountInfo: loginInfo.user
     });
   }
+
+  logoutUser = () => {
+    this.setState({ loggedIn: false, userData: [], accountInfo: {} });
+  }
   
   render() {
 
@@ -52,7 +58,8 @@ class App extends Component {
       <React.Fragment>
         <Header 
           loggedIn={this.state.loggedIn}
-          userFirstName={this.state.accountInfo.first_name}
+          logoutUser={this.logoutUser}
+          userFirstName={this.state.accountInfo.first_name || this.state.userData.first_name}
         />
         <Route exact path='/' render={() => {
           return (

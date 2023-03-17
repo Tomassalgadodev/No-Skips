@@ -4,8 +4,32 @@ import './Header.css';
 import SearchForm from "../SearchForm/SearchForm";
 import { useHistory } from "react-router-dom";
 
-const Header = ({ loggedIn, userFirstName }) => {
+const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     const history = useHistory();
+
+    const logout = async () => {
+
+        try {
+            const logoutAttempt = await fetch('http://localhost:8000/api/v1/logout', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: 'include'
+            });
+            
+            const message = await logoutAttempt.json();
+
+            if (message.msg === 'success') {
+                console.log('successful logout my friend');
+                logoutUser();
+            } else {
+                console.log('Log out failed');
+            }
+        } catch (err) {
+
+        }
+    }
 
     if (loggedIn) {
         return (
@@ -13,7 +37,7 @@ const Header = ({ loggedIn, userFirstName }) => {
                 <h1 className="home-button" onClick={() => history.push('/')}>No Skips</h1>
                 <SearchForm />
                 <button>{`${userFirstName}'s Account`}</button>
-                <button>Log Out</button>
+                <button onClick={logout}>Log Out</button>
             </header>
         )
     }
