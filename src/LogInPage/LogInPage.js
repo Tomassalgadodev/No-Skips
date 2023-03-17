@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import './LogInPage.css';
 
-const LogInPage = ({ loginUser }) => {
+const LogInPage = ({ loginUser, loggedIn }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -40,6 +40,14 @@ const LogInPage = ({ loginUser }) => {
             // Show message on page that user failed their login
             console.log(err);
         }
+    }
+
+    console.log(loggedIn)
+
+    if (loggedIn) {
+        return (
+            <Redirect to='/' />
+        )
     }
 
     return (

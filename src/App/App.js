@@ -80,6 +80,7 @@ class App extends Component {
           return (
             <LogInPage 
               loginUser={this.loginUser}
+              loggedIn={this.state.loggedIn}
             />
           )
         }}/>
