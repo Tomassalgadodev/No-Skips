@@ -24,13 +24,14 @@ const LogInPage = () => {
     
             if (!attempt.ok) {
                 throw new Error ('Login failed');
-            } 
+            }
 
-            const login = await attempt.json();
-            
-            console.log(login);
+            const loginSuccess = await attempt.json();
+
+            console.log(loginSuccess);
 
         } catch (err) {
+            // Show message on page that user failed their login
             console.log(err);
         }
     }

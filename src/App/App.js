@@ -14,7 +14,8 @@ class App extends Component {
     super();
     this.state = {
       loggedIn: false,
-      userData: []
+      userData: [],
+      accountInfo: {}
     }
   }
 
@@ -32,10 +33,16 @@ class App extends Component {
       this.setState({ loggedIn: true, userData: data });
 
     } catch (err) {
-        console.error(err);
-        this.setState({ loggedIn: false, userData: []});
+        this.setState({ loggedIn: false, userData: [], accountInfo: {} });
 
     }
+  }
+
+  loginUser = (loginInfo) => {
+    this.setState({
+      loggedIn: true,
+      accountInfo: loginInfo.user
+    });
   }
   
   render() {
