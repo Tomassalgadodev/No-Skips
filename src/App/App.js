@@ -13,6 +13,27 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      loggedIn: false,
+      userData: []
+    }
+  }
+
+  componentDidMount = async () => {
+    try {
+      const user = await fetch('http://localhost:8000/api/v1/userdata');
+
+      if (!user.ok) {
+        if (user.status === 401) {
+          throw new Error('Logged out');
+        }
+      }
+
+      const data = await user.json();
+      this.setState({ loggedIn: true, userData: data });
+
+    } catch (err) {
+        console.error(err);
+        this.setState({ loggedIn: false, userData: []});
 
     }
   }
