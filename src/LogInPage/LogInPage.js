@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import './LogInPage.css';
 
 const LogInPage = ({ loginUser }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const history = useHistory();
 
     const login = async e => {
 
@@ -30,6 +33,8 @@ const LogInPage = ({ loginUser }) => {
             const loginInfo = await attempt.json();
 
             loginUser(loginInfo);
+
+            history.push('/');
 
         } catch (err) {
             // Show message on page that user failed their login
