@@ -50,7 +50,10 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <Header />
+        <Header 
+          loggedIn={this.state.loggedIn}
+          userFirstName={this.state.accountInfo.first_name}
+        />
         <Route exact path='/' render={() => {
           return (
             <HomePage />
