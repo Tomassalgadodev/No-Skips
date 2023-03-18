@@ -87,6 +87,7 @@ class App extends Component {
         <Route exact path='/signup' render={() => {
           return (
             <SignUpPage 
+              loginUser={this.loginUser}
               loggedIn={this.state.loggedIn}
             />
           )

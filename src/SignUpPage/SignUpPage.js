@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import './SignUpPage.css';
 
-const SignUpPage = ({ loggedIn }) => {
+const SignUpPage = ({ loggedIn, loginUser }) => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -11,6 +11,8 @@ const SignUpPage = ({ loggedIn }) => {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(false);
+
+    const history = useHistory();
 
 
     if (loggedIn) {
@@ -29,15 +31,77 @@ const SignUpPage = ({ loggedIn }) => {
         }
     }
 
-    const createNewUser = e => {
+    const createNewUser = async e => {
         e.preventDefault();
 
         if (!passwordMatch) {
             // Show the user a message that they must match in the form
             console.log('Passwords must match');
-        } else {
-            console.log('They match!')
+            return;
         }
+
+        try {
+
+            const signupBody = {
+                username,
+                password,
+                firstname: firstName,
+                lastname: lastName,
+                email
+            };
+
+            const attempt = await fetch('http://localhost:8000/api/v1/users', {
+                method: 'POST',
+                body: JSON.stringify(signupBody),
+                headers: {
+                    "Content-Type": "application/JSON"
+                },
+                credentials: 'include'
+            });
+    
+            if (!attempt.ok) {
+                throw new Error ('Signup failed');
+            }
+
+            const attemptMessage = await attempt.json();
+
+            console.log(attemptMessage);
+
+// Same code as in login function from LogInPage Component. Refactor later to have this function declared in App component and pass down as props to both SignUpPage and LogInPage
+
+            try {
+
+                const loginBody = { username, password };
+
+                const attempt = await fetch('http://localhost:8000/api/v1/login', {
+                    method: 'POST',
+                    body: JSON.stringify(loginBody),
+                    headers: {
+                        "Content-Type": "application/JSON"
+                    },
+                    credentials: 'include'
+                });
+        
+                if (!attempt.ok) {
+                    throw new Error ('Login failed');
+                }
+
+                const loginInfo = await attempt.json();
+
+                loginUser(loginInfo);
+
+                history.push('/');
+
+            } catch (err) {
+                // Show message on page that user failed their login
+                console.log(err);
+            }
+            
+        } catch (err) {
+            // Show message on page that user failed their login
+            console.log(err);
+        }
+        
     }
 
     return (
