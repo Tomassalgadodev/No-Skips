@@ -14,7 +14,6 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
 
     const history = useHistory();
 
-
     if (loggedIn) {
         return (
             <Redirect to='/' />
@@ -60,7 +59,7 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
             });
     
             if (!attempt.ok) {
-                throw new Error ('Signup failed');
+                throw new Error (attempt.status);
             }
 
             const attemptMessage = await attempt.json();
@@ -83,7 +82,7 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
                 });
         
                 if (!attempt.ok) {
-                    throw new Error ('Login failed');
+                    throw new Error (attempt);
                 }
 
                 const loginInfo = await attempt.json();
@@ -98,8 +97,10 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
             }
             
         } catch (err) {
-            // Show message on page that user failed their login
-            console.log(err);
+            if (err.message === '409') {
+                // Show message on page that user failed their login
+                console.error('Error: That username already exists. Please choose another');
+            }
         }
         
     }

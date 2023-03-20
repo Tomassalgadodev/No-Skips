@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import './App.css';
 
@@ -9,92 +9,94 @@ import ArtistPage from '../ArtistPage/ArtistPage';
 import LogInPage from '../LogInPage/LogInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      loggedIn: false,
-      userData: [],
-      accountInfo: {}
-    }
-  }
+const App = () => {
 
-  componentDidMount = async () => {
-    try {
-      const user = await fetch('http://localhost:8000/api/v1/userdata', {
-        credentials: 'include'
-      });
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState([]);
+  const [accountInfo, setAccountInfo] = useState({});
 
-      if (!user.ok) {
-        if (user.status === 401) {
-          throw new Error('Logged out');
+  useEffect(() => {
+
+    const fetchUserData = async () => {
+      try {
+        const user = await fetch('http://localhost:8000/api/v1/userdata', {
+          credentials: 'include'
+        });
+  
+        if (!user.ok) {
+          throw new Error(user.status);
+        }
+  
+        const data = await user.json();
+        setLoggedIn(true);
+        setUserData(data);
+  
+      } catch (err) {
+        if (err.message === '401') {
+          setLoggedIn(false);
+          setUserData([]);
+          setAccountInfo({});
+          console.error('Not logged in');
         }
       }
-
-      const data = await user.json();
-      this.setState({ loggedIn: true, userData: data });
-
-    } catch (err) {
-        this.setState({ loggedIn: false, userData: [], accountInfo: {} });
-
     }
-  }
 
-  loginUser = (loginInfo) => {
+    fetchUserData();
+
+  }, []);
+
+  const loginUser = (loginInfo) => {
     console.log(loginInfo)
-    this.setState({
-      loggedIn: true,
-      accountInfo: loginInfo.user
-    });
+    setLoggedIn(true);
+    setAccountInfo(loginInfo.user);
   }
 
-  logoutUser = () => {
-    this.setState({ loggedIn: false, userData: [], accountInfo: {} });
+  const logoutUser = () => {
+    setLoggedIn(false);
+    setUserData([]);
+    setAccountInfo({});
   }
   
-  render() {
-
-    return (
-      <React.Fragment>
-        <Header 
-          loggedIn={this.state.loggedIn}
-          logoutUser={this.logoutUser}
-          userFirstName={this.state.accountInfo.first_name || this.state.userData.first_name}
-        />
-        <Route exact path='/' render={() => {
-          return (
-            <HomePage />
-          )
-        }}/>
-        <Route exact path='/search/:searchTerm' render={({ match }) => {
-          return (
-            <SearchPage searchTerm={match.params.searchTerm} />
-          )
-        }}/>
-        <Route exact path='/artist/:artistID' render={({ match }) => {
-          return (
-            <ArtistPage artistID={match.params.artistID}/>
-          )
-        }}/>
-        <Route exact path='/login' render={() => {
-          return (
-            <LogInPage 
-              loginUser={this.loginUser}
-              loggedIn={this.state.loggedIn}
-            />
-          )
-        }}/>
-        <Route exact path='/signup' render={() => {
-          return (
-            <SignUpPage 
-              loginUser={this.loginUser}
-              loggedIn={this.state.loggedIn}
-            />
-          )
-        }}/>
-      </React.Fragment>
-    );
+  return (
+    <React.Fragment>
+      <Header 
+        loggedIn={loggedIn}
+        logoutUser={logoutUser}
+        userFirstName={accountInfo.first_name || userData.first_name}
+      />
+      <Route exact path='/' render={() => {
+        return (
+          <HomePage />
+        )
+      }}/>
+      <Route exact path='/search/:searchTerm' render={({ match }) => {
+        return (
+          <SearchPage searchTerm={match.params.searchTerm} />
+        )
+      }}/>
+      <Route exact path='/artist/:artistID' render={({ match }) => {
+        return (
+          <ArtistPage artistID={match.params.artistID}/>
+        )
+      }}/>
+      <Route exact path='/login' render={() => {
+        return (
+          <LogInPage 
+            loginUser={loginUser}
+            loggedIn={loggedIn}
+          />
+        )
+      }}/>
+      <Route exact path='/signup' render={() => {
+        return (
+          <SignUpPage 
+            loginUser={loginUser}
+            loggedIn={loggedIn}
+          />
+        )
+      }}/>
+    </React.Fragment>
+  );
   }
-}
 
 export default App;
