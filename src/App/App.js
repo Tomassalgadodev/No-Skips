@@ -14,41 +14,54 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState([]);
   const [accountInfo, setAccountInfo] = useState({});
+  
+  const fetchUserData = async () => {
+    try {
+      const user = await fetch('http://localhost:8000/api/v1/userdata', {
+        credentials: 'include'
+      });
 
-  useEffect(() => {
+      if (!user.ok) {
+        throw new Error(user.status);
+      }
 
-    const fetchUserData = async () => {
+      const data = await user.json();
+      setLoggedIn(true);
+      setUserData(data);
+
       try {
-        const user = await fetch('http://localhost:8000/api/v1/userdata', {
+        const accountInfo = await fetch('http://localhost:8000/api/v1/user', {
           credentials: 'include'
         });
-  
-        if (!user.ok) {
-          throw new Error(user.status);
+
+        if(!accountInfo.ok) {
+          throw new Error(accountInfo.status);
         }
-  
-        const data = await user.json();
-        setLoggedIn(true);
-        setUserData(data);
-  
+
+        const userAccount = await accountInfo.json();
+        setAccountInfo(userAccount);
+
       } catch (err) {
-        if (err.message === '401') {
-          setLoggedIn(false);
-          setUserData([]);
-          setAccountInfo({});
-          console.error('Not logged in');
-        }
+        console.log(err.message);
+      }
+
+    } catch (err) {
+      if (err.message === '401') {
+        setLoggedIn(false);
+        setUserData([]);
+        setAccountInfo({});
+        console.error('Not logged in');
       }
     }
+  }
 
+  useEffect(() => {
     fetchUserData();
-
   }, []);
 
   const loginUser = (loginInfo) => {
-    console.log(loginInfo)
     setLoggedIn(true);
-    setAccountInfo(loginInfo.user);
+    fetchUserData();
   }
 
   const logoutUser = () => {
