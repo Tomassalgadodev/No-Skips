@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import './App.css';
 
@@ -42,6 +42,9 @@ const App = () => {
         setAccountInfo(userAccount);
 
       } catch (err) {
+        setLoggedIn(false);
+        setUserData([]);
+        setAccountInfo({});
         console.log(err.message);
       }
 
@@ -54,6 +57,11 @@ const App = () => {
       }
     }
   }
+
+  window.onpopstate = e => {
+    fetchUserData();
+    console.log(e.state);
+  };
 
   useEffect(() => {
     fetchUserData();
