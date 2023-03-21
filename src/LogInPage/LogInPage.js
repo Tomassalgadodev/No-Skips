@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import './LogInPage.css';
 
@@ -8,6 +8,12 @@ const LogInPage = ({ loginUser, loggedIn }) => {
     const [password, setPassword] = useState('');
 
     const history = useHistory();
+
+    useEffect(() => {
+        return () => {
+            console.log('it does mount');            
+        }
+      }, []);
 
     const login = async e => {
 

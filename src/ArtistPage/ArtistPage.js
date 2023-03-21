@@ -6,10 +6,11 @@ import AlbumContainer from "../AlbumContainer/AlbumContainer";
 
 let artistImage;
 
-const ArtistPage = ({ artistID }) => {
+const ArtistPage = ({ artistID, likedAlbums }) => {
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
+    const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -27,6 +28,15 @@ const ArtistPage = ({ artistID }) => {
 
     }, [artistID]);
 
+    useEffect(() => {
+        if (likedAlbums) {
+            const albums = likedAlbums.filter(album => album.artistID === artistID);
+            setUsersLikedAlbumsFromArtist(albums);
+        } else {
+            setUsersLikedAlbumsFromArtist([]);
+        }
+    }, [likedAlbums]);
+
     if (!loading) {
         return (
             <div>
@@ -36,7 +46,12 @@ const ArtistPage = ({ artistID }) => {
                 >
                     <h2>{artistData.artistInfo.artistName}</h2>
                 </div>
-                <AlbumContainer albumData={artistData.artistInfo.albums} />
+                <AlbumContainer 
+                    albumData={artistData.artistInfo.albums} 
+                    artistID={artistID}
+                    artistName={artistData.artistInfo.artistName}
+                    likedAlbums={usersLikedAlbumsFromArtist}
+                />
             </div>
         )
     } else {

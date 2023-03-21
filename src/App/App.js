@@ -12,7 +12,7 @@ import SignUpPage from '../SignUpPage/SignUpPage';
 const App = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   const [accountInfo, setAccountInfo] = useState({});
   
   const fetchUserData = async () => {
@@ -43,7 +43,7 @@ const App = () => {
 
       } catch (err) {
         setLoggedIn(false);
-        setUserData([]);
+        setUserData({});
         setAccountInfo({});
         console.log(err.message);
       }
@@ -51,7 +51,7 @@ const App = () => {
     } catch (err) {
       if (err.message === '401') {
         setLoggedIn(false);
-        setUserData([]);
+        setUserData({});
         setAccountInfo({});
         console.error('Not logged in');
       }
@@ -60,7 +60,6 @@ const App = () => {
 
   window.onpopstate = e => {
     fetchUserData();
-    console.log(e.state);
   };
 
   useEffect(() => {
@@ -74,7 +73,7 @@ const App = () => {
 
   const logoutUser = () => {
     setLoggedIn(false);
-    setUserData([]);
+    setUserData({});
     setAccountInfo({});
   }
   
@@ -97,7 +96,10 @@ const App = () => {
       }}/>
       <Route exact path='/artist/:artistID' render={({ match }) => {
         return (
-          <ArtistPage artistID={match.params.artistID}/>
+          <ArtistPage 
+            artistID={match.params.artistID}
+            likedAlbums={loggedIn ? userData.albums : ''}
+          />
         )
       }}/>
       <Route exact path='/login' render={() => {
