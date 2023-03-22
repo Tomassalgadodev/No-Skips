@@ -170,7 +170,9 @@ const App = () => {
       />
       <Route exact path='/' render={() => {
         return (
-          <HomePage />
+          <HomePage 
+            loggedIn={loggedIn}
+          />
         )
       }}/>
       <Route exact path='/search/:searchTerm' render={({ match }) => {
