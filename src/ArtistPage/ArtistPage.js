@@ -22,8 +22,8 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
 
             const data = await response.json();
 
-            if (data.artistInfo.errorMsg === 'Not verified') {
-                setArtistData({ errorMsg: 'Not verified' })
+            if (data.artistInfo.errorMsg) {
+                setArtistData({ errorMsg: data.artistInfo.errorMsg })
                 return;
             }
 
@@ -75,6 +75,10 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
     } else if (artistData.errorMsg === 'Not verified') {
         return (
             <h2>-- This Artist Is Not Verified --</h2>
+        )
+    } else if (artistData.errorMsg === `Artist doesn't exist`) {
+        return (
+            <h2>-- 404: No Artist With This ID --</h2>
         )
     } else {
         return (
