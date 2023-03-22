@@ -77,9 +77,11 @@ const App = () => {
       }
 
       const data = await fetchAlbumAttempt.json();
+
+      console.log(data)
       
       setSavedAlbums(data);
-      console.log(data);
+
     } catch (err) {
       console.log(err);
     }

@@ -16,7 +16,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             <img 
                 className="heart-icon" 
                 src={isLiked ? likedIcon : unlikedIcon} 
-                onClick={() => saveAlbum(albumData)}
+                onClick={() => isLiked ? '' : saveAlbum(albumData)}
             />
         </div>
     )
