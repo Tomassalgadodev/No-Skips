@@ -33,7 +33,7 @@ const LogInPage = ({ loginUser, loggedIn }) => {
             });
     
             if (!attempt.ok) {
-                throw new Error ('Login failed');
+                throw new Error (attempt.status);
             }
 
             const loginInfo = await attempt.json();

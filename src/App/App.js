@@ -128,8 +128,6 @@ const App = () => {
 
       const result = await removeAlbumAttempt.json();
 
-      console.log(result);
-
       if (result.msg !== 'Album not liked by user') {
         fetchUserAlbumData();
       }

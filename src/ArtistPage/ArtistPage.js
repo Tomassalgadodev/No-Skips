@@ -12,20 +12,36 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
     const [artistData, setArtistData] = useState({});
     const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
 
+    const fetchArtistData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/artist/${artistID}`);
+
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            const data = await response.json();
+
+            if (data.artistInfo.errorMsg === 'Not verified') {
+                setArtistData({ errorMsg: 'Not verified' })
+                return;
+            }
+
+            setArtistData(data);
+            setLoading(false);
+            artistImage = data.artistInfo.artistImage;
+            if (artistImage.includes('background')) {
+                artistImage = artistImage.substring(23, singleArtistData.artistImage.length - 3);
+            }
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
         setLoading(true);
-
-        fetch(`http://localhost:8000/api/v1/artist/${artistID}`)
-            .then(res => res.json())
-            .then(data => {
-                setArtistData(data);
-                setLoading(false);
-                artistImage = data.artistInfo.artistImage;
-                if (artistImage.includes('background')) {
-                    artistImage = artistImage.substring(23, singleArtistData.artistImage.length - 3);
-                }
-            })
-
+        fetchArtistData();
     }, [artistID]);
 
     useEffect(() => {
@@ -55,6 +71,10 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
                     removeAlbum={removeAlbum}
                 />
             </div>
+        )
+    } else if (artistData.errorMsg === 'Not verified') {
+        return (
+            <h2>-- This Artist Is Not Verified --</h2>
         )
     } else {
         return (
