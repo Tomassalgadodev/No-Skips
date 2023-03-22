@@ -14,6 +14,8 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
   const [accountInfo, setAccountInfo] = useState({});
+  const [savedAlbums, setSavedAlbums] = useState([]);
+  const [friendsList, setFriendsList] = useState([]);
   
   const fetchUserData = async () => {
     try {
@@ -28,6 +30,8 @@ const App = () => {
       const data = await user.json();
       setLoggedIn(true);
       setUserData(data);
+      setSavedAlbums(data.albums);
+      setFriendsList(data.friends_list);
 
       try {
         const accountInfo = await fetch('http://localhost:8000/api/v1/user', {
@@ -45,6 +49,8 @@ const App = () => {
         setLoggedIn(false);
         setUserData({});
         setAccountInfo({});
+        setSavedAlbums([]);
+        setFriendsList([]);
         console.log(err.message);
       }
 
@@ -53,6 +59,8 @@ const App = () => {
         setLoggedIn(false);
         setUserData({});
         setAccountInfo({});
+        setSavedAlbums([]);
+        setFriendsList([]);
         console.error('Not logged in');
       }
     }
@@ -75,6 +83,8 @@ const App = () => {
     setLoggedIn(false);
     setUserData({});
     setAccountInfo({});
+    setSavedAlbums([]);
+    setFriendsList([]);
   }
   
   return (
@@ -82,7 +92,7 @@ const App = () => {
       <Header 
         loggedIn={loggedIn}
         logoutUser={logoutUser}
-        userFirstName={accountInfo.first_name || userData.first_name}
+        userFirstName={accountInfo.first_name}
       />
       <Route exact path='/' render={() => {
         return (
@@ -98,7 +108,7 @@ const App = () => {
         return (
           <ArtistPage 
             artistID={match.params.artistID}
-            likedAlbums={loggedIn ? userData.albums : ''}
+            likedAlbums={loggedIn ? savedAlbums : ''}
           />
         )
       }}/>
