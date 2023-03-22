@@ -6,7 +6,7 @@ import AlbumContainer from "../AlbumContainer/AlbumContainer";
 
 let artistImage;
 
-const ArtistPage = ({ artistID, likedAlbums, saveAlbum }) => {
+const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
@@ -52,6 +52,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum }) => {
                     artistName={artistData.artistInfo.artistName}
                     likedAlbums={usersLikedAlbumsFromArtist}
                     saveAlbum={saveAlbum}
+                    removeAlbum={removeAlbum}
                 />
             </div>
         )
