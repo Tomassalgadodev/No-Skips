@@ -3,7 +3,7 @@ import './AlbumContainer.css'
 
 import AlbumCard from "../AlbumCard/AlbumCard";
 
-const AlbumContainer = ({ albumData, artistID, artistName, likedAlbums }) => {
+const AlbumContainer = ({ albumData, artistID, artistName, likedAlbums, saveAlbum }) => {
 
     const albumCards = albumData.map((album, index) => {
 
@@ -19,6 +19,7 @@ const AlbumContainer = ({ albumData, artistID, artistName, likedAlbums }) => {
                 isLiked={isLiked ? true : false}
                 artistName={artistName}
                 artistID={artistID}
+                saveAlbum={saveAlbum}
             />
         )
     })

@@ -4,9 +4,9 @@ import './AlbumCard.css';
 import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 
-const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID }) => {
+const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum }) => {
 
-    const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID, isLiked };
+    const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID };
 
     return (
         <div id={link}>
@@ -16,7 +16,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             <img 
                 className="heart-icon" 
                 src={isLiked ? likedIcon : unlikedIcon} 
-                onClick={() => console.log(albumData)}
+                onClick={() => saveAlbum(albumData)}
             />
         </div>
     )
