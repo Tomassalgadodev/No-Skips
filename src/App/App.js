@@ -66,6 +66,30 @@ const App = () => {
     }
   }
 
+  const saveAlbum = async (album) => {
+    try {
+      const addAlbumAttempt = await fetch('http://localhost:8000/api/v1/addSavedAlbum', {
+        method: 'POST',
+        body: JSON.stringify(album),
+        headers: {
+            "Content-Type": "application/JSON"
+        },
+        credentials: 'include'
+      });
+
+      if (!addAlbumAttempt.ok) {
+        throw new Error(addAlbumAttempt.status);
+      }
+
+      const result = await addAlbumAttempt.json();
+
+      console.log(result);
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   window.onpopstate = e => {
     fetchUserData();
   };
@@ -109,6 +133,7 @@ const App = () => {
           <ArtistPage 
             artistID={match.params.artistID}
             likedAlbums={loggedIn ? savedAlbums : ''}
+            saveAlbum={saveAlbum}
           />
         )
       }}/>
