@@ -66,6 +66,25 @@ const App = () => {
     }
   }
 
+  const fetchUserAlbumData = async () => {
+    try {
+      const fetchAlbumAttempt = await fetch('http://localhost:8000/api/v1/savedAlbums', {
+        credentials: 'include'
+      })
+
+      if(!fetchAlbumAttempt.ok) {
+        throw new Error(fetchAlbumAttempt.status);
+      }
+
+      const data = await fetchAlbumAttempt.json();
+      
+      setSavedAlbums(data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const saveAlbum = async (album) => {
     try {
       const addAlbumAttempt = await fetch('http://localhost:8000/api/v1/addSavedAlbum', {
@@ -83,7 +102,9 @@ const App = () => {
 
       const result = await addAlbumAttempt.json();
 
-      console.log(result);
+      if (result.msg !== 'Album already liked') {
+        fetchUserAlbumData();
+      }
 
     } catch (err) {
       console.log(err);
