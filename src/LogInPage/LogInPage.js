@@ -6,14 +6,15 @@ const LogInPage = ({ loginUser, loggedIn }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const history = useHistory();
 
-    useEffect(() => {
-        return () => {
-            console.log('it does mount');            
-        }
-      }, []);
+    // useEffect(() => {
+    //     return () => {
+    //         console.log('it does mount');            
+    //     }
+    //   }, []);
 
     const login = async e => {
 
@@ -43,8 +44,13 @@ const LogInPage = ({ loginUser, loggedIn }) => {
             history.push('/');
 
         } catch (err) {
-            // Show message on page that user failed their login
-            console.log(err);
+            if (err.message === '401') {
+                setErrorMessage('* Wrong password');
+            } else if (err.message === '404') {
+                setErrorMessage('* No account with that username');
+            } else {
+                console.log(err.message);
+            }
         }
     }
 
@@ -60,6 +66,7 @@ const LogInPage = ({ loginUser, loggedIn }) => {
             <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required/>
             <input placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required/>
             <button>Log In</button>
+            <p className={errorMessage ? '' : 'hidden'}>{errorMessage}</p>
         </form>
     )
 }
