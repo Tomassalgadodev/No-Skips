@@ -113,6 +113,33 @@ const App = () => {
     }
   }
 
+  const removeAlbum = async (link) => {
+    try {
+      const removeAlbumAttempt = await fetch('http://localhost:8000/api/v1/removeSavedAlbum', {
+        method: 'POST',
+        body: JSON.stringify(link),
+        headers: {
+            "Content-Type": "application/JSON"
+        },
+        credentials: 'include'
+      });
+
+      if (!removeAlbumAttempt.ok) {
+        throw new Error(removeAlbumAttempt.status);
+      }
+
+      const result = await removeAlbumAttempt.json();
+
+      console.log(result);
+
+      if (result.msg !== 'Album not liked by user') {
+        fetchUserAlbumData();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   window.onpopstate = e => {
     fetchUserData();
   };
@@ -157,6 +184,7 @@ const App = () => {
             artistID={match.params.artistID}
             likedAlbums={loggedIn ? savedAlbums : ''}
             saveAlbum={saveAlbum}
+            removeAlbum={removeAlbum}
           />
         )
       }}/>
