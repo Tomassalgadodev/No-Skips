@@ -77,8 +77,6 @@ const App = () => {
       }
 
       const data = await fetchAlbumAttempt.json();
-
-      console.log(data)
       
       setSavedAlbums(data);
 
@@ -172,6 +170,8 @@ const App = () => {
         return (
           <HomePage 
             loggedIn={loggedIn}
+            savedAlbums={savedAlbums}
+            removeAlbum={removeAlbum}
           />
         )
       }}/>

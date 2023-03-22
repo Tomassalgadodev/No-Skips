@@ -34,7 +34,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     if (loggedIn) {
         return (
             <header>
-                <h1 className="home-button" onClick={() => history.push('/')}>No Skips</h1>
+                <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
                 <SearchForm />
                 <button>{`${userFirstName}'s Account`}</button>
                 <button onClick={logout}>Log Out</button>

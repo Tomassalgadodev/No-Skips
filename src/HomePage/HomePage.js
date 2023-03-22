@@ -1,11 +1,16 @@
 import React from "react";
 import './HomePage.css';
 
-const HomePage = ({ loggedIn }) => {
+import UserDashboard from "../UserDashboard/UserDashboard";
+
+const HomePage = ({ loggedIn, savedAlbums, removeAlbum }) => {
 
     if (loggedIn) {
         return (
-            <h1>-- Logged In --</h1>
+            <UserDashboard 
+                savedAlbums={savedAlbums}
+                removeAlbum={removeAlbum}
+            />
         )
     }
     return (
