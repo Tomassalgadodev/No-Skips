@@ -22,14 +22,16 @@ const SearchForm = () => {
     return (
             <form 
                 onSubmit={handleSubmit}
+                className="search-form"
             >
-                <input 
+                <input
+                    className="search-bar"
                     placeholder="Search for Artists" 
                     value={artistInput} 
                     onChange={handleChange} 
                     required
                 />
-                <button>Search</button>
+                {/* <button>Search</button> */}
             </form>
     )
 }

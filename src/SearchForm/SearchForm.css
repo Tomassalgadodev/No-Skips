@@ -1,0 +1,21 @@
+.search-bar {
+    width: 100%;
+    height: 100%;
+    padding: 6px 48px;
+    box-sizing: border-box;
+    border-radius: 500px;
+    border: 0;
+    font-size: 0.875rem;
+}
+
+.search-bar:focus {
+    outline: none;
+    border: none;
+}
+
+.search-form {
+    width: 600px;
+    box-sizing: border-box;
+    height: 40px;
+    margin-left: 50px;
+}

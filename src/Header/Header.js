@@ -44,10 +44,13 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
 
     return (
         <header>
+            <div className="logo"></div>
             <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
             <SearchForm />
-            <button onClick={() => history.push('/signup')}>Sign Up</button>
-            <button onClick={() => history.push('/login')}>Log In</button>
+            <div className="button-container">
+                <button className="sign-up-button" onClick={() => history.push('/signup')}>Sign up</button>
+                <button className="log-in-button" onClick={() => history.push('/login')}>Log in</button>
+            </div>
         </header>
     )
 }

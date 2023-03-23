@@ -1,9 +1,70 @@
 header {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    background-color: #070707;
+    color: #FFF;
+}
+
+.logo {
+    height: 50px;
+    width: 50px;
+    background-color: #FFF;
+    border-radius: 500px;
+    margin-left: 25px;
+}
+
+.home-button {
+    margin-left: 7px;
 }
 
 .home-button:hover {
     cursor: pointer;
+}
+
+.log-in-button {
+    height: 48px;
+    width: 110px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 500px;
+    border: 0;
+    margin-left: auto; 
+    margin-right: 0;
+}
+
+.log-in-button:hover {
+    transform: scale(1.03);
+}
+
+.log-in-button:active {
+    transform: scale(1);
+    background-color: #A7A7A7;
+}
+
+.sign-up-button {
+    color: #A7A7A7;
+    background: none;
+    border: 0;
+    font-size: 15px;
+    font-weight: bold;
+    padding-inline-start: 8px;
+    padding-right: 27px;
+    margin-left: 0; 
+    margin-right: auto;
+}
+
+.sign-up-button:hover {
+    transform: scale(1.05);
+    color: #FFF;
+}
+
+.sign-up-button:active {
+    transform: scale(1);
+    color: #919191;
+}
+
+.button-container {
+    width: 200px;
+    margin-left: auto;
+    margin-right: 20px;
 }
