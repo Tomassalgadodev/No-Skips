@@ -32,3 +32,52 @@
     bottom: 56px;
     left: 32px
 }
+
+@media (max-width: 1200px) {
+    
+    .artist-heading {
+        height: 300px;
+    }
+
+    .artist-page-title {
+        font-size: 4.5rem;
+    }
+
+}
+
+@media (max-width: 850px) {
+        
+    .artist-heading {
+        height: 250px;
+    }
+
+    .artist-page-title {
+        font-size: 3rem;
+        bottom: 40px;
+    }
+}
+
+@media (max-width: 600px) {
+        
+    .artist-heading {
+        height: 200px;
+    }
+
+    .artist-page-title {
+        font-size: 2rem;
+        bottom: 25px;
+    }
+}
+
+@media (max-width: 320px) {
+        
+    .artist-heading {
+        height: 150px;
+    }
+
+    .artist-page-title {
+        font-size: 1.5rem;
+        bottom: 15px;
+        left: 20px
+    }
+}
