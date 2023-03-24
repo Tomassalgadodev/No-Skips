@@ -1,0 +1,74 @@
+.album-card {
+    width: 300px;
+    height: 400px;
+    background-color: #181818;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.5s ease;
+}
+
+.album-card:hover {
+    background-color: #282828;
+}
+
+.album-card:hover > .album-art {
+    transform: scale(1.04);
+}
+
+.album-art {
+    width: 85%;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
+    transition: .5s;
+}
+
+.album-title {
+    color: #fff;
+    margin: 0;
+    display: inline;
+}
+
+.title-container {
+    width: 255px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.title-box {
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.heart-icon {
+    margin-right: 0;
+    margin-left: auto;
+    transition: .3s;
+}
+
+.heart-icon:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.heart-icon:active {
+    transition: .1s;
+    transform: scale(1);
+}
+
+.details-container {
+    width: 255px;
+    margin-top: 20px;
+}
+
+.album-details {
+    margin: 0;
+    color: #9C9C9C;
+    font-size: 20px
+}

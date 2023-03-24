@@ -1,0 +1,20 @@
+.dashboard-container,
+.saved-album-container {
+    width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.heading {
+    margin: 0;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+    color: #fff;;
+}
+
+.saved-album-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+}

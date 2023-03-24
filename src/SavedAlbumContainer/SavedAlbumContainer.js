@@ -22,8 +22,11 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum }) => {
 
 
     return (
-        <div>
-            {savedAlbumCards}
+        <div className="dashboard-container">
+            <h1 className="heading">Your albums</h1>
+            <div className="saved-album-container">
+                {savedAlbumCards}
+            </div>
         </div>
     )
 }
