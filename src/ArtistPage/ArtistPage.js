@@ -3,6 +3,7 @@ import './ArtistPage.css';
 import singleArtistData from "../singleArtistData";
 
 import AlbumContainer from "../AlbumContainer/AlbumContainer";
+import ArtistLoadingPage from "../ArtistLoadingPage/ArtistLoadingPage";
 
 let artistImage;
 
@@ -84,7 +85,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
         )
     } else {
         return (
-            <h2>-- LOADING --</h2>
+            <ArtistLoadingPage />
         )
     }
 
