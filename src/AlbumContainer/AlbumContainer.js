@@ -26,8 +26,11 @@ const AlbumContainer = ({ albumData, artistID, artistName, likedAlbums, saveAlbu
     })
 
     return (
-        <div>
-            {albumCards}
+        <div className="dashboard-container">
+            <h1 className="heading">Albums</h1>
+            <div className="saved-album-container">
+                {albumCards}
+            </div>
         </div>
     )
 }

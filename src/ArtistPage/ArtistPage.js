@@ -56,11 +56,13 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
     if (!loading) {
         return (
             <div>
-                <div 
-                    className="artist-heading"
-                    style={{backgroundImage: `url(${artistImage})`}}
-                >
-                    <h2>{artistData.artistInfo.artistName}</h2>
+                <div className="heading-container">
+                    <div 
+                        className="artist-heading"
+                        style={{backgroundImage: `url(${artistImage})`}}
+                    >
+                    </div>
+                    <h2 className="artist-page-title">{artistData.artistInfo.artistName}</h2>
                 </div>
                 <AlbumContainer 
                     albumData={artistData.artistInfo.albums} 

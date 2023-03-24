@@ -9,15 +9,21 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID };
 
     return (
-        <div id={link}>
-            <img src={albumArt} />
-            <h2>{albumTitle}</h2>
-            <p>{yearReleased}</p>
-            <img 
-                className="heart-icon" 
-                src={isLiked ? likedIcon : unlikedIcon} 
-                onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumData)}
-            />
+        <div className="album-card" id={link}>
+            <img className="album-art" src={albumArt} />
+            <div className="title-container">
+                <div className="title-box">
+                    <h2 className="album-title">{albumTitle}</h2>
+                </div>
+                <img 
+                    className="heart-icon" 
+                    src={isLiked ? likedIcon : unlikedIcon} 
+                    onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumData)}
+                />
+            </div>
+            <div className="details-container">
+                <p className="album-details">{yearReleased}</p>
+            </div>
         </div>
     )
 }
