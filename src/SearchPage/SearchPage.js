@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import './SearchPage.css';
 
 import ArtistContainer from "../ArtistContainer/ArtistContainer";
+import SearchLoadingPage from "../SearchLoadingPage/SearchLoadingPage";
 
 const SearchPage = ({ searchTerm }) => {
 
@@ -28,7 +29,7 @@ const SearchPage = ({ searchTerm }) => {
         )
     } else {
         return (
-            <h2>-- LOADING --</h2>
+            <SearchLoadingPage />
         )
     }
 }
