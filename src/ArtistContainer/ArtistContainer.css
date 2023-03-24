@@ -7,3 +7,31 @@
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 20px;
 }
+
+@media (max-width: 1600px) {
+    .artist-container {
+        width: 1080px;
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 1200px) {
+    .artist-container {
+        width: 660px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .artist-container {
+        width: 420px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    .artist-container {
+        width: 200px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
