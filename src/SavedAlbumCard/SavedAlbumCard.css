@@ -72,3 +72,25 @@
     color: #9C9C9C;
     font-size: 20px
 }
+
+@media (max-width: 320px) {
+
+    .album-card {
+        width: 200px;
+        height: 266.66px;
+    }
+
+    .title-container,
+    .details-container {
+        width: 170px;
+        margin-top: 13.2px;
+    }
+
+    .album-title {
+        font-size: 20px;
+    }
+
+    .album-details {
+        font-size: 13.2px;
+    }
+}
