@@ -12,8 +12,13 @@ const ArtistCard = ({ artistName, artistImage, artistLink, artistID }) => {
             id={artistLink}
             onClick={() => history.push(`/artist/${artistID}`)}
         >
-            <img className="artist-thumbnail" src={artistImage}/>
-            <h2>{artistName}</h2>
+            <div className="artist-content-box">
+                <img className="artist-thumbnail" src={artistImage}/>
+                <div className="artist-name-box">
+                    <h2 className="artist-name">{artistName}</h2>
+                </div>
+                <p className="artist-tag">Artist</p>
+            </div>
         </div>
     )
 }
