@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './SearchLoadingPage.css';
-import ArtistCard from "../ArtistCard/ArtistCard";
+import LoadingArtistCard from "../LoadingArtistCard/LoadingArtistCard";
 
 const SearchLoadingPage = () => {
 
@@ -22,7 +22,7 @@ const SearchLoadingPage = () => {
     const fakeArtistCards = []
 
     for (let i = 0; i < 21; i++) {
-        fakeArtistCards.push(<ArtistCard key={i} />);
+        fakeArtistCards.push(<LoadingArtistCard key={i} />);
     }
 
 

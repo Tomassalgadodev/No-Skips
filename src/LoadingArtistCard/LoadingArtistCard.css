@@ -1,0 +1,35 @@
+.fake-artist-thumbnail {
+    width: 170px;
+    height: 170px; 
+    border-radius: 500px;
+    margin-top: 15px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.6);
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.fake-artist-name {
+    height: 18px;
+    width: 70%;
+    background-color: black;
+    border-radius: 7px;
+    margin-top: 15px;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.fake-artist-tag {
+    height: 17px;
+    width: 40%;
+    background-color: black;
+    border-radius: 7px;
+    margin-top: 10px;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #5a5a5a;
+    }
+    100% {
+        background-color: #353535;
+    }
+}
