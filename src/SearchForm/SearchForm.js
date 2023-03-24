@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import './SearchForm.css';
 
+import magnifyingGlass from '../assets/magnifying-glass-icon.png';
+
 const SearchForm = () => {
 
     const [ artistInput, setArtist ] = useState('');
@@ -20,6 +22,7 @@ const SearchForm = () => {
 
 
     return (
+        // <div className="form-container">
             <form 
                 onSubmit={handleSubmit}
                 className="search-form"
@@ -32,7 +35,9 @@ const SearchForm = () => {
                     required
                 />
                 {/* <button>Search</button> */}
+                <img className="magnifying-glass-icon" src={magnifyingGlass} />
             </form>
+        // </div>
     )
 }
 

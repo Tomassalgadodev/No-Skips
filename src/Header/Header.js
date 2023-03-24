@@ -4,6 +4,10 @@ import './Header.css';
 import SearchForm from "../SearchForm/SearchForm";
 import { useHistory } from "react-router-dom";
 
+import profilePic from '../assets/profile-pic.png';
+import downArrow from '../assets/down-arrow.png';
+import hamburger from '../assets/hamburger-icon.png';
+
 const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     const history = useHistory();
 
@@ -34,10 +38,17 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     if (loggedIn) {
         return (
             <header>
+                <div className="logo"></div>
                 <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
                 <SearchForm />
-                <button>{`${userFirstName}'s Account`}</button>
-                <button onClick={logout}>Log Out</button>
+                <button className="log-out-button" onClick={logout}>Log Out</button>
+                <button className="account-button">
+                    <img className="profile-picture" src={profilePic} />
+                    <span className="username">
+                        {`${userFirstName}'s Account`}
+                    </span>
+                    <img className="arrow-icon" src={downArrow} />
+                </button>
             </header>
         )
     }
@@ -51,6 +62,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                 <button className="sign-up-button" onClick={() => history.push('/signup')}>Sign up</button>
                 <button className="log-in-button" onClick={() => history.push('/login')}>Log in</button>
             </div>
+            <img className="hamburger-icon" src={hamburger} />
         </header>
     )
 }

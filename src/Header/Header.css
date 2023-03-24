@@ -3,6 +3,7 @@ header {
     align-items: center;
     background-color: #070707;
     color: #FFF;
+    height: 81px;
 }
 
 .logo {
@@ -34,6 +35,7 @@ header {
 
 .log-in-button:hover {
     transform: scale(1.03);
+    cursor: pointer;
 }
 
 .log-in-button:active {
@@ -53,12 +55,15 @@ header {
     margin-right: auto;
 }
 
-.sign-up-button:hover {
+.sign-up-button:hover,
+.log-out-button:hover {
     transform: scale(1.05);
     color: #FFF;
+    cursor: pointer;
 }
 
-.sign-up-button:active {
+.sign-up-button:active,
+.log-out-button:active {
     transform: scale(1);
     color: #919191;
 }
@@ -67,4 +72,92 @@ header {
     width: 200px;
     margin-left: auto;
     margin-right: 20px;
+}
+
+.account-button {
+    height: 32px;
+    border-radius: 500px;
+    border: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 3px;
+    padding-right: 10px;
+    background-color: #000;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.account-button:hover {
+    background-color: #242424;
+    cursor: pointer;
+}
+
+.log-out-button {
+    color: #000;
+    background: none;
+    border: 0;
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 0; 
+    margin-right: auto;
+}
+
+.profile-picture {
+    height: 95%;
+    margin-right: 7px;
+}
+
+.arrow-icon {
+    height: 20%;
+    margin-left: 10px
+}
+
+.hamburger-icon {
+    height: 15px;
+    margin-right: 20px;
+    padding-left: 10px;
+    margin-left: auto;
+    display: none;
+}
+
+@media (max-width: 1200px) {
+    .log-out-button {
+        display: none;
+    }
+}
+
+@media (max-width: 850px) {
+    .button-container {
+        display: none;
+    }
+    .hamburger-icon {
+        display: inline;
+    }
+    .username {
+        display: none;
+    }
+}
+
+@media (max-width: 680px) {
+    .account-button {
+        margin-left: 23px;
+    }
+}
+
+@media (max-width: 600px) {
+    .home-button {
+        display: none;
+    }
+    .account-button {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 510px) {
+    .account-button {
+        margin-left: 15px;
+    }
 }

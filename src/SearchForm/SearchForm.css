@@ -18,4 +18,35 @@
     box-sizing: border-box;
     height: 40px;
     margin-left: 50px;
+    position: relative;
+}
+
+.magnifying-glass-icon {
+    height: 20px;
+    position: absolute;
+    left: 13px;
+    top: 10px
+}
+
+
+@media (max-width: 1200px) {
+    .search-form {
+        width: 300px;
+    } 
+}
+
+@media (max-width: 850px) {
+    .search-form {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .search-bar {
+        padding-left: 20px;
+        padding-right: 0;
+    }
+    .magnifying-glass-icon {
+        display: none;
+    }
 }
