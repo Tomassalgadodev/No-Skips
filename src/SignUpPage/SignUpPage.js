@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, NavLink } from "react-router-dom";
 import './SignUpPage.css';
+
+import logo from '../assets/anthology-logo.png';
 
 const SignUpPage = ({ loggedIn, loginUser }) => {
 
@@ -107,14 +109,37 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
 
     return (
         <form onSubmit={createNewUser} className="sign-up-form">
-            <h2>Create an account</h2>
-            <input placeholder="First Name" value={firstName} onChange={e => setFirstName(e.target.value)} required/>
-            <input placeholder="Last Name" value={lastName} onChange={e => setLastName(e.target.value)} required/>
-            <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required/>
-            <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required/>
-            <input placeholder="Password" value={password} name='password' onChange={confirmPasswordMatch} required/>
-            <input placeholder="Password" value={passwordConfirm} onChange={confirmPasswordMatch} required/>
-            <button>Create Account</button>
+            <div className="sign-up-heading-container">
+                <img className="sign-up-logo" src={logo} />
+                <p className="sign-up-heading">Anthology</p>
+            </div>
+            <h2 className="sign-up-sub-heading">Sign up for free to start discovering.</h2>
+            <div className="input-container">
+                <p className="input-label">What's your first name?</p>
+                <input className="input" placeholder="Enter your first name." value={firstName} onChange={e => setFirstName(e.target.value)} required/>
+            </div>
+            <div className="input-container">
+                <p className="input-label">What's your last name?</p>
+                <input className="input" placeholder="Enter your last name" value={lastName} onChange={e => setLastName(e.target.value)} required/>
+            </div>
+            <div className="input-container">
+                <p className="input-label">What's your email?</p>
+                <input className="input" placeholder="Enter your email." value={email} onChange={e => setEmail(e.target.value)} required/>
+            </div>
+            <div className="input-container">
+                <p className="input-label">What should we call you?</p>
+                <input className="input" placeholder="Enter a profile name." value={username} onChange={e => setUsername(e.target.value)} required/>
+            </div>
+            <div className="input-container">
+                <p className="input-label">Create a password.</p>
+                <input className="input" placeholder="Create a password." value={password} name='password' onChange={confirmPasswordMatch} required/>
+            </div>
+            <div className="input-container">
+                <p className="input-label">Confirm your password.</p>
+                <input className="input" placeholder="Enter your password again." value={passwordConfirm} onChange={confirmPasswordMatch} required/>
+            </div>
+            <button className="sign-up-form-button">Sign up</button>
+            <p className="sign-up-footer">Have an account? <NavLink className="login-redirect" to="/login">Log in</NavLink>.</p>
         </form>
     )
 }

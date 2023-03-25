@@ -17,12 +17,10 @@ const SearchForm = () => {
     const handleSubmit = e => {
         e.preventDefault();
         history.push(`/search/${artistInput}`);
-        // setArtist('');
     }
 
 
     return (
-        // <div className="form-container">
             <form 
                 onSubmit={handleSubmit}
                 className="search-form"
@@ -34,10 +32,8 @@ const SearchForm = () => {
                     onChange={handleChange} 
                     required
                 />
-                {/* <button>Search</button> */}
                 <img className="magnifying-glass-icon" src={magnifyingGlass} />
             </form>
-        // </div>
     )
 }
 
