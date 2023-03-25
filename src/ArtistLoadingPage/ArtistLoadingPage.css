@@ -6,9 +6,10 @@
 
 .fake-album-tag {
     height: 38px;
-    width: 300px;
+    width: 120px;
     margin-top: 20px;
     margin-bottom: 30px;
+    border-radius: 10px;
     animation: skeleton-loading 1s linear infinite alternate;
 }
 

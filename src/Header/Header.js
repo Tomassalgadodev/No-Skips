@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import profilePic from '../assets/profile-pic.png';
 import downArrow from '../assets/down-arrow.png';
 import hamburger from '../assets/hamburger-icon.png';
+import logo from '../assets/anthology-logo.png';
 
 const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     const history = useHistory();
@@ -38,7 +39,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     if (loggedIn) {
         return (
             <header>
-                <div className="logo"></div>
+                <img src={logo} onClick={() => history.push('/')} className="logo" />
                 <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
                 <SearchForm />
                 <button className="log-out-button" onClick={logout}>Log Out</button>
@@ -55,7 +56,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
 
     return (
         <header>
-            <div className="logo"></div>
+            <img src={logo} onClick={() => history.push('/')} className="logo" />
             <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
             <SearchForm />
             <div className="button-container">

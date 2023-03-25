@@ -9,8 +9,6 @@ header {
 .logo {
     height: 50px;
     width: 50px;
-    background-color: #FFF;
-    border-radius: 500px;
     margin-left: 25px;
 }
 
@@ -18,7 +16,8 @@ header {
     margin-left: 7px;
 }
 
-.home-button:hover {
+.home-button:hover,
+.logo:hover {
     cursor: pointer;
 }
 

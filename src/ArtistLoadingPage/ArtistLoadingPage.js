@@ -1,5 +1,5 @@
 import React from "react";
-import AlbumCard from "../AlbumCard/AlbumCard";
+import LoadingAlbumCard from "../LoadingAlbumCard/LoadingAlbumCard";
 import './ArtistLoadingPage.css';
 
 const ArtistLoadingPage = () => {
@@ -7,7 +7,7 @@ const ArtistLoadingPage = () => {
     const fakeAlbumCards = [];
 
     for (let i = 0; i < 10; i++) {
-        fakeAlbumCards.push(<AlbumCard />)
+        fakeAlbumCards.push(<LoadingAlbumCard />)
     }
 
 
