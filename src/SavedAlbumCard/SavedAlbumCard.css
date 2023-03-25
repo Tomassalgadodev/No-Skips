@@ -25,6 +25,10 @@
     transition: .5s;
 }
 
+.album-art:hover {
+    cursor: pointer;
+}
+
 .album-title {
     color: #fff;
     margin: 0;

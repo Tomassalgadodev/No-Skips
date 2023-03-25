@@ -6,13 +6,17 @@ import likedIcon from '../assets/liked_icon.png';
 const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum }) => {
     return (
         <div className="album-card" id={link}>
-            <img className="album-art" src={albumArt} />
+            <img 
+                className="album-art" 
+                src={albumArt} 
+                onClick={() => window.open(link, '_blank')}
+            />
             <div className="title-container">
                 <div className="title-box">
                     <h2 className="album-title">{albumTitle}</h2>
                 </div>
                 <img 
-                    className="heart-icon" 
+                    className="heart-icon"
                     src={likedIcon} 
                     onClick={() => removeAlbum({ link })}
                 />

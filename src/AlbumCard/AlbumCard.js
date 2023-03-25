@@ -42,7 +42,11 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             onMouseOver={showHeartIcon}
             onMouseOut={hideHeartIcon}
         >
-            <img className="album-art" src={albumArt} />
+            <img 
+                className="album-art" 
+                src={albumArt} 
+                onClick={() => window.open(link, '_blank')}    
+            />
             <div className="title-container">
                 <div className="title-box">
                     <h2 className="album-title">{albumTitle}</h2>
