@@ -52,7 +52,6 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                 <img src={logo} onClick={() => history.push('/')} className="logo" />
                 <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
                 <SearchForm />
-                <button className="log-out-button" onClick={logout}>Log Out</button>
                 <div className="account-button-and-dropdown-container">
                     <button 
                         className="account-button"
