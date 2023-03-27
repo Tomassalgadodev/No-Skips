@@ -63,10 +63,23 @@
     padding-bottom: 24px;
 }
 
-.sign-up-error {
-    color: red;
+.error-container {
+    display: flex;
+    align-items: center;
     margin-bottom: 0;
     margin-top: 10px;
+}
+
+.error-icon {
+    height: 16px;
+    width: 16px;
+    margin-right: 3px;
+}
+
+.sign-up-error {
+    color: red;
+    font-size: .875rem;
+    margin: 0;
 }
 
 .login-redirect-error {
@@ -106,4 +119,8 @@
 
 .login-redirect:hover {
     color: #fff;
+}
+
+.hidden {
+    display: none;
 }
