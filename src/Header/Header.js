@@ -32,6 +32,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
 
             if (message.msg === 'success') {
                 console.log('successful logout my friend');
+                setDropDownActive(false);
                 logoutUser();
             } else {
                 console.log('Log out failed');
@@ -39,6 +40,10 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
         } catch (err) {
 
         }
+    }
+
+    const hideDropDown = () => {
+        setDropDownActive(false);
     }
 
     if (loggedIn) {
@@ -59,7 +64,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                         </span>
                         <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow} />
                     </button>
-                    {dropDownActive && <DropDownMenu />}
+                    {dropDownActive && <DropDownMenu hideDropDown={hideDropDown} logout={logout} />}
                 </div>
             </header>
         )
