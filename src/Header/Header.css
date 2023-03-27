@@ -73,6 +73,10 @@ header {
     margin-right: 20px;
 }
 
+.account-button-and-dropdown-container {
+    position: relative;
+}
+
 .account-button {
     height: 32px;
     border-radius: 500px;
@@ -87,7 +91,6 @@ header {
     font-weight: bold;
     margin-left: auto;
     margin-right: 30px;
-    position: relative;
 }
 
 .account-button:hover {

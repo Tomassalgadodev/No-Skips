@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import './Header.css';
 
 import SearchForm from "../SearchForm/SearchForm";
@@ -11,6 +11,9 @@ import logo from '../assets/anthology-logo.png';
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
 
 const Header = ({ loggedIn, logoutUser, userFirstName }) => {
+
+    const [dropDownActive, setDropDownActive] = useState(false);
+
     const history = useHistory();
 
     const logout = async () => {
@@ -44,14 +47,21 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                 <h1 className="home-button" onClick={() => history.push('/')}>Anthology</h1>
                 <SearchForm />
                 <button className="log-out-button" onClick={logout}>Log Out</button>
-                <button className="account-button">
-                    <img className="profile-picture" src={profilePic} />
-                    <span className="username">
-                        {`${userFirstName}'s Account`}
-                    </span>
-                    <img className="arrow-icon" src={downArrow} />
-                <DropDownMenu />
-                </button>
+                <div className="account-button-and-dropdown-container">
+                    <button 
+                        className="account-button"
+                        onClick={() => setDropDownActive(!dropDownActive)}
+                    >
+                        <img className="profile-picture" src={profilePic} />
+                        <span className="username">
+                            {`${userFirstName}'s Account`}
+                        </span>
+                        <img className="arrow-icon" src={downArrow} />
+                    </button>
+                    <DropDownMenu 
+                        dropDownActive={dropDownActive}
+                    />
+                </div>
             </header>
         )
     }
