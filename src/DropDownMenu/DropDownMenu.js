@@ -1,9 +1,9 @@
 import React from "react";
 import './DropDownMenu.css';
 
-const DropDownMenu = ({ dropDownActive }) => {
+const DropDownMenu = () => {
     return (
-        <div className={`drop-down-container ${dropDownActive ? '' : 'hidden'}`}>
+        <div className="drop-down-container">
 
         </div>
     )

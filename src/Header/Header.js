@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 
 import profilePic from '../assets/profile-pic.png';
 import downArrow from '../assets/down-arrow.png';
+import upArrow from '../assets/up-arrow.png';
 import hamburger from '../assets/hamburger-icon.png';
 import logo from '../assets/anthology-logo.png';
 import DropDownMenu from "../DropDownMenu/DropDownMenu";
@@ -54,13 +55,11 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                     >
                         <img className="profile-picture" src={profilePic} />
                         <span className="username">
-                            {`${userFirstName}'s Account`}
+                            {userFirstName}
                         </span>
-                        <img className="arrow-icon" src={downArrow} />
+                        <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow} />
                     </button>
-                    <DropDownMenu 
-                        dropDownActive={dropDownActive}
-                    />
+                    {dropDownActive && <DropDownMenu />}
                 </div>
             </header>
         )
