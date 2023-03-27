@@ -15,6 +15,7 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [userExistsError, setUserExistsError] = useState(false);
+    const [passwordsMustMatchError, setPasswordsMustMatchError] = useState(false);
 
     const history = useHistory();
 
@@ -38,9 +39,11 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
         e.preventDefault();
 
         if (!passwordMatch) {
-            // Show the user a message that they must match in the form
+            setPasswordsMustMatchError(true);
             console.log('Passwords must match');
             return;
+        } else {
+            setPasswordsMustMatchError(false);
         }
 
         try {
@@ -133,7 +136,7 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
                 <input className="input" placeholder="Enter a profile name." value={username} onChange={e => setUsername(e.target.value)} required/>
                 <div className={userExistsError ? 'error-container' : 'hidden error-container'}>
                     <img className="error-icon" src={errorIcon} />
-                    <p className="sign-up-error">This username is already connected to an account. <NavLink className="login-redirect-error" to="login">Log in</NavLink></p>
+                    <p className="sign-up-error">This username is already connected to an account. <NavLink className="login-redirect-error" to="login">Log in</NavLink>.</p>
                 </div>
             </div>
             <div className="input-container">
@@ -143,6 +146,10 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
             <div className="input-container">
                 <p className="input-label">Confirm your password.</p>
                 <input className="input" placeholder="Enter your password again." value={passwordConfirm} onChange={confirmPasswordMatch} required/>
+                <div className={passwordsMustMatchError ? 'error-container' : 'hidden error-container'}>
+                    <img className="error-icon" src={errorIcon} />
+                    <p className="sign-up-error">The passwords don't match.</p>
+                </div>
             </div>
             <button className="sign-up-form-button">Sign up</button>
             <p className="sign-up-footer">Have an account? <NavLink className="login-redirect" to="/login">Log in</NavLink>.</p>
