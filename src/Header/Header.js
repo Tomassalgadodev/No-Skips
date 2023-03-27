@@ -8,6 +8,7 @@ import profilePic from '../assets/profile-pic.png';
 import downArrow from '../assets/down-arrow.png';
 import hamburger from '../assets/hamburger-icon.png';
 import logo from '../assets/anthology-logo.png';
+import DropDownMenu from "../DropDownMenu/DropDownMenu";
 
 const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     const history = useHistory();
@@ -49,6 +50,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                         {`${userFirstName}'s Account`}
                     </span>
                     <img className="arrow-icon" src={downArrow} />
+                <DropDownMenu />
                 </button>
             </header>
         )

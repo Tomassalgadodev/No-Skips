@@ -11,14 +11,14 @@
 }
 
 .log-in-error-icon {
-    height: 25px;
+    height: 20px;
     margin-right: 5px;
 }
 
 .log-in-error-message {
     color: red;
     margin: 0;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .line-break {

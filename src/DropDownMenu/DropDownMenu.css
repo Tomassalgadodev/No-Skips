@@ -1,0 +1,10 @@
+.drop-down-container {
+    background-color: #282828;
+    height: 248px;
+    width: 196px;
+    border-radius: 4px;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
+}
