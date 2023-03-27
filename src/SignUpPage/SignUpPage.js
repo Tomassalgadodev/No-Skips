@@ -129,6 +129,7 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
             <div className="input-container">
                 <p className="input-label">What should we call you?</p>
                 <input className="input" placeholder="Enter a profile name." value={username} onChange={e => setUsername(e.target.value)} required/>
+                <p className="sign-up-error">* This username is already connected to an account. <NavLink className="login-redirect-error" to="login">Log in</NavLink></p>
             </div>
             <div className="input-container">
                 <p className="input-label">Create a password.</p>
