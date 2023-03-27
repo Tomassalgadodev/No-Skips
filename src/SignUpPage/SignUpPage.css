@@ -76,6 +76,7 @@
 
 .sign-up-form-button:hover {
     transform: scale(1.05);
+    cursor: pointer;
 }
 
 .sign-up-form-button:active {

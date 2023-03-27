@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, NavLink } from "react-router-dom";
 import './LogInPage.css';
+
+import logo from '../assets/anthology-logo.png';
 
 const LogInPage = ({ loginUser, loggedIn }) => {
 
@@ -62,11 +64,24 @@ const LogInPage = ({ loginUser, loggedIn }) => {
 
     return (
         <form className="log-in-form" onSubmit={login}>
-            <h2>Welcome back!</h2>
-            <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required/>
-            <input placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required/>
-            <button>Log In</button>
-            <p className={errorMessage ? '' : 'hidden'}>{errorMessage}</p>
+            <div className="sign-up-heading-container">
+                <img className="sign-up-logo" src={logo} />
+                <p className="sign-up-heading">Anthology</p>
+            </div>
+            <h2 className="sign-up-sub-heading">To continue, log in to Anthology.</h2>
+            <div className="input-container">
+                <p className="input-label">Username</p>
+                <input className="input" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} required/>
+            </div>
+            <div className="input-container">
+                <p className="input-label">Password</p>
+                <input className="input" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required/>
+            </div>
+            <button className="sign-up-form-button">Log In</button>
+            <p className={errorMessage ? 'error-message' : 'hidden error-message'}>{errorMessage}</p>
+            <hr className="line-break" />
+            <p className="login-footer">Don't have an account?</p>
+            <NavLink className="signup-redirect-button" to="/signup">SIGN UP FOR ANTHOLOGY</NavLink>
         </form>
     )
 }
