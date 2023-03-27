@@ -4,13 +4,21 @@
     align-items: center;
 }
 
-.hidden {
-    display: none;
+.log-in-error-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.error-message {
+.log-in-error-icon {
+    height: 25px;
+    margin-right: 5px;
+}
+
+.log-in-error-message {
     color: red;
-    margin-bottom: 0;
+    margin: 0;
+    font-size: 25px;
 }
 
 .line-break {
@@ -39,4 +47,8 @@
 
 .signup-redirect-button:hover {
     border-color: #fff;
+}
+
+.hidden {
+    display: none;
 }
