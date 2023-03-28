@@ -43,7 +43,7 @@ const SearchPage = ({ searchTerm }) => {
 
     if (!loading) {
         return (
-            <ArtistContainer artistData={searchResults.artists} />
+            <ArtistContainer artistData={searchResults} />
         )
     } else {
         return (

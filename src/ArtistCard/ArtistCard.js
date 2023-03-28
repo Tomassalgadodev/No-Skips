@@ -2,14 +2,13 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import './ArtistCard.css';
 
-const ArtistCard = ({ artistName, artistImage, artistLink, artistID }) => {
+const ArtistCard = ({ artistName, artistImage, artistID }) => {
 
     const history = useHistory();
 
     return (
         <div 
             className="artist-card" 
-            id={artistLink}
             onClick={() => history.push(`/artist/${artistID}`)}
         >
             <div className="artist-content-box">
