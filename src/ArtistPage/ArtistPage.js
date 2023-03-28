@@ -11,11 +11,40 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
+    const [hasAlbums, setHasAlbums] = useState(false);
+    const [hasSingles, setHasSingles] = useState(false)
     const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
+
+    // const fetchArtistData = async () => {
+    //     try {
+    //         const response = await fetch(`http://localhost:8000/api/v1/artist/${artistID}`);
+
+    //         if (!response.ok) {
+    //             throw new Error(response.status);
+    //         }
+
+    //         const data = await response.json();
+
+    //         if (data.artistInfo.errorMsg) {
+    //             setArtistData({ errorMsg: data.artistInfo.errorMsg })
+    //             return;
+    //         }
+
+    //         setArtistData(data);
+    //         setLoading(false);
+    //         artistImage = data.artistInfo.artistImage;
+    //         if (artistImage.includes('background')) {
+    //             artistImage = artistImage.substring(23, singleArtistData.artistImage.length - 3);
+    //         }
+
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     const fetchArtistData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/artist/${artistID}`);
+            const response = await fetch(`http://localhost:8000/api/v1/artistData/${artistID}`);
 
             if (!response.ok) {
                 throw new Error(response.status);
@@ -23,17 +52,11 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
 
             const data = await response.json();
 
-            if (data.artistInfo.errorMsg) {
-                setArtistData({ errorMsg: data.artistInfo.errorMsg })
-                return;
-            }
+            data.data.artistUnion.discography.albums.totalCount > 0 && setHasAlbums(true);
+            data.data.artistUnion.discography.singles.totalCount > 0 && setHasSingles(true);
 
             setArtistData(data);
             setLoading(false);
-            artistImage = data.artistInfo.artistImage;
-            if (artistImage.includes('background')) {
-                artistImage = artistImage.substring(23, singleArtistData.artistImage.length - 3);
-            }
 
         } catch (err) {
             console.log(err);
@@ -60,19 +83,32 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
                 <div className="heading-container">
                     <div 
                         className="artist-heading"
-                        style={{backgroundImage: `url(${artistImage})`}}
+                        style={{backgroundImage: `url(${artistData.data.artistUnion.visuals.headerImage.sources[0].url})`}}
                     >
                     </div>
-                    <h2 className="artist-page-title">{artistData.artistInfo.artistName}</h2>
+                    <h2 className="artist-page-title">{artistData.data.artistUnion.profile.name}</h2>
                 </div>
+                {hasAlbums &&
                 <AlbumContainer 
-                    albumData={artistData.artistInfo.albums} 
+                    heading="Albums"
+                    albumData={artistData.data.artistUnion.discography.albums} 
                     artistID={artistID}
-                    artistName={artistData.artistInfo.artistName}
+                    artistName={artistData.data.artistUnion.profile.name}
                     likedAlbums={usersLikedAlbumsFromArtist}
                     saveAlbum={saveAlbum}
                     removeAlbum={removeAlbum}
-                />
+                />}
+                {hasSingles && 
+                    <AlbumContainer 
+                        heading="Singles and EPs"
+                        albumData={artistData.data.artistUnion.discography.singles} 
+                        artistID={artistID}
+                        artistName={artistData.data.artistUnion.profile.name}
+                        likedAlbums={usersLikedAlbumsFromArtist}
+                        saveAlbum={saveAlbum}
+                        removeAlbum={removeAlbum}
+                    />
+                }
             </div>
         )
     } else if (artistData.errorMsg === 'Not verified') {
