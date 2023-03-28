@@ -11,8 +11,9 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
+    const [hasPopularReleases, setHasPopularReleases] = useState(false);
     const [hasAlbums, setHasAlbums] = useState(false);
-    const [hasSingles, setHasSingles] = useState(false)
+    const [hasSingles, setHasSingles] = useState(false);
     const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
 
     // const fetchArtistData = async () => {
@@ -52,6 +53,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
 
             const data = await response.json();
 
+            data.data.artistUnion.discography.popularReleasesAlbums.totalCount > 0 && setHasPopularReleases(true);
             data.data.artistUnion.discography.albums.totalCount > 0 && setHasAlbums(true);
             data.data.artistUnion.discography.singles.totalCount > 0 && setHasSingles(true);
 
@@ -88,6 +90,16 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
                     </div>
                     <h2 className="artist-page-title">{artistData.data.artistUnion.profile.name}</h2>
                 </div>
+                {hasPopularReleases &&
+                <AlbumContainer 
+                    heading="Popular Releases"
+                    albumData={artistData.data.artistUnion.discography.popularReleasesAlbums} 
+                    artistID={artistID}
+                    artistName={artistData.data.artistUnion.profile.name}
+                    likedAlbums={usersLikedAlbumsFromArtist}
+                    saveAlbum={saveAlbum}
+                    removeAlbum={removeAlbum}
+                />}
                 {hasAlbums &&
                 <AlbumContainer 
                     heading="Albums"
