@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import './AlbumCard.css';
 
 import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum }) => {
+const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum, albumID }) => {
 
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
     const [unlikedVisibility, setUnlikedVisbility] = useState('heart-icon hidden');
 
     const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID };
+
+    const history = useHistory();
 
     const highlightHeartIcon = () => {
         if (!isLiked) {
@@ -49,7 +52,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             />
             <div className="title-container">
                 <div className="title-box">
-                    <h2 className="album-title">{albumTitle}</h2>
+                    <h2 className="album-title" onClick={() => history.push(`/album/${albumID}`)}>{albumTitle}</h2>
                 </div>
                 <img 
                     className={isLiked ? 'heart-icon' : unlikedVisibility} 

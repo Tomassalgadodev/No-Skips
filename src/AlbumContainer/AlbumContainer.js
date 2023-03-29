@@ -25,6 +25,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     artistID={artistID}
                     saveAlbum={saveAlbum}
                     removeAlbum={removeAlbum}
+                    albumID={album.id}
                 />
             )
         });

@@ -35,6 +35,11 @@
     display: inline;
 }
 
+.album-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .title-container {
     width: 255px;
     display: flex;
