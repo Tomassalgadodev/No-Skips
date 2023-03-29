@@ -1,9 +1,18 @@
 import React from "react";
 import './SongContainer.css';
 
+import SongCard from "../SongCard/SongCard";
+
 const SongContainer = () => {
     return (
-        <h1>SONGS</h1>
+        <div>
+            <div>
+                <p>#</p>
+                <p>Title</p>
+                <p>Clock Icon</p>
+            </div>
+            <SongCard />
+        </div>
     )
 }
 
