@@ -8,6 +8,7 @@ import SearchPage from '../SearchPage/SearchPage';
 import ArtistPage from '../ArtistPage/ArtistPage';
 import LogInPage from '../LogInPage/LogInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
+import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 
 const App = () => {
 
@@ -182,6 +183,16 @@ const App = () => {
         return (
           <ArtistPage 
             artistID={match.params.artistID}
+            likedAlbums={loggedIn ? savedAlbums : ''}
+            saveAlbum={saveAlbum}
+            removeAlbum={removeAlbum}
+          />
+        )
+      }}/>
+      <Route exact path='/album/:albumID' render={({ match }) => {
+        return (
+          <AlbumDetailsPage 
+            albumID={match.params.albumID}
             likedAlbums={loggedIn ? savedAlbums : ''}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
