@@ -1,0 +1,8 @@
+.artist-link {
+    color: #fff;
+}
+
+.artist-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

@@ -48,7 +48,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
                         numberOfSongs={albumData.data.albumUnion.tracks.totalCount}
                         albumLength={''}
                     />
-                    <SongContainer />
+                    <SongContainer trackData={trackData} />
                 </React.Fragment>}
         </React.Fragment>
     )
