@@ -1,0 +1,39 @@
+.song-modal {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+
+.mini-song-container-heading {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid hsla(0,0%,100%,.1);
+    height: 36px;
+    position: relative;
+}
+
+.mini-submit-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mini-submit-album-button {
+    box-sizing: border-box;
+    background-color: #b3b3b3;
+    border: solid 1px #b3b3b3;
+    margin-left: auto;
+    margin-right: auto;
+    height: 56px;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.mini-submit-album-button:hover {
+    background-color: #1DB954;
+    color: #181818;
+    border: none;
+}

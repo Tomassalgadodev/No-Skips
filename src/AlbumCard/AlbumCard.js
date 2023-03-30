@@ -2,48 +2,82 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import './AlbumCard.css';
 
-import SongCard from "../SongCard/SongCard";
+import SongModal from "../SongModal/SongModal";
 
 import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
+import greyPlusIcon from '../assets/grey-plus-icon.png';
+import whitePlusIcon from '../assets/white-plus-icon.png';
+import greyMinusIcon from '../assets/grey-minus-icon.png';
+import whiteMinusIcon from '../assets/white-minus-icon.png';
+
 const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum, albumID }) => {
 
-    const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
-    const [unlikedVisibility, setUnlikedVisbility] = useState('heart-icon hidden');
+    const [icon, setIcon] = useState(greyPlusIcon);
+    const [iconVisible, setIconVisible] = useState(false);
     const [albumArtTop, setAlbumArtTop] = useState('20px');
     const [albumTitleTop, setAlbumTitleTop] = useState('295px');
     const [albumDetailsTop, setAlbumDetailsTop] = useState('335px');
     const [songModalStyle, setSongModalStyle] = useState({ bottom: '70px', height: '0px', border: 'none' });
     const [songModalActive, setSongModalActive] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [startedFetch, setStartedFetch] = useState(false);
+    const [albumData, setAlbumData] = useState({});
+    const [trackData, setTrackData] = useState({});
 
-    const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID };
+    const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID };
+
+    const fetchAlbumData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
+
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            const [albumData, trackData] = await response.json();
+
+            setAlbumData(albumData);
+            setTrackData(trackData);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     const history = useHistory();
 
     const highlightHeartIcon = () => {
         if (!isLiked) {
-            setUnlikedHeart(whiteUnlikedIcon);
+            if (!songModalActive) {
+                setIcon(whitePlusIcon);
+            } else {
+                setIcon(whiteMinusIcon);
+            }
         }
     }
 
     const unhighlightHeartIcon = () => {
         if (!isLiked) {
-            setUnlikedHeart(unlikedIcon);
+            if (!songModalActive) {
+                setIcon(greyPlusIcon);
+            } else {
+                setIcon(greyMinusIcon);
+            }
         }
     }
 
-    const showHeartIcon = () => {
+    const showIcon = () => {
         if (!isLiked) {
-            setUnlikedVisbility('heart-icon');
+            setIconVisible(true);
         }
     }
 
-    const hideHeartIcon = () => {
+    const hideIcon = () => {
         if (!isLiked) {
-            setUnlikedVisbility('heart-icon hidden');
+            setIconVisible(false);
         }
     }
 
@@ -63,11 +97,26 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         }
     }
 
+    const showSongs = () => {
+        toggleSongModal();
+        if (songModalActive) {
+            console.log('closing');
+        } else {
+            if (Object.keys(albumData).length === 0 && Object.keys(trackData).length === 0 && !startedFetch) {
+                console.log('fetching data');
+                setStartedFetch(true);
+                fetchAlbumData();
+            } else {
+                console.log('everything is loaded');
+            }
+        }
+    }
+
     return (
         <div className="album-card" 
             id={link}
-            onMouseOver={showHeartIcon}
-            onMouseOut={hideHeartIcon}
+            onMouseOver={showIcon}
+            onMouseOut={hideIcon}
         >
             <img 
                 className="album-art" 
@@ -82,14 +131,15 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                 <div className="title-box">
                     <h2 className="album-title" onClick={() => history.push(`/album/${albumID}`)}>{albumTitle}</h2>
                 </div>
+                {iconVisible &&
                 <img 
-                    className={isLiked ? 'heart-icon' : unlikedVisibility} 
-                    src={isLiked ? likedIcon : unlikedHeart} 
-                    // onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumData)} // OLD WAY TO SAVE AN ALBUM
-                    onClick={toggleSongModal}
+                    className={'heart-icon'}
+                    src={isLiked ? likedIcon : icon} 
+                    // onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumObject)} // OLD WAY TO SAVE AN ALBUM
+                    onClick={showSongs}
                     onMouseOver={highlightHeartIcon}
                     onMouseOut={unhighlightHeartIcon}
-                />
+                />}
             </div>
             <div 
                 className="details-container"
@@ -98,10 +148,11 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                 <p className="album-details">{yearReleased}</p>
             </div>
             <div 
-                className="song-modal"
+                className="song-modal-container"
                 style={songModalStyle}
             >
                 {loading && <h1>-- Loading --</h1>}
+                {!loading && <SongModal trackData={trackData} />}
             </div>
         </div>
     )
