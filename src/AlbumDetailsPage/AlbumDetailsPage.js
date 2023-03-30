@@ -46,7 +46,9 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
                         artistID={albumData.data.albumUnion.artists.items[0].id}
                         albumType={albumData.data.albumUnion.type}
                         numberOfSongs={albumData.data.albumUnion.tracks.totalCount}
+                        backgroundColor={albumData.data.albumUnion.coverArt.extractedColors.colorRaw.hex}
                         albumLength={''}
+                        yearReleased={albumData.data.albumUnion.date.isoString.substring(0, 4)}
                     />
                     <SongContainer trackData={trackData} />
                 </React.Fragment>}
