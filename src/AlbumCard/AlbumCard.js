@@ -30,7 +30,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     const history = useHistory();
 
-    const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID};
+    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID};
 
     const fetchAlbumData = async () => {
         try {
@@ -50,8 +50,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         }
     }
 
-    const addLikedSong = song => {
-        setLikedSongs([...likedSongs, song]);
+    const addLikedSong = likedSong => {
+        if (!likedSongs.some(song => song.trackName === likedSong.trackName && song.trackNumber === likedSong.trackNumber)) {
+            setLikedSongs([...likedSongs, likedSong]);
+        }
     }
 
     const removeLikedSong = unLikedSong => {
@@ -59,6 +61,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     }
 
     const submitAlbum = () => {
+        albumObject.likedSongs = likedSongs;
         console.log(albumObject);
     }
 
