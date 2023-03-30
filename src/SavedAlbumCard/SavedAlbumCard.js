@@ -1,9 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import './SavedAlbumCard.css';
 
 import likedIcon from '../assets/liked_icon.png';
 
-const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum }) => {
+const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID }) => {
+
+    const history = useHistory();
+
     return (
         <div className="album-card" id={link}>
             <img 
@@ -13,7 +17,7 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
             />
             <div className="title-container">
                 <div className="title-box">
-                    <h2 className="album-title">{albumTitle}</h2>
+                    <h2 onClick={() => history.push(`/album/${albumID}`)} className="album-title">{albumTitle}</h2>
                 </div>
                 <img 
                     className="heart-icon"
@@ -22,7 +26,7 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
                 />
             </div>
             <div className="details-container">
-                <p className="album-details">{yearReleased} • {artistName}</p>
+                <p className="album-details">{yearReleased} • <span className="saved-album-artist-link" onClick={() => history.push(`/artist/${artistID}`)}>{artistName}</span></p>
             </div>
         </div>
     )

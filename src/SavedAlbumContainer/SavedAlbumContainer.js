@@ -15,6 +15,8 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum }) => {
                 key={album.link}
                 artistName={album.artistName}
                 removeAlbum={removeAlbum}
+                artistID={album.artistID}
+                albumID={album.albumID}
             />
         )
     })

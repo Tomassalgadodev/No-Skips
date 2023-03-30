@@ -11,7 +11,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
     const [unlikedVisibility, setUnlikedVisbility] = useState('heart-icon hidden');
 
-    const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID };
+    const albumData = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID };
 
     const history = useHistory();
 
