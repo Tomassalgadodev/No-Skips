@@ -47,5 +47,9 @@
     height: 16px;
     width: 16px;
     position: absolute;
-    right: 20px
+    right: 20px;
+}
+
+.mini-song-heart-icon:hover {
+    cursor: pointer;
 }

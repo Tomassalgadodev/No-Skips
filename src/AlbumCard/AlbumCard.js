@@ -26,8 +26,11 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const [startedFetch, setStartedFetch] = useState(false);
     const [albumData, setAlbumData] = useState({});
     const [trackData, setTrackData] = useState({});
+    const [likedSongs, setLikedSongs] = useState([]);
 
-    const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID };
+    const history = useHistory();
+
+    const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID};
 
     const fetchAlbumData = async () => {
         try {
@@ -47,7 +50,17 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         }
     }
 
-    const history = useHistory();
+    const addLikedSong = song => {
+        setLikedSongs([...likedSongs, song]);
+    }
+
+    const removeLikedSong = unLikedSong => {
+        setLikedSongs(likedSongs.filter(song => song.trackName !== unLikedSong.trackName && song.trackNumber !== unLikedSong.trackNumber));
+    }
+
+    const submitAlbum = () => {
+        console.log(albumObject);
+    }
 
     const highlightHeartIcon = () => {
         if (!isLiked) {
@@ -152,7 +165,13 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                 style={songModalStyle}
             >
                 {loading && <h1>-- Loading --</h1>}
-                {!loading && <SongModal trackData={trackData} />}
+                {!loading && 
+                    <SongModal 
+                        trackData={trackData} 
+                        submitAlbum={submitAlbum} 
+                        addLikedSong={addLikedSong} 
+                        removeLikedSong={removeLikedSong} 
+                    />}
             </div>
         </div>
     )

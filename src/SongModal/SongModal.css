@@ -33,6 +33,7 @@
 }
 
 .mini-submit-album-button:hover {
+    cursor: pointer;
     background-color: #1DB954;
     color: #181818;
     border: none;

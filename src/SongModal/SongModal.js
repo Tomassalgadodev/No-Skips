@@ -5,7 +5,7 @@ import './SongModal.css';
 
 import SongModalSongCard from "../SongModalSongCard/SongModalSongCard";
 
-const SongModal = ({ trackData }) => {
+const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong }) => {
 
     const songCards = trackData.data.albumUnion.tracks.items.map((song, index) => {
         return (
@@ -13,6 +13,8 @@ const SongModal = ({ trackData }) => {
                 key={index}
                 trackNumber={song.track.trackNumber}
                 trackName={song.track.name}
+                addLikedSong={addLikedSong}
+                removeLikedSong={removeLikedSong}
             />
         )
     })
@@ -25,7 +27,7 @@ const SongModal = ({ trackData }) => {
             </div>
             {songCards}
             <div className="mini-submit-button-container">
-                <button className="mini-submit-album-button">Submit album</button>
+                <button onClick={submitAlbum} className="mini-submit-album-button">Submit album</button>
             </div>
         </React.Fragment>
     )
