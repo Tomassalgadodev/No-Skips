@@ -1,7 +1,11 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import './AlbumDetailsHeader.css';
 
 const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased }) => {
+
+    const history = useHistory();
+
     return (
         <div style={{ backgroundColor: backgroundColor }} className="album-details-header">
             <div className="album-details-content-container">
@@ -14,7 +18,14 @@ const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistNam
                         <p className="album-details-title">{albumTitle}</p>
                         <div className="album-details-subheading-container">
                             <img className="album-details-artist-thumbnail" src={artistThumbnail} />
-                            <p className="album-details-subheading"><span className="album-details-artist-link">{artistName}</span> • <span>{yearReleased}</span> • <span>{numberOfSongs} Songs</span></p>
+                            <p className="album-details-subheading">
+                                <span 
+                                    onClick={() => history.push(`/artist/${artistID}`)} 
+                                    className="album-details-artist-link"
+                                >{artistName}</span> • 
+                                <span>{yearReleased}</span> • 
+                                <span>{numberOfSongs} Songs</span>
+                            </p>
                         </div>
                     </div>
                 </div>
