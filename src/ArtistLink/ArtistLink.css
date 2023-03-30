@@ -1,8 +1,10 @@
 .artist-link {
-    color: #fff;
+    color: #b3b3b3;
+    font-size: 14px;
 }
 
 .artist-link:hover {
     cursor: pointer;
+    color: #fff;
     text-decoration: underline;
 }

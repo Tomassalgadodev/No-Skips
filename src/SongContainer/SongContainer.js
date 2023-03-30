@@ -3,6 +3,8 @@ import './SongContainer.css';
 
 import SongCard from "../SongCard/SongCard";
 
+import clockIcon from '../assets/clock-icon.png';
+
 const SongContainer = ({ trackData }) => {
 
     const SongCards = trackData.data.albumUnion.tracks.items.map((song, index) => {
@@ -11,6 +13,7 @@ const SongContainer = ({ trackData }) => {
         trackLength += Math.floor(song.track.duration.totalMilliseconds / 60000);
         trackLength += ':';
         trackLength += Math.floor((song.track.duration.totalMilliseconds % 60000) / 1000);
+        if (trackLength.length === 3) trackLength = trackLength.slice(0, 2) + '0' + trackLength.substring(2);
 
         return (
             <SongCard 
@@ -22,15 +25,15 @@ const SongContainer = ({ trackData }) => {
                 trackArtists={song.track.artists.items}
             />
         )
-    })
+    });
 
 
     return (
-        <div>
-            <div>
-                <p>#</p>
-                <p>Title</p>
-                <p>Clock Icon</p>
+        <div className="song-container">
+            <div className="song-container-heading">
+                <p className="hash">#</p>
+                <p className="title">Title</p>
+                <img className="clock-icon" src={clockIcon} />
             </div>
             {SongCards}
         </div>
