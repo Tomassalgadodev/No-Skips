@@ -12,6 +12,7 @@ const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, track
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
     const [isLiked, setIsLiked] = useState(false);
+    const [artistLinkColor, setArtistLinkColor] = useState('#B3B3B3');
 
     const artistLinks = trackArtists.map((artist, index) => {
 
@@ -26,22 +27,24 @@ const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, track
         )
     }).flatMap((component, index) => trackArtists.length - 1 === index ? [component] : [component, ', ']);
 
-    const showHeartIcon = () => {
+    const setHoverState = () => {
         if (!isLiked) {
             setUnlikedVisbility(true);
         }
+        setArtistLinkColor('#fff');
     }
 
-    const hideHeartIcon = () => {
+    const unSetHoverState = () => {
         if (!isLiked) {
             setUnlikedVisbility(false);
         }
+        setArtistLinkColor('#B3B3B3');
     }
 
     const highlightHeartIcon = () => {
         if (!isLiked) {
             setUnlikedHeart(whiteUnlikedIcon);
-        }
+        } 
     }
 
     const unhighlightHeartIcon = () => {
@@ -52,14 +55,17 @@ const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, track
 
     return (
         <div
-            onMouseOver={showHeartIcon}
-            onMouseOut={hideHeartIcon}
+            onMouseOver={setHoverState}
+            onMouseOut={unSetHoverState}
             className="song-card"
         >
             <p className="track-number">{trackNumber}</p>
             <div className="song-details-container">
                 <p className="track-name">{trackName}</p>
-                <p className="artist-links">
+                <p 
+                    className="artist-links" 
+                    style={{ color: artistLinkColor }}
+                >
                     {artistLinks}
                 </p>
             </div>

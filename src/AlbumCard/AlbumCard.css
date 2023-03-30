@@ -2,6 +2,19 @@
     height: 20px;
 }
 
+.song-modal {
+    box-sizing: border-box;
+    width: 255px;
+    height: 0px;
+    border-radius: 10px;
+    border: none;
+    transition: 5sec;
+    bottom: 70px;
+    position: absolute;
+    transition: bottom 1s ease-in-out, height 1s ease-in-out;
+    overflow: scroll;
+}
+
 .hidden {
     display: none;
 }
