@@ -7,13 +7,38 @@
 .album-submit-button {
     position: absolute;
     right: 60px;
-    top: 10px;
+    top: 20px;
     border: none;
     height: 56px;
     width: 130px;
     border-radius: 500px;
     font-weight: bold;
     font-size: 15px;
+}
+
+.album-release-date,
+.record-label1,
+.record-label2 {
+    position: absolute;
+    left: 32px;
+    color: #b3b3b3;
+    margin: 0;
+}
+
+.album-release-date {
+    top: 30px;
+    font-size: 0.875rem;
+}
+
+.record-label1 {
+    top: 50px;
+    font-size: 0.6875rem;
+}
+
+.record-label2 {
+    top: 65px;
+    left: 35px;
+    font-size: 0.6875rem;
 }
 
 .album-submit-button:hover {
