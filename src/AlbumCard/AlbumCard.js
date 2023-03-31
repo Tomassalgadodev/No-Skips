@@ -61,8 +61,9 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     }
 
     const submitAlbum = () => {
-        albumObject.likedSongs = likedSongs;
-        console.log(albumObject);
+        albumObject.likedSongs = JSON.stringify(likedSongs);
+        console.log(likedSongs);
+        saveAlbum(albumObject);
     }
 
     const highlightHeartIcon = () => {
@@ -156,6 +157,12 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                     onMouseOver={highlightHeartIcon}
                     onMouseOut={unhighlightHeartIcon}
                 />}
+                {isLiked &&
+                    <img 
+                        className={'heart-icon'}
+                        src={likedIcon} 
+                        onClick={showSongs}
+                    />}
             </div>
             <div 
                 className="details-container"
