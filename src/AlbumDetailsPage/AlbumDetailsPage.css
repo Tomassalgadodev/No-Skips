@@ -1,0 +1,27 @@
+.album-submit-button-container {
+    height: 100px;
+    width: 100%;
+    position: relative;
+}
+
+.album-submit-button {
+    position: absolute;
+    right: 60px;
+    top: 10px;
+    border: none;
+    height: 56px;
+    width: 130px;
+    border-radius: 500px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.album-submit-button:hover {
+    cursor: pointer;
+    transform: scale(1.04);
+}
+
+.album-submit-button:active {
+    transform: scale(1);
+    background-color: #A7A7A7;
+}

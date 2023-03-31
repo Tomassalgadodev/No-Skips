@@ -51,6 +51,9 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
                         yearReleased={albumData.data.albumUnion.date.isoString.substring(0, 4)}
                     />
                     <SongContainer trackData={trackData} />
+                    <div className="album-submit-button-container">
+                        <button className="album-submit-button">Submit album</button>
+                    </div>
                 </React.Fragment>}
         </React.Fragment>
     )

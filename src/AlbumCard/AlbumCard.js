@@ -62,7 +62,6 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     const submitAlbum = () => {
         albumObject.likedSongs = JSON.stringify(likedSongs);
-        console.log(likedSongs);
         saveAlbum(albumObject);
         toggleSongModal();
     }
@@ -117,16 +116,9 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     const showSongs = () => {
         toggleSongModal();
-        if (songModalActive) {
-            console.log('closing');
-        } else {
-            if (Object.keys(albumData).length === 0 && Object.keys(trackData).length === 0 && !startedFetch) {
-                console.log('fetching data');
-                setStartedFetch(true);
-                fetchAlbumData();
-            } else {
-                console.log('everything is loaded');
-            }
+        if (Object.keys(albumData).length === 0 && Object.keys(trackData).length === 0 && !startedFetch) {
+            setStartedFetch(true);
+            fetchAlbumData();
         }
     }
 
