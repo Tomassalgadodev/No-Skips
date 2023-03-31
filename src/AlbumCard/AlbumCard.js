@@ -64,6 +64,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         albumObject.likedSongs = JSON.stringify(likedSongs);
         console.log(likedSongs);
         saveAlbum(albumObject);
+        toggleSongModal();
     }
 
     const highlightHeartIcon = () => {
@@ -148,7 +149,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                 <div className="title-box">
                     <h2 className="album-title" onClick={() => history.push(`/album/${albumID}`)}>{albumTitle}</h2>
                 </div>
-                {iconVisible &&
+                {iconVisible && !isLiked &&
                 <img 
                     className={'heart-icon'}
                     src={isLiked ? likedIcon : icon} 
