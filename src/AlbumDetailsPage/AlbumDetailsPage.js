@@ -9,6 +9,13 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
     const [albumData, setAlbumData] = useState({});
     const [trackData, setTrackData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [albumArt, setAlbumArt] = useState('');
+    const [albumTitle, setAlbumTitle] = useState('');
+    const [yearReleased, setYearReleased] = useState('');
+    const [link, setLink] = useState('');
+    const [artistName, setArtistName] = useState('');
+    const [artistID, setArtistID] = useState('');
+    const [likedSongs, setLikedSongs] = useState([]);
 
     const fetchAlbumData = async () => {
         try {
@@ -20,6 +27,12 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
 
             const [albumData, trackData] = await response.json();
 
+            setAlbumArt(albumData.data.albumUnion.coverArt.sources[0].url);
+            setAlbumTitle(albumData.data.albumUnion.name);
+            setYearReleased(albumData.data.albumUnion.date.isoString.substring(0, 4));
+            setLink(`https://open.spotify.com/album/${albumID}`);
+            setArtistName(albumData.data.albumUnion.artists.items[0].profile.name);
+            setArtistID(albumData.data.albumUnion.artists.items[0].id);
             setAlbumData(albumData);
             setTrackData(trackData);
             setLoading(false);
@@ -32,6 +45,20 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
         fetchAlbumData();
     }, [])
 
+    const addLikedSong = likedSong => {
+        if (!likedSongs.some(song => song.trackName === likedSong.trackName && song.trackNumber === likedSong.trackNumber)) {
+            setLikedSongs([...likedSongs, likedSong]);
+        }
+    }
+
+    const removeLikedSong = unLikedSong => {
+        setLikedSongs(likedSongs.filter(song => song.trackName !== unLikedSong.trackName && song.trackNumber !== unLikedSong.trackNumber));
+    }
+
+    const submitAlbum = () => {
+        const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
+        saveAlbum(albumObject);
+    }
 
     return (
         <React.Fragment>
@@ -39,23 +66,27 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
             {!loading && 
                 <React.Fragment>
                     <AlbumDetailsHeader 
-                        albumImage={albumData.data.albumUnion.coverArt.sources[0].url}
-                        albumTitle={albumData.data.albumUnion.name}
+                        albumImage={albumArt}
+                        albumTitle={albumTitle}
                         artistThumbnail={albumData.data.albumUnion.artists.items[0].visuals.avatarImage.sources[1].url}
-                        artistName={albumData.data.albumUnion.artists.items[0].profile.name}
+                        artistName={artistName}
                         artistID={albumData.data.albumUnion.artists.items[0].id}
                         albumType={albumData.data.albumUnion.type}
                         numberOfSongs={albumData.data.albumUnion.tracks.totalCount}
                         backgroundColor={albumData.data.albumUnion.coverArt.extractedColors.colorRaw.hex}
                         albumLength={''}
-                        yearReleased={albumData.data.albumUnion.date.isoString.substring(0, 4)}
+                        yearReleased={yearReleased}
                     />
-                    <SongContainer trackData={trackData} />
+                    <SongContainer 
+                        trackData={trackData} 
+                        addLikedSong={addLikedSong}
+                        removeLikedSong={removeLikedSong}
+                    />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
                         <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p>
                         <p className="record-label2">{albumData.data.albumUnion.copyright.items[1].text}</p>
-                        <button className="album-submit-button">Submit album</button>
+                        <button onClick={submitAlbum} className="album-submit-button">Submit album</button>
                     </div>
                 </React.Fragment>}
         </React.Fragment>

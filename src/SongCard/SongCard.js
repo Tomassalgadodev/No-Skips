@@ -7,7 +7,7 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, trackLength }) => {
+const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
@@ -53,6 +53,16 @@ const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, track
         }
     }
 
+    const toggleSong = () => {
+        if (!isLiked) {
+            addLikedSong({ trackNumber, trackName });
+            setIsLiked(true);
+        } else {
+            removeLikedSong({ trackNumber, trackName });
+            setIsLiked(false);
+        }
+    }
+
     return (
         <div
             onMouseOver={setHoverState}
@@ -75,7 +85,16 @@ const SongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, track
                     src={unlikedHeart} 
                     onMouseOver={highlightHeartIcon}
                     onMouseOut={unhighlightHeartIcon}
-                />}
+                    onClick={toggleSong}
+                />
+            }
+            {isLiked &&
+                <img
+                    className="song-heart-icon" 
+                    src={likedIcon} 
+                    onClick={toggleSong} 
+                />
+            }
             <p className="track-length">{trackLength}</p>
         </div>
     )
