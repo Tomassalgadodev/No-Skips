@@ -5,7 +5,7 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong }) => {
+const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked }) => {
 
     const [isLiked, setIsLiked] = useState(false);
     const [heartIcon, setHeartIcon] = useState(unlikedIcon);
@@ -42,13 +42,22 @@ const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStrea
             <div className="mini-track-name-container">
                 <p className="mini-track-name">{trackName}</p>
             </div>
-            <img 
-                onMouseOver={highlightHeartIcon}
-                onMouseOut={unhighlightHeartIcon}
-                onClick={toggleSong}
-                className="mini-song-heart-icon" 
-                src={isLiked ? likedIcon : heartIcon}
-            />
+            {!songIsLiked &&
+                <img 
+                    onMouseOver={highlightHeartIcon}
+                    onMouseOut={unhighlightHeartIcon}
+                    onClick={toggleSong}
+                    className="mini-song-heart-icon" 
+                    src={isLiked ? likedIcon : heartIcon}
+                />
+            }
+            {songIsLiked &&
+                <img 
+                    // onClick={toggleSong}
+                    className="mini-song-heart-icon" 
+                    src={likedIcon}
+                />
+            }
         </div>
     )
 }

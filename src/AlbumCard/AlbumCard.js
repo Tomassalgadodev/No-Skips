@@ -13,7 +13,7 @@ import whitePlusIcon from '../assets/white-plus-icon.png';
 import greyMinusIcon from '../assets/grey-minus-icon.png';
 import whiteMinusIcon from '../assets/white-minus-icon.png';
 
-const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum, albumID }) => {
+const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum, albumID, liked, previouslyLikedSongs }) => {
 
     const [icon, setIcon] = useState(greyPlusIcon);
     const [iconVisible, setIconVisible] = useState(false);
@@ -181,7 +181,9 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                         trackData={trackData} 
                         submitAlbum={submitAlbum} 
                         addLikedSong={addLikedSong} 
-                        removeLikedSong={removeLikedSong} 
+                        removeLikedSong={removeLikedSong}
+                        isLiked={isLiked}
+                        previouslyLikedSongs={previouslyLikedSongs}
                     />}
             </div>
         </div>

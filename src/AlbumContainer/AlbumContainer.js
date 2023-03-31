@@ -11,7 +11,13 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
         albumCards = albumData.items.map((album, index) => {
             const albumLink = `https://open.spotify.com/album/${album.id}`;
     
-            const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
+            const likedAlbum = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
+
+            let likedSongs;
+
+            if (likedAlbum) {
+                likedSongs = JSON.parse(likedAlbum.likedSongs);
+            }
     
             return (
                 <AlbumCard 
@@ -20,7 +26,8 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     yearReleased={album.date.year}
                     link={albumLink}
                     key={index}
-                    isLiked={isLiked ? true : false}
+                    isLiked={likedAlbum ? true : false}
+                    previouslyLikedSongs={likedAlbum ? likedSongs : ''}
                     artistName={artistName}
                     artistID={artistID}
                     saveAlbum={saveAlbum}
