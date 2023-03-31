@@ -4,7 +4,7 @@ import './AlbumDetailsPage.css';
 import AlbumDetailsHeader from "../AlbumDetailsHeader/AlbumDetailsHeader";
 import SongContainer from "../SongContainer/SongContainer";
 
-const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
+const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, loggedIn, fetchUserAlbumData }) => {
 
     const [albumData, setAlbumData] = useState({});
     const [trackData, setTrackData] = useState({});
@@ -15,7 +15,32 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
     const [link, setLink] = useState('');
     const [artistName, setArtistName] = useState('');
     const [artistID, setArtistID] = useState('');
+    const [albumIsLiked, setAlbumIsLiked] = useState(false);
+    const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
+
+    const albumLink = `https://open.spotify.com/album/${albumID}`;
+
+    const fetchSavedAlbumData = async () => {
+        try {
+            const fetchAlbumAttempt = await fetch('http://localhost:8000/api/v1/savedAlbums', {
+            credentials: 'include'
+            })
+    
+            if(!fetchAlbumAttempt.ok) {
+            throw new Error(fetchAlbumAttempt.status);
+            }
+    
+            const data = await fetchAlbumAttempt.json();
+    
+            const likedAlbum = data.find(album => album.link === albumLink);
+            setAlbumIsLiked(likedAlbum ? true : false);
+            setPreviouslyLikedSongs(likedAlbum ? JSON.parse(likedAlbum.likedSongs) : []);
+    
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     const fetchAlbumData = async () => {
         try {
@@ -30,7 +55,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
             setAlbumArt(albumData.data.albumUnion.coverArt.sources[0].url);
             setAlbumTitle(albumData.data.albumUnion.name);
             setYearReleased(albumData.data.albumUnion.date.isoString.substring(0, 4));
-            setLink(`https://open.spotify.com/album/${albumID}`);
+            setLink(albumLink);
             setArtistName(albumData.data.albumUnion.artists.items[0].profile.name);
             setArtistID(albumData.data.albumUnion.artists.items[0].id);
             setAlbumData(albumData);
@@ -42,6 +67,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
     }
 
     useEffect(() => {   
+        fetchSavedAlbumData();
         fetchAlbumData();
     }, [])
 
@@ -86,7 +112,12 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum }) => {
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
                         <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p>
                         <p className="record-label2">{albumData.data.albumUnion.copyright.items[1].text}</p>
-                        <button onClick={submitAlbum} className="album-submit-button">Submit album</button>
+                        {!albumIsLiked && 
+                            <button onClick={submitAlbum} className="album-submit-button">Submit album</button>
+                        }
+                        {albumIsLiked && 
+                            <button onClick={submitAlbum} className="album-submit-button">Edit album</button>
+                        }
                     </div>
                 </React.Fragment>}
         </React.Fragment>

@@ -78,7 +78,7 @@ const App = () => {
       }
 
       const data = await fetchAlbumAttempt.json();
-      
+
       setSavedAlbums(data);
 
     } catch (err) {
@@ -183,7 +183,7 @@ const App = () => {
         return (
           <ArtistPage 
             artistID={match.params.artistID}
-            likedAlbums={loggedIn ? savedAlbums : ''}
+            likedAlbums={loggedIn ? savedAlbums : []}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
           />
@@ -193,9 +193,11 @@ const App = () => {
         return (
           <AlbumDetailsPage 
             albumID={match.params.albumID}
-            likedAlbums={loggedIn ? savedAlbums : ''}
+            likedAlbums={loggedIn ? savedAlbums : []}
+            loggedIn={loggedIn}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
+            fetchUserAlbumData={fetchUserAlbumData}
           />
         )
       }}/>
