@@ -13,7 +13,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
     
             const likedAlbum = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
 
-            let likedSongs;
+            let likedSongs = [];
 
             if (likedAlbum) {
                 likedSongs = JSON.parse(likedAlbum.likedSongs);
@@ -27,7 +27,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     link={albumLink}
                     key={index}
                     isLiked={likedAlbum ? true : false}
-                    previouslyLikedSongs={likedAlbum ? likedSongs : ''}
+                    previouslyLikedSongs={likedSongs}
                     artistName={artistName}
                     artistID={artistID}
                     saveAlbum={saveAlbum}

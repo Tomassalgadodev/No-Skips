@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import './AlbumCard.css';
 
@@ -51,13 +51,13 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     }
 
     const addLikedSong = likedSong => {
-        if (!likedSongs.some(song => song.trackName === likedSong.trackName && song.trackNumber === likedSong.trackNumber)) {
+        if (!likedSongs.some(song => song.trackID === likedSong.trackID)) {
             setLikedSongs([...likedSongs, likedSong]);
         }
     }
 
     const removeLikedSong = unLikedSong => {
-        setLikedSongs(likedSongs.filter(song => song.trackName !== unLikedSong.trackName && song.trackNumber !== unLikedSong.trackNumber));
+        setLikedSongs(likedSongs.filter(song => song.trackID !== unLikedSong.trackID));
     }
 
     const submitAlbum = () => {
@@ -121,6 +121,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             fetchAlbumData();
         }
     }
+
+    useEffect(() => {
+       setLikedSongs(previouslyLikedSongs); 
+    }, []);
 
     return (
         <div className="album-card" 

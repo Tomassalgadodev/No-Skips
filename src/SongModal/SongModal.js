@@ -19,6 +19,7 @@ const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, prev
         return (
             <SongModalSongCard 
                 key={index}
+                trackID={song.uid}
                 trackNumber={song.track.trackNumber}
                 trackName={song.track.name}
                 addLikedSong={addLikedSong}

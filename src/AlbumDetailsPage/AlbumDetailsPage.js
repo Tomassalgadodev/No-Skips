@@ -4,7 +4,7 @@ import './AlbumDetailsPage.css';
 import AlbumDetailsHeader from "../AlbumDetailsHeader/AlbumDetailsHeader";
 import SongContainer from "../SongContainer/SongContainer";
 
-const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, loggedIn, fetchUserAlbumData }) => {
+const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, loggedIn, logoutUser }) => {
 
     const [albumData, setAlbumData] = useState({});
     const [trackData, setTrackData] = useState({});
@@ -18,6 +18,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [albumIsLiked, setAlbumIsLiked] = useState(false);
     const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
+    const [hasEditedSongs, setHasEditedSongs] = useState(false);
 
     const albumLink = `https://open.spotify.com/album/${albumID}`;
 
@@ -36,9 +37,12 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             const likedAlbum = data.find(album => album.link === albumLink);
             setAlbumIsLiked(likedAlbum ? true : false);
             setPreviouslyLikedSongs(likedAlbum ? JSON.parse(likedAlbum.likedSongs) : []);
+            setLikedSongs(likedAlbum ? JSON.parse(likedAlbum.likedSongs) : []);
     
         } catch (err) {
-            console.log(err);
+            if (err.message === '401') {
+                logoutUser();
+            }
         }
     }
 
@@ -62,23 +66,31 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setTrackData(trackData);
             setLoading(false);
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
         }
     }
 
     useEffect(() => {   
         fetchSavedAlbumData();
         fetchAlbumData();
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (JSON.stringify(previouslyLikedSongs.sort((a, b) => a.trackNumber - b.trackNumber)) === JSON.stringify(likedSongs.sort((a, b) => a.trackNumber - b.trackNumber))) {
+            setHasEditedSongs(false);
+        } else {
+            setHasEditedSongs(true);
+        }
+    }, [likedSongs]);
 
     const addLikedSong = likedSong => {
-        if (!likedSongs.some(song => song.trackName === likedSong.trackName && song.trackNumber === likedSong.trackNumber)) {
+        if (!likedSongs.some(song => song.trackID === likedSong.trackID)) {
             setLikedSongs([...likedSongs, likedSong]);
         }
     }
 
     const removeLikedSong = unLikedSong => {
-        setLikedSongs(likedSongs.filter(song => song.trackName !== unLikedSong.trackName && song.trackNumber !== unLikedSong.trackNumber));
+        setLikedSongs(likedSongs.filter(song => song.trackID !== unLikedSong.trackID));
     }
 
     const submitAlbum = () => {
@@ -107,6 +119,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         trackData={trackData} 
                         addLikedSong={addLikedSong}
                         removeLikedSong={removeLikedSong}
+                        previouslyLikedSongs={previouslyLikedSongs}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
@@ -115,8 +128,8 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         {!albumIsLiked && 
                             <button onClick={submitAlbum} className="album-submit-button">Submit album</button>
                         }
-                        {albumIsLiked && 
-                            <button onClick={submitAlbum} className="album-submit-button">Edit album</button>
+                        {albumIsLiked && hasEditedSongs &&
+                            <button className="album-submit-button">Edit album</button>
                         }
                     </div>
                 </React.Fragment>}

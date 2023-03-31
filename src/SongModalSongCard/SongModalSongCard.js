@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './SongModalSongCard.css';
 
 import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked }) => {
+const SongModalSongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked }) => {
 
     const [isLiked, setIsLiked] = useState(false);
     const [heartIcon, setHeartIcon] = useState(unlikedIcon);
@@ -24,13 +24,17 @@ const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStrea
 
     const toggleSong = () => {
         if (!isLiked) {
-            addLikedSong({ trackNumber, trackName });
+            addLikedSong({ trackNumber, trackName, trackID });
             setIsLiked(true);
         } else {
-            removeLikedSong({ trackNumber, trackName });
+            removeLikedSong({ trackNumber, trackName, trackID });
             setIsLiked(false);
         }
     }
+
+    useEffect(() => {
+        setIsLiked(songIsLiked);
+    }, []);
 
     return (
         <div
@@ -42,7 +46,7 @@ const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStrea
             <div className="mini-track-name-container">
                 <p className="mini-track-name">{trackName}</p>
             </div>
-            {!songIsLiked &&
+            {!isLiked &&
                 <img 
                     onMouseOver={highlightHeartIcon}
                     onMouseOut={unhighlightHeartIcon}
@@ -51,9 +55,9 @@ const SongModalSongCard = ({ trackNumber, trackName, trackArtists, numberOfStrea
                     src={isLiked ? likedIcon : heartIcon}
                 />
             }
-            {songIsLiked &&
+            {isLiked &&
                 <img 
-                    // onClick={toggleSong}
+                    onClick={toggleSong}
                     className="mini-song-heart-icon" 
                     src={likedIcon}
                 />

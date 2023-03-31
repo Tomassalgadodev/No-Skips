@@ -197,7 +197,7 @@ const App = () => {
             loggedIn={loggedIn}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
-            fetchUserAlbumData={fetchUserAlbumData}
+            logoutUser={logoutUser}
           />
         )
       }}/>
