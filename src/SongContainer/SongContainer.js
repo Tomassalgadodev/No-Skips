@@ -5,7 +5,7 @@ import SongCard from "../SongCard/SongCard";
 
 import clockIcon from '../assets/clock-icon.png';
 
-const SongContainer = ({ trackData, addLikedSong, removeLikedSong, previouslyLikedSongs }) => {
+const SongContainer = ({ trackData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs }) => {
 
     const SongCards = trackData.data.albumUnion.tracks.items.map((song, index) => {
 
@@ -33,6 +33,7 @@ const SongContainer = ({ trackData, addLikedSong, removeLikedSong, previouslyLik
                 addLikedSong={addLikedSong}
                 removeLikedSong={removeLikedSong}
                 songIsLiked={songIsLiked}
+                likedSongs={likedSongs}
             />
         )
     });

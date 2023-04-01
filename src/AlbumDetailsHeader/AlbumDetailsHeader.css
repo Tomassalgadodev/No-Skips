@@ -79,6 +79,15 @@
     cursor: pointer;
 }
 
+.album-heart-icon {
+    margin-left: 5px;
+    height: 20px;
+}
+
+.album-heart-icon:hover {
+    cursor: pointer;
+}
+
 .tint{
     position: absolute;
     top: 0;

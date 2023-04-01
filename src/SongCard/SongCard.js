@@ -7,7 +7,7 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked }) => {
+const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked, likedSongs }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
@@ -68,6 +68,12 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
             setIsLiked(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (likedSongs.some(song => song.trackID === trackID)) {
+            setIsLiked(true);
+        }
+    }, [likedSongs]);
 
     return (
         <div

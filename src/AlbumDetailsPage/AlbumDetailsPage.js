@@ -94,6 +94,16 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         setLikedSongs(likedSongs.filter(song => song.trackID !== unLikedSong.trackID));
     }
 
+    const likeAllSongs = () => {
+        const allSongs = [];
+
+        trackData.data.albumUnion.tracks.items.forEach(track => {
+            allSongs.push({ trackNumber: track.track.trackNumber, trackName: track.track.name, trackID: track.uid })
+        });
+        console.log(allSongs);
+        setLikedSongs(allSongs);
+    }
+
     const submitAlbum = async () => {
         const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
         const result = await saveAlbum(albumObject);
@@ -126,12 +136,15 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         backgroundColor={albumData.data.albumUnion.coverArt.extractedColors.colorRaw.hex}
                         albumLength={''}
                         yearReleased={yearReleased}
+                        albumIsLiked={albumIsLiked}
+                        likeAllSongs={likeAllSongs}
                     />
                     <SongContainer 
                         trackData={trackData} 
                         addLikedSong={addLikedSong}
                         removeLikedSong={removeLikedSong}
                         previouslyLikedSongs={previouslyLikedSongs}
+                        likedSongs={likedSongs}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>

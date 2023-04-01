@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import './AlbumDetailsHeader.css';
 
-const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased }) => {
+import likedIcon from '../assets/liked_icon.png';
+import unlikedIcon from '../assets/unliked_icon.png';
+import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
+
+const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, likeAllSongs }) => {
+
+    const [mainHeartIcon, setMainHeartIcon] = useState(unlikedIcon);
 
     const history = useHistory();
 
@@ -26,6 +32,21 @@ const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistNam
                                 <span>{yearReleased}</span> • 
                                 <span>{numberOfSongs} Songs</span>
                             </p>
+                            {!albumIsLiked &&
+                                <img 
+                                    className="album-heart-icon" 
+                                    onMouseOver={() => setMainHeartIcon(whiteUnlikedIcon)}
+                                    onMouseOut={() => setMainHeartIcon(unlikedIcon)}
+                                    onClick={() => likeAllSongs()}
+                                    src={mainHeartIcon} 
+                                />
+                            }
+                            {albumIsLiked && 
+                                <img 
+                                    className="album-heart-icon"
+                                    src={likedIcon}
+                                />
+                            }
                         </div>
                     </div>
                 </div>
