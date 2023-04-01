@@ -6,7 +6,7 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, likeAllSongs, removeAllSongs }) => {
+const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, likeAllSongs, removeAllSongs, handleRemoveAlbum }) => {
 
     const [mainHeartIcon, setMainHeartIcon] = useState(unlikedIcon);
 
@@ -55,6 +55,10 @@ const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistNam
                                 <img 
                                     className="album-heart-icon"
                                     src={likedIcon}
+                                    onClick={() => {
+                                        handleRemoveAlbum();
+                                        setMainHeartIcon(unlikedIcon);
+                                    }}
                                 />
                             }
                         </div>

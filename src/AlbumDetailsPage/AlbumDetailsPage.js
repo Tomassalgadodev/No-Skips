@@ -100,7 +100,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         trackData.data.albumUnion.tracks.items.forEach(track => {
             allSongs.push({ trackNumber: track.track.trackNumber, trackName: track.track.name, trackID: track.uid })
         });
-        console.log(allSongs);
+
         setLikedSongs(allSongs);
     }
 
@@ -124,6 +124,18 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         }
     }
 
+    const handleRemoveAlbum = async () => {
+        const result = await removeAlbum({ link: albumLink });
+        if (result === 'Successfully removed') {
+            console.log('Working');
+            setAlbumIsLiked(false);
+            setLikedSongs([]);
+            setPreviouslyLikedSongs([]);
+        } else {
+            console.log('Something went wrong');
+        }
+    }
+
     return (
         <React.Fragment>
             {loading && <h1>-- Loading --</h1>}
@@ -143,6 +155,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         albumIsLiked={albumIsLiked}
                         likeAllSongs={likeAllSongs}
                         removeAllSongs={removeAllSongs}
+                        handleRemoveAlbum={handleRemoveAlbum}
                     />
                     <SongContainer 
                         trackData={trackData} 
@@ -168,7 +181,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                             <button className="album-submit-button">Edit album</button>
                         }
                     </div>
-                    <button onClick={() => removeAlbum({ link: albumLink})}>Remove</button>
+                    {/* <button onClick={() => removeAlbum({ link: albumLink})}>Remove</button> */}
                 </React.Fragment>}
         </React.Fragment>
     )

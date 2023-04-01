@@ -134,9 +134,13 @@ const App = () => {
 
       if (result.msg !== 'Album not liked by user') {
         fetchUserAlbumData();
+        return 'Successfully removed';
+      } else {
+        return 'Album not liked by user';
       }
     } catch (err) {
       console.log(err);
+      return err;
     }
   }
 
