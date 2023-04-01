@@ -18,6 +18,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [albumIsLiked, setAlbumIsLiked] = useState(false);
     const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [hasEditedSongs, setHasEditedSongs] = useState(false);
 
     const albumLink = `https://open.spotify.com/album/${albumID}`;
@@ -93,9 +94,20 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         setLikedSongs(likedSongs.filter(song => song.trackID !== unLikedSong.trackID));
     }
 
-    const submitAlbum = () => {
+    const submitAlbum = async () => {
         const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
-        saveAlbum(albumObject);
+        const result = await saveAlbum(albumObject);
+        if (result === 'Success!') {
+            setAlbumIsLiked(true);
+            setPreviouslyLikedSongs(likedSongs);
+            setHasEditedSongs(false);
+            setShowSuccessMessage(true);
+            setTimeout(() => setShowSuccessMessage(false), 1000);
+        } else if (result === 'Already liked') {
+            console.log('already liked')
+        } else {
+            console.log('Error');
+        }
     }
 
     return (
@@ -124,14 +136,21 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
                         <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p>
-                        <p className="record-label2">{albumData.data.albumUnion.copyright.items[1].text}</p>
+                        {/* <p className="record-label2">{albumData.data.albumUnion.copyright.items[1] ? albumData.data.albumUnion.copyright.items[1].text : albumData.data.albumUnion.copyright.items[0].text}</p> */}
                         {!albumIsLiked && 
-                            <button onClick={submitAlbum} className="album-submit-button">Submit album</button>
+                            <button 
+                                onClick={submitAlbum} 
+                                className="album-submit-button"
+                            >Submit album</button>
+                        }
+                        {showSuccessMessage &&
+                            <button className="album-submit-button" style={{ backgroundColor: '#1DB954', color: '#181818' }}>Success!</button>
                         }
                         {albumIsLiked && hasEditedSongs &&
                             <button className="album-submit-button">Edit album</button>
                         }
                     </div>
+                    <button onClick={() => removeAlbum({ link: albumLink})}>Remove</button>
                 </React.Fragment>}
         </React.Fragment>
     )

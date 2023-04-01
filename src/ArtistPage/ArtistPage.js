@@ -61,7 +61,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
             setLoading(false);
 
         } catch (err) {
-            console.log(err);
+            console.log(err.message);
         }
     }
 

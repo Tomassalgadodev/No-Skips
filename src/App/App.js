@@ -105,6 +105,9 @@ const App = () => {
 
       if (result.msg !== 'Album already liked') {
         fetchUserAlbumData();
+        return 'Success!';
+      } else {
+        return 'Already liked';
       }
 
     } catch (err) {
