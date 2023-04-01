@@ -38,6 +38,8 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
         });
     } else {
          albumCards = albumData.items.map((album, index) => {
+
+            console.log(album);
     
             const albumLink = `https://open.spotify.com/album/${album.releases.items[0].id}`;
     
@@ -55,6 +57,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     artistID={artistID}
                     saveAlbum={saveAlbum}
                     removeAlbum={removeAlbum}
+                    albumID={album.releases.items[0].id}
                 />
             )
         });
