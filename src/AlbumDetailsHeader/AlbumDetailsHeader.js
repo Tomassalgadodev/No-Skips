@@ -6,11 +6,21 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, likeAllSongs }) => {
+const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, likeAllSongs, removeAllSongs }) => {
 
     const [mainHeartIcon, setMainHeartIcon] = useState(unlikedIcon);
 
     const history = useHistory();
+
+    const handleLikeAllSongs = () => {
+        if (mainHeartIcon !== likedIcon) {
+            likeAllSongs();
+            setMainHeartIcon(likedIcon);
+        } else {
+            removeAllSongs();
+            setMainHeartIcon(unlikedIcon);
+        }
+    }
 
     return (
         <div style={{ backgroundColor: backgroundColor }} className="album-details-header">
@@ -35,9 +45,9 @@ const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistNam
                             {!albumIsLiked &&
                                 <img 
                                     className="album-heart-icon" 
-                                    onMouseOver={() => setMainHeartIcon(whiteUnlikedIcon)}
-                                    onMouseOut={() => setMainHeartIcon(unlikedIcon)}
-                                    onClick={() => likeAllSongs()}
+                                    onMouseOver={() => mainHeartIcon !== likedIcon ? setMainHeartIcon(whiteUnlikedIcon) : ''}
+                                    onMouseOut={() => mainHeartIcon !== likedIcon ? setMainHeartIcon(unlikedIcon) : ''}
+                                    onClick={handleLikeAllSongs}
                                     src={mainHeartIcon} 
                                 />
                             }

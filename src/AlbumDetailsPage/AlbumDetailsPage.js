@@ -104,6 +104,10 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         setLikedSongs(allSongs);
     }
 
+    const removeAllSongs = () => {
+        setLikedSongs([]);
+    }
+
     const submitAlbum = async () => {
         const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
         const result = await saveAlbum(albumObject);
@@ -138,6 +142,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         yearReleased={yearReleased}
                         albumIsLiked={albumIsLiked}
                         likeAllSongs={likeAllSongs}
+                        removeAllSongs={removeAllSongs}
                     />
                     <SongContainer 
                         trackData={trackData} 

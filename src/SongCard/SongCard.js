@@ -72,6 +72,8 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
     useEffect(() => {
         if (likedSongs.some(song => song.trackID === trackID)) {
             setIsLiked(true);
+        } else {
+            setIsLiked(false);
         }
     }, [likedSongs]);
 
