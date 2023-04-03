@@ -5,16 +5,14 @@ import './SongModal.css';
 
 import SongModalSongCard from "../SongModalSongCard/SongModalSongCard";
 
-const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, likedSongs }) => {
+const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, likedSongs, albumIsLiked, replaceAlbum }) => {
 
     const songCards = trackData.data.albumUnion.tracks.items.map((song, index) => {
-
-        console.log(song);
 
         let isLiked;
 
         if (likedSongs.length > 0) {
-            isLiked = likedSongs.find(likedSong => likedSong.trackName === song.track.name && likedSong.trackNumber === song.track.trackNumber);
+            isLiked = likedSongs.find(likedSong => likedSong.trackID === song.uid);
         }
 
 
@@ -39,9 +37,16 @@ const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, like
                 <p className="title">Title</p>
             </div>
             {songCards}
-            <div className="mini-submit-button-container">
-                <button onClick={submitAlbum} className="mini-submit-album-button">Submit album</button>
-            </div>
+            {!albumIsLiked &&
+                <div className="mini-submit-button-container">
+                    <button onClick={submitAlbum} className="mini-submit-album-button">Submit album</button>
+                </div>        
+            }
+            {albumIsLiked &&
+                <div className="mini-submit-button-container">
+                    <button onClick={replaceAlbum} className="mini-submit-album-button">Edit album</button>
+                </div>   
+            }
         </React.Fragment>
     )
 }

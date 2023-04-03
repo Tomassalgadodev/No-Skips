@@ -67,6 +67,15 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         toggleSongModal();
     }
 
+    const replaceAlbum = async () => {
+        const result = await removeAlbum({ link });
+        if (result === 'Successfully removed') {
+            submitAlbum();
+        } else {
+            console.log('Something went wrong');
+        }
+    }
+
     const highlightHeartIcon = () => {
         if (!isLiked) {
             if (!songModalActive) {
@@ -193,9 +202,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                         <SongModal 
                             trackData={trackData} 
                             submitAlbum={submitAlbum} 
+                            replaceAlbum={replaceAlbum}
                             addLikedSong={addLikedSong} 
                             removeLikedSong={removeLikedSong}
-                            isLiked={isLiked}
+                            albumIsLiked={isLiked}
                             likedSongs={likedSongs}
                         />}
                 </div>
