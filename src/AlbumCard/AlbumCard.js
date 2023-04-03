@@ -117,6 +117,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     const showSongs = () => {
         toggleSongModal();
+        setShowDropDown(false);
         if (Object.keys(albumData).length === 0 && Object.keys(trackData).length === 0 && !startedFetch) {
             setStartedFetch(true);
             fetchAlbumData();
@@ -188,8 +189,13 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             </div>
             {showDropDown &&
                 <div className="remove-edit-menu">
-                    <div className="remove-edit-menu-button">Edit album</div>
-                    <div className="remove-edit-menu-button">Remove album</div>
+                    <div 
+                        className="remove-edit-menu-button"
+                        onClick={showSongs}
+                    >Edit album</div>
+                    <div 
+                        className="remove-edit-menu-button"
+                    >Remove album</div>
                 </div>        
             }
         </div>
