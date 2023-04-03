@@ -124,6 +124,15 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         }
     }
 
+    const replaceAlbum = async () => {
+        const result = await removeAlbum({ link: albumLink });
+        if (result === 'Successfully removed') {
+            submitAlbum();
+        } else {
+            console.log('Something went wrong');
+        }
+    }
+
     const handleRemoveAlbum = async () => {
         const result = await removeAlbum({ link: albumLink });
         if (result === 'Successfully removed') {
@@ -178,7 +187,10 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                             <button className="album-submit-button" style={{ backgroundColor: '#1DB954', color: '#181818' }}>Success!</button>
                         }
                         {albumIsLiked && hasEditedSongs &&
-                            <button className="album-submit-button">Edit album</button>
+                            <button 
+                                onClick={replaceAlbum}
+                                className="album-submit-button"
+                            >Edit album</button>
                         }
                     </div>
                     {/* <button onClick={() => removeAlbum({ link: albumLink})}>Remove</button> */}
