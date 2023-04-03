@@ -27,6 +27,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const [albumData, setAlbumData] = useState({});
     const [trackData, setTrackData] = useState({});
     const [likedSongs, setLikedSongs] = useState([]);
+    const [showDropDown, setShowDropDown] = useState(false);
 
     const history = useHistory();
 
@@ -127,61 +128,70 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     }, []);
 
     return (
-        <div className="album-card" 
-            id={link}
-            onMouseOver={showIcon}
-            onMouseOut={hideIcon}
-        >
-            <img 
-                className="album-art" 
-                src={albumArt} 
-                onClick={() => window.open(link, '_blank')}
-                style={{ top: albumArtTop }}  
-            />
-            <div 
-                className="title-container"
-                style={{ top: albumTitleTop }}
+        <div className="album-card-wrapper">
+            <div className="album-card" 
+                id={link}
+                onMouseOver={showIcon}
+                onMouseOut={hideIcon}
             >
-                <div className="title-box">
-                    <h2 className="album-title" onClick={() => history.push(`/album/${albumID}`)}>{albumTitle}</h2>
-                </div>
-                {iconVisible && !isLiked &&
                 <img 
-                    className={'heart-icon'}
-                    src={isLiked ? likedIcon : icon} 
-                    // onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumObject)} // OLD WAY TO SAVE AN ALBUM
-                    onClick={showSongs}
-                    onMouseOver={highlightHeartIcon}
-                    onMouseOut={unhighlightHeartIcon}
-                />}
-                {isLiked &&
+                    className="album-art" 
+                    src={albumArt} 
+                    onClick={() => window.open(link, '_blank')}
+                    style={{ top: albumArtTop }}  
+                />
+                <div 
+                    className="title-container"
+                    style={{ top: albumTitleTop }}
+                >
+                    <div className="title-box">
+                        <h2 className="album-title" onClick={() => history.push(`/album/${albumID}`)}>{albumTitle}</h2>
+                    </div>
+                    {iconVisible && !isLiked &&
                     <img 
                         className={'heart-icon'}
-                        src={likedIcon} 
+                        src={isLiked ? likedIcon : icon} 
+                        // onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumObject)} // OLD WAY TO SAVE AN ALBUM
                         onClick={showSongs}
+                        onMouseOver={highlightHeartIcon}
+                        onMouseOut={unhighlightHeartIcon}
                     />}
+                    {isLiked &&
+                        <img 
+                            className={'heart-icon'}
+                            src={likedIcon} 
+                            // onClick={showSongs}
+                            onClick={() => setShowDropDown(!showDropDown)}
+                        />}
+                </div>
+                <div 
+                    className="details-container"
+                    style={{ top: albumDetailsTop }}  
+                >
+                    <p className="album-details">{yearReleased}</p>
+                </div>
+                <div 
+                    className="song-modal-container"
+                    style={songModalStyle}
+                >
+                    {loading && <h1>-- Loading --</h1>}
+                    {!loading && 
+                        <SongModal 
+                            trackData={trackData} 
+                            submitAlbum={submitAlbum} 
+                            addLikedSong={addLikedSong} 
+                            removeLikedSong={removeLikedSong}
+                            isLiked={isLiked}
+                            previouslyLikedSongs={previouslyLikedSongs}
+                        />}
+                </div>
             </div>
-            <div 
-                className="details-container"
-                style={{ top: albumDetailsTop }}  
-            >
-                <p className="album-details">{yearReleased}</p>
-            </div>
-            <div 
-                className="song-modal-container"
-                style={songModalStyle}
-            >
-                {loading && <h1>-- Loading --</h1>}
-                {!loading && 
-                    <SongModal 
-                        trackData={trackData} 
-                        submitAlbum={submitAlbum} 
-                        addLikedSong={addLikedSong} 
-                        removeLikedSong={removeLikedSong}
-                        isLiked={isLiked}
-                        previouslyLikedSongs={previouslyLikedSongs}
-                    />}
-            </div>
+            {showDropDown &&
+                <div className="remove-edit-menu">
+                    <div className="remove-edit-menu-button">Edit album</div>
+                    <div className="remove-edit-menu-button">Remove album</div>
+                </div>        
+            }
         </div>
     )
 }
