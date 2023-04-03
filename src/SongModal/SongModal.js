@@ -5,14 +5,16 @@ import './SongModal.css';
 
 import SongModalSongCard from "../SongModalSongCard/SongModalSongCard";
 
-const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, previouslyLikedSongs }) => {
+const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, likedSongs }) => {
 
     const songCards = trackData.data.albumUnion.tracks.items.map((song, index) => {
 
+        console.log(song);
+
         let isLiked;
 
-        if (previouslyLikedSongs) {
-            isLiked = previouslyLikedSongs.find(likedSong => likedSong.trackName === song.track.name && likedSong.trackNumber === song.track.trackNumber);
+        if (likedSongs.length > 0) {
+            isLiked = likedSongs.find(likedSong => likedSong.trackName === song.track.name && likedSong.trackNumber === song.track.trackNumber);
         }
 
 
@@ -25,6 +27,7 @@ const SongModal = ({ trackData, submitAlbum, addLikedSong, removeLikedSong, prev
                 addLikedSong={addLikedSong}
                 removeLikedSong={removeLikedSong}
                 songIsLiked={isLiked ? true : false}
+                likedSongs={likedSongs}
             />
         )
     })

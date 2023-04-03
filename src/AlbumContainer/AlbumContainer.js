@@ -38,8 +38,6 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
         });
     } else {
          albumCards = albumData.items.map((album, index) => {
-
-            console.log(album);
     
             const albumLink = `https://open.spotify.com/album/${album.releases.items[0].id}`;
     

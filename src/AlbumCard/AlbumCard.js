@@ -132,6 +132,13 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         }
     }
 
+    const handleRemoveAlbum = () => {
+        removeAlbum({ link });
+        // If successful run the below code
+        setLikedSongs([]);
+        setShowDropDown(false);
+    }
+
     useEffect(() => {
        setLikedSongs(previouslyLikedSongs); 
     }, []);
@@ -160,7 +167,6 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                     <img 
                         className={'heart-icon'}
                         src={isLiked ? likedIcon : icon} 
-                        // onClick={() => isLiked ? removeAlbum({ link }) : saveAlbum(albumObject)} // OLD WAY TO SAVE AN ALBUM
                         onClick={showSongs}
                         onMouseOver={highlightHeartIcon}
                         onMouseOut={unhighlightHeartIcon}
@@ -169,7 +175,6 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                         <img 
                             className={'heart-icon'}
                             src={likedIcon} 
-                            // onClick={showSongs}
                             onClick={handleHeartIconClick}
                         />}
                 </div>
@@ -191,7 +196,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                             addLikedSong={addLikedSong} 
                             removeLikedSong={removeLikedSong}
                             isLiked={isLiked}
-                            previouslyLikedSongs={previouslyLikedSongs}
+                            likedSongs={likedSongs}
                         />}
                 </div>
             </div>
@@ -203,6 +208,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                     >Edit album</div>
                     <div 
                         className="remove-edit-menu-button"
+                        onClick={handleRemoveAlbum}
                     >Remove album</div>
                 </div>        
             }
