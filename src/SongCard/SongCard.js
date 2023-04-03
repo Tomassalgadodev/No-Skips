@@ -74,6 +74,8 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
             setIsLiked(true);
         } else {
             setIsLiked(false);
+            setUnlikedVisbility(false);
+            setUnlikedHeart(unlikedHeart);
         }
     }, [likedSongs]);
 

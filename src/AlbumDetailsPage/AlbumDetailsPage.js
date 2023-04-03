@@ -136,7 +136,6 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const handleRemoveAlbum = async () => {
         const result = await removeAlbum({ link: albumLink });
         if (result === 'Successfully removed') {
-            console.log('Working');
             setAlbumIsLiked(false);
             setLikedSongs([]);
             setPreviouslyLikedSongs([]);
