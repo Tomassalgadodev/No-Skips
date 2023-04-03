@@ -102,6 +102,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         });
 
         setLikedSongs(allSongs);
+        return allSongs;
     }
 
     const removeAllSongs = () => {
@@ -110,6 +111,22 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const submitAlbum = async () => {
         const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
+        const result = await saveAlbum(albumObject);
+        if (result === 'Success!') {
+            setAlbumIsLiked(true);
+            setPreviouslyLikedSongs(likedSongs);
+            setHasEditedSongs(false);
+            setShowSuccessMessage(true);
+            setTimeout(() => setShowSuccessMessage(false), 1000);
+        } else if (result === 'Already liked') {
+            console.log('already liked')
+        } else {
+            console.log('Error');
+        }
+    }
+
+    const submitAlbumWithTracks = async (tracksToAdd) => {
+        const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(tracksToAdd)};
         const result = await saveAlbum(albumObject);
         if (result === 'Success!') {
             setAlbumIsLiked(true);
@@ -164,6 +181,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         likeAllSongs={likeAllSongs}
                         removeAllSongs={removeAllSongs}
                         handleRemoveAlbum={handleRemoveAlbum}
+                        submitAlbumWithTracks={submitAlbumWithTracks}
                     />
                     <SongContainer 
                         trackData={trackData} 

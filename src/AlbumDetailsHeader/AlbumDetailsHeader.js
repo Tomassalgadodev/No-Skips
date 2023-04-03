@@ -6,16 +6,21 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const AlbumDetailsHeader = ({ albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, likeAllSongs, removeAllSongs, handleRemoveAlbum }) => {
+const AlbumDetailsHeader = ({ 
+    albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, 
+    numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, 
+    likeAllSongs, removeAllSongs, handleRemoveAlbum, submitAlbumWithTracks 
+}) => {
 
     const [mainHeartIcon, setMainHeartIcon] = useState(unlikedIcon);
 
     const history = useHistory();
 
-    const handleLikeAllSongs = () => {
+    const handleLikeAllSongs = async () => {
         if (mainHeartIcon !== likedIcon) {
-            likeAllSongs();
+            const allSongs = await likeAllSongs();
             setMainHeartIcon(likedIcon);
+            submitAlbumWithTracks(allSongs);
         } else {
             removeAllSongs();
             setMainHeartIcon(unlikedIcon);

@@ -57,6 +57,7 @@
     font-size: 0.875rem;
     color: #fff;
     margin-top: 20px;
+    position: relative;
 }
 
 .album-details-artist-thumbnail {
@@ -86,6 +87,12 @@
 
 .album-heart-icon:hover {
     cursor: pointer;
+}
+
+.info-modal {
+    position: absolute;
+    top: -25px;
+    left: 175px;
 }
 
 .tint{
