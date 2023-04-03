@@ -115,6 +115,14 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         }
     }
 
+    const handleHeartIconClick = () => {
+        if (songModalActive) {
+            toggleSongModal();
+        } else {
+            setShowDropDown(!showDropDown);
+        }
+    }
+
     const showSongs = () => {
         toggleSongModal();
         setShowDropDown(false);
@@ -162,7 +170,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                             className={'heart-icon'}
                             src={likedIcon} 
                             // onClick={showSongs}
-                            onClick={() => setShowDropDown(!showDropDown)}
+                            onClick={handleHeartIconClick}
                         />}
                 </div>
                 <div 
