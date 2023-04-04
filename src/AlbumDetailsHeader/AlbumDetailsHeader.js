@@ -9,20 +9,25 @@ import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 const AlbumDetailsHeader = ({ 
     albumImage, albumTitle, artistThumbnail, artistName, artistID, albumType, 
     numberOfSongs, albumLength, backgroundColor, yearReleased, albumIsLiked, 
-    likeAllSongs, removeAllSongs, handleRemoveAlbum, submitAlbumWithTracks 
+    likeAllSongs, removeAllSongs, handleRemoveAlbum, submitAlbumWithTracks,
+    displayInfoModal
 }) => {
 
     const [mainHeartIcon, setMainHeartIcon] = useState(unlikedIcon);
+    const [showAlbumSubmitMessage, setShowAlbumSubmitMessage] = useState(true);
 
     const history = useHistory();
 
     const handleLikeAllSongs = async () => {
         if (mainHeartIcon !== likedIcon) {
             const allSongs = await likeAllSongs();
-            setMainHeartIcon(likedIcon);
-            submitAlbumWithTracks(allSongs);
+            const result = await submitAlbumWithTracks(allSongs);
+            if (result === 'Success!') {
+                displayInfoModal('Album added to your collection');
+            }
         } else {
             removeAllSongs();
+            setShowAlbumSubmitMessage(false);
             setMainHeartIcon(unlikedIcon);
         }
     }

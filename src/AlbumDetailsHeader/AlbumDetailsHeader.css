@@ -89,12 +89,6 @@
     cursor: pointer;
 }
 
-.info-modal {
-    position: absolute;
-    top: -25px;
-    left: 175px;
-}
-
 .tint{
     position: absolute;
     top: 0;

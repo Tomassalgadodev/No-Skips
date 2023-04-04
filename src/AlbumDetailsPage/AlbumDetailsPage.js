@@ -20,6 +20,9 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [likedSongs, setLikedSongs] = useState([]);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [hasEditedSongs, setHasEditedSongs] = useState(false);
+    const [showInfoModal, setShowInfoModal] = useState(false);
+    const [infoModalMessage, setInfoModalMessage] = useState('Album added to your collection');
+    const [fadeOut, setFadeOut] = useState(false);
 
     const albumLink = `https://open.spotify.com/album/${albumID}`;
 
@@ -134,6 +137,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setHasEditedSongs(false);
             setShowSuccessMessage(true);
             setTimeout(() => setShowSuccessMessage(false), 1000);
+            return 'Success!';
         } else if (result === 'Already liked') {
             console.log('already liked')
         } else {
@@ -150,9 +154,22 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         }
     }
 
+    const displayInfoModal = (message) => {
+        setInfoModalMessage(message);
+        setShowInfoModal(true);
+        setTimeout(() => {
+            setFadeOut(true);
+        }, 3000);
+        setTimeout(() => {
+            setShowInfoModal(false);
+            setFadeOut(false);
+        }, 3500);
+    }
+
     const handleRemoveAlbum = async () => {
         const result = await removeAlbum({ link: albumLink });
         if (result === 'Successfully removed') {
+            displayInfoModal('Album removed from your collection');
             setAlbumIsLiked(false);
             setLikedSongs([]);
             setPreviouslyLikedSongs([]);
@@ -182,6 +199,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         removeAllSongs={removeAllSongs}
                         handleRemoveAlbum={handleRemoveAlbum}
                         submitAlbumWithTracks={submitAlbumWithTracks}
+                        displayInfoModal={displayInfoModal}
                     />
                     <SongContainer 
                         trackData={trackData} 
@@ -210,6 +228,9 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                             >Edit album</button>
                         }
                     </div>
+                    {showInfoModal && 
+                                <div className={fadeOut ? "info-modal info-modal-fadeout" : "info-modal"}>{infoModalMessage}</div>
+                    }
                     {/* <button onClick={() => removeAlbum({ link: albumLink})}>Remove</button> */}
                 </React.Fragment>}
         </React.Fragment>

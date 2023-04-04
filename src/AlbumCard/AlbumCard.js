@@ -25,7 +25,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const [loading, setLoading] = useState(true);
     const [startedFetch, setStartedFetch] = useState(false);
     const [albumData, setAlbumData] = useState({});
-    const [trackData, setTrackData] = useState({});
+    // const [trackData, setTrackData] = useState({});
     const [likedSongs, setLikedSongs] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
 
@@ -41,10 +41,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                 throw new Error(response.status);
             }
 
-            const [albumData, trackData] = await response.json();
+            const albumData = await response.json();
 
             setAlbumData(albumData);
-            setTrackData(trackData);
+            // setTrackData(trackData);
             setLoading(false);
         } catch (err) {
             console.log(err);
@@ -135,7 +135,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const showSongs = () => {
         toggleSongModal();
         setShowDropDown(false);
-        if (Object.keys(albumData).length === 0 && Object.keys(trackData).length === 0 && !startedFetch) {
+        if (Object.keys(albumData).length === 0 && !startedFetch) {
             setStartedFetch(true);
             fetchAlbumData();
         }
@@ -200,7 +200,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                     {loading && <h1>-- Loading --</h1>}
                     {!loading && 
                         <SongModal 
-                            trackData={trackData} 
+                            albumData={albumData} 
                             submitAlbum={submitAlbum} 
                             replaceAlbum={replaceAlbum}
                             addLikedSong={addLikedSong} 
