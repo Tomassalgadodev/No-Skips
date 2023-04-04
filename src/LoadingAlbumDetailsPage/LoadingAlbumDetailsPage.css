@@ -1,0 +1,71 @@
+.loading-album-details-header {
+    height: 276px;
+    width: 100%;
+    background-color: #2b2b2b;
+    position: relative;
+}
+
+.loading-album-details-content-container {
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    padding-bottom: 24px;
+    padding-left: 32px;
+    padding-right: 32px;
+    position: relative;
+    align-items: center;
+    z-index: 1;
+}
+
+.loading-album-details-image-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-right: 24px;
+}
+
+.loading-album-details-image {
+    height: 232px;
+    width: 232px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.6);
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.loading-track-name {
+    background-color: #5a5a5a;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 150px;
+    height: 20px;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.loading-artist-links {
+    background-color: #5a5a5a;
+    border-radius: 4px;
+    width: 100px;
+    height: 18px;
+    color: #B3B3B3;
+    margin: 0;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.loading-track-length {
+    background-color: #5a5a5a;
+    position: absolute;
+    right: 48px;
+    height: 22px;
+    width: 34px;
+    border-radius: 4px;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #5a5a5a;
+    }
+    100% {
+        background-color: #353535;
+    }
+}

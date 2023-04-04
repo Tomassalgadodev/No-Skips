@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './AlbumDetailsPage.css';
 
+import LoadingAlbumDetailsPage from "../LoadingAlbumDetailsPage/LoadingAlbumDetailsPage";
 import AlbumDetailsHeader from "../AlbumDetailsHeader/AlbumDetailsHeader";
 import SongContainer from "../SongContainer/SongContainer";
 
@@ -180,7 +181,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     return (
         <React.Fragment>
-            {loading && <h1>-- Loading --</h1>}
+            {loading && <LoadingAlbumDetailsPage />}
             {!loading && 
                 <React.Fragment>
                     <AlbumDetailsHeader 
@@ -231,7 +232,6 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                     {showInfoModal && 
                                 <div className={fadeOut ? "info-modal info-modal-fadeout" : "info-modal"}>{infoModalMessage}</div>
                     }
-                    {/* <button onClick={() => removeAlbum({ link: albumLink})}>Remove</button> */}
                 </React.Fragment>}
         </React.Fragment>
     )
