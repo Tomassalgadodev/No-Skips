@@ -3,11 +3,9 @@ import { useHistory } from "react-router-dom";
 import './AlbumCard.css';
 
 import SongModal from "../SongModal/SongModal";
+import LoadingSongModal from "../LoadingSongModal/LoadingSongModal";
 
 import likedIcon from '../assets/liked_icon.png';
-import unlikedIcon from '../assets/unliked_icon.png';
-import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
-
 import greyPlusIcon from '../assets/grey-plus-icon.png';
 import whitePlusIcon from '../assets/white-plus-icon.png';
 import greyMinusIcon from '../assets/grey-minus-icon.png';
@@ -163,7 +161,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                     className="album-art" 
                     src={albumArt} 
                     onClick={() => window.open(link, '_blank')}
-                    style={{ top: albumArtTop }}  
+                    style={{ top: albumArtTop }}
                 />
                 <div 
                     className="title-container"
@@ -197,7 +195,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                     className="song-modal-container"
                     style={songModalStyle}
                 >
-                    {loading && <h1>-- Loading --</h1>}
+                    {loading && <LoadingSongModal />}
                     {!loading && 
                         <SongModal 
                             albumData={albumData} 
