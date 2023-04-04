@@ -16,6 +16,8 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [link, setLink] = useState('');
     const [artistName, setArtistName] = useState('');
     const [artistID, setArtistID] = useState('');
+    const [numberOfSongs, setNumberOfSongs] = useState(0);
+    const [totalStreams, setTotalStreams] = useState(0);
     const [albumIsLiked, setAlbumIsLiked] = useState(false);
     const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
@@ -51,6 +53,8 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         }
     }
 
+    const getTotalStreams = (tracks) => Math.max(...tracks.map(track => parseInt(track.track.playcount)));
+
     const fetchAlbumData = async () => {
         try {
             const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
@@ -67,6 +71,8 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setLink(albumLink);
             setArtistName(albumData.data.albumUnion.artists.items[0].profile.name);
             setArtistID(albumData.data.albumUnion.artists.items[0].id);
+            setNumberOfSongs(albumData.data.albumUnion.tracks.totalCount);
+            setTotalStreams(getTotalStreams(albumData.data.albumUnion.tracks.items));
             setAlbumData(albumData);
             // setTrackData(trackData);
             setLoading(false);
@@ -208,6 +214,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         removeLikedSong={removeLikedSong}
                         previouslyLikedSongs={previouslyLikedSongs}
                         likedSongs={likedSongs}
+                        totalStreams={totalStreams}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
