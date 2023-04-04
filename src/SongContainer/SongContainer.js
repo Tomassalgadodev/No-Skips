@@ -5,9 +5,9 @@ import SongCard from "../SongCard/SongCard";
 
 import clockIcon from '../assets/clock-icon.png';
 
-const SongContainer = ({ trackData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs }) => {
+const SongContainer = ({ albumData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs }) => {
 
-    const SongCards = trackData.data.albumUnion.tracks.items.map((song, index) => {
+    const SongCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
 
         let trackLength = '';
         trackLength += Math.floor(song.track.duration.totalMilliseconds / 60000);
@@ -18,7 +18,7 @@ const SongContainer = ({ trackData, addLikedSong, removeLikedSong, previouslyLik
         let songIsLiked = false;
 
         if (previouslyLikedSongs) {
-            songIsLiked = previouslyLikedSongs.some(likedSong => likedSong.trackName === song.track.name && likedSong.trackNumber === song.track.trackNumber);
+            songIsLiked = previouslyLikedSongs.some(likedSong => likedSong.trackID === song.uid);
         }
 
         return (

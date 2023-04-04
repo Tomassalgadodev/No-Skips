@@ -7,7 +7,7 @@ import SongContainer from "../SongContainer/SongContainer";
 const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, loggedIn, logoutUser }) => {
 
     const [albumData, setAlbumData] = useState({});
-    const [trackData, setTrackData] = useState({});
+    // const [trackData, setTrackData] = useState({});
     const [loading, setLoading] = useState(true);
     const [albumArt, setAlbumArt] = useState('');
     const [albumTitle, setAlbumTitle] = useState('');
@@ -58,7 +58,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                 throw new Error(response.status);
             }
 
-            const [albumData, trackData] = await response.json();
+            const albumData = await response.json();
 
             setAlbumArt(albumData.data.albumUnion.coverArt.sources[0].url);
             setAlbumTitle(albumData.data.albumUnion.name);
@@ -67,7 +67,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setArtistName(albumData.data.albumUnion.artists.items[0].profile.name);
             setArtistID(albumData.data.albumUnion.artists.items[0].id);
             setAlbumData(albumData);
-            setTrackData(trackData);
+            // setTrackData(trackData);
             setLoading(false);
         } catch (err) {
             console.log(err.message);
@@ -100,7 +100,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const likeAllSongs = () => {
         const allSongs = [];
 
-        trackData.data.albumUnion.tracks.items.forEach(track => {
+        albumData.data.albumUnion.tracks.items.forEach(track => {
             allSongs.push({ trackNumber: track.track.trackNumber, trackName: track.track.name, trackID: track.uid })
         });
 
@@ -202,7 +202,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         displayInfoModal={displayInfoModal}
                     />
                     <SongContainer 
-                        trackData={trackData} 
+                        albumData={albumData} 
                         addLikedSong={addLikedSong}
                         removeLikedSong={removeLikedSong}
                         previouslyLikedSongs={previouslyLikedSongs}
