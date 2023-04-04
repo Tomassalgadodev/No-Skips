@@ -7,12 +7,13 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked, likedSongs, percentSkipped }) => {
+const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked, likedSongs, percentSkipped, specialCase }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
     const [isLiked, setIsLiked] = useState(false);
     const [artistLinkColor, setArtistLinkColor] = useState('#B3B3B3');
+    const [percentSkippedColor, setPercentSkippedColor] = useState('green');
 
     const artistLinks = trackArtists.map((artist, index) => {
 
@@ -63,10 +64,19 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
         }
     }
 
+    const getPercentSkippedColor = percent => {
+        const value = parseFloat(percent) / 100;
+        const hue = ((1.07 - value) * 120).toString(10);
+        return ["hsl(", hue, ",100%,60%)"].join("");
+    }
+
     useEffect(() => {
         if (songIsLiked) {
             setIsLiked(true);
         }
+        
+        setPercentSkippedColor(getPercentSkippedColor(percentSkipped));
+
     }, []);
 
     useEffect(() => {
@@ -111,8 +121,8 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
                     onClick={toggleSong} 
                 />
             }
+            <div className="percent-streamed-container" style={{ backgroundColor: percentSkippedColor }}>{specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}</div>
             <p className="track-length">{trackLength}</p>
-            <div className="percent-streamed">{percentSkipped === '0' ? 'Highest streamed' :`${percentSkipped}% skip rate`}</div>
         </div>
     )
 }

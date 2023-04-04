@@ -47,6 +47,17 @@
     cursor: pointer;
 }
 
+.percent-streamed-container {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 4px;
+    color: #282828;
+    position: absolute;
+    right: 200px;
+    height: 30px;
+}
+
 .track-length {
     color: #B3B3B3;
     position: absolute;

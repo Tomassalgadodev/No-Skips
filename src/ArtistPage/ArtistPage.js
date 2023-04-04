@@ -52,6 +52,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
             }
 
             const data = await response.json();
+            console.log(data);
 
             data.data.artistUnion.discography.popularReleasesAlbums.totalCount > 0 && setHasPopularReleases(true);
             data.data.artistUnion.discography.albums.totalCount > 0 && setHasAlbums(true);

@@ -5,7 +5,7 @@ import SongCard from "../SongCard/SongCard";
 
 import clockIcon from '../assets/clock-icon.png';
 
-const SongContainer = ({ albumData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs, totalStreams }) => {
+const SongContainer = ({ albumData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs, totalStreams, lowestStreams }) => {
 
     const SongCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
 
@@ -21,7 +21,16 @@ const SongContainer = ({ albumData, addLikedSong, removeLikedSong, previouslyLik
             songIsLiked = previouslyLikedSongs.some(likedSong => likedSong.trackID === song.uid);
         }
 
-        const percentSkipped = ((1 - ((parseInt(song.track.playcount) / totalStreams))) * 100).toFixed();
+        let specialCase;
+
+        if (lowestStreams == song.track.playcount) {
+            specialCase = 'Lowest';
+        } else if (totalStreams == song.track.playcount) {
+            specialCase = 'Highest'
+        } 
+
+        const percentSkipped = ((1 - ((parseInt(song.track.playcount) / totalStreams))) * 100).toFixed(1);
+
 
         return (
             <SongCard 
@@ -37,6 +46,7 @@ const SongContainer = ({ albumData, addLikedSong, removeLikedSong, previouslyLik
                 songIsLiked={songIsLiked}
                 likedSongs={likedSongs}
                 percentSkipped={percentSkipped}
+                specialCase={specialCase}
             />
         )
     });

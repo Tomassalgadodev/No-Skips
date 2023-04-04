@@ -18,6 +18,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [artistID, setArtistID] = useState('');
     const [numberOfSongs, setNumberOfSongs] = useState(0);
     const [totalStreams, setTotalStreams] = useState(0);
+    const [lowestStreams, setLowestStreams] = useState(0);
     const [albumIsLiked, setAlbumIsLiked] = useState(false);
     const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
@@ -53,7 +54,9 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
         }
     }
 
-    const getTotalStreams = (tracks) => Math.max(...tracks.map(track => parseInt(track.track.playcount)));
+    const getTotalStreams = tracks => Math.max(...tracks.map(track => parseInt(track.track.playcount)));
+
+    const getLowestStreams = tracks => Math.min(...tracks.map(track => parseInt(track.track.playcount)));
 
     const fetchAlbumData = async () => {
         try {
@@ -73,6 +76,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setArtistID(albumData.data.albumUnion.artists.items[0].id);
             setNumberOfSongs(albumData.data.albumUnion.tracks.totalCount);
             setTotalStreams(getTotalStreams(albumData.data.albumUnion.tracks.items));
+            setLowestStreams(getLowestStreams(albumData.data.albumUnion.tracks.items));
             setAlbumData(albumData);
             // setTrackData(trackData);
             setLoading(false);
@@ -215,6 +219,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         previouslyLikedSongs={previouslyLikedSongs}
                         likedSongs={likedSongs}
                         totalStreams={totalStreams}
+                        lowestStreams={lowestStreams}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
