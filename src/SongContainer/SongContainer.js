@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './SongContainer.css';
 
 import SongCard from "../SongCard/SongCard";
@@ -7,10 +7,19 @@ import clockIcon from '../assets/clock-icon.png';
 
 const SongContainer = ({ 
     albumData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs, totalStreams, lowestStreams, 
-    loadingSinglesData, totalStreamsWithoutSingles, lowestStreamsWithoutSingles, albumHasSingles, singlesByArtist
+    loadingSinglesData, totalStreamsWithoutSingles, lowestStreamsWithoutSingles, albumHasSingles, singlesByArtist,
+    displayInfoModal
 }) => {
 
     const [withoutSingles, setWithoutSingles] = useState(false);
+
+    useEffect(() => {  
+        if (!albumHasSingles && !loadingSinglesData) {
+            setWithoutSingles(false);
+            displayInfoModal(`No singles released for this album`);
+        }
+
+    }, [loadingSinglesData]);
 
     const SongCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
 
@@ -49,7 +58,6 @@ const SongContainer = ({
             }
         }
 
-
         const percentSkipped = ((1 - ((parseInt(song.track.playcount) / totalStreams))) * 100).toFixed(1);
 
         const percentSkippedWithoutSingles = ((1 - ((parseInt(song.track.playcount) / totalStreamsWithoutSingles))) * 100).toFixed(1);
@@ -87,7 +95,17 @@ const SongContainer = ({
                 <p className="title">Title</p>
                 <button 
                     className="omit-singles-button"
-                    onClick={() => setWithoutSingles(!withoutSingles)}
+                    onClick={() => {
+                        if (loadingSinglesData) {
+                            setWithoutSingles(!withoutSingles)
+                        } else {
+                            if (albumHasSingles) {
+                                setWithoutSingles(!withoutSingles)
+                            } else {
+                                displayInfoModal(`No singles released for this album`);
+                            }
+                        }
+                    }}
                 >Omit singles</button>
                 <img className="clock-icon" src={clockIcon} />
             </div>

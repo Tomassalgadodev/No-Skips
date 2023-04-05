@@ -140,11 +140,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                 setTotalStreamsWithoutSingles(highestStreamsWithoutSingles);
                 setLowestStreamsWithoutSingles(newLowestStreams);
                 setAlbumHasSingles(true);
-            } else {
-                // Tell user that there weren't any singles on this album
-                console.log('No singles');
             }
-            console.log(albumTracks, nonSingleTracks);
         }
     }, [loadingSinglesData]);
 
@@ -275,6 +271,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         lowestStreamsWithoutSingles={lowestStreamsWithoutSingles}
                         albumHasSingles={albumHasSingles}
                         singlesByArtist={singlesByArtist}
+                        displayInfoModal={displayInfoModal}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>

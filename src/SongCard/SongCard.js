@@ -20,6 +20,7 @@ const SongCard = ({
     const [percentSkippedColor, setPercentSkippedColor] = useState('green');
     const [playCount, setPlayCount] = useState('');
     const [showPlayCount, setShowPlayCount] = useState(false);
+    const [percentSkippedColorWithoutSingles, setPercentSkippedColorWithoutSingles] = useState('green');
 
     const artistLinks = trackArtists.map((artist, index) => {
 
@@ -77,6 +78,14 @@ const SongCard = ({
         setPercentSkippedColor(color);
     }
 
+    const getPercentSkippedColorWithoutSingles = percent => {
+        console.log(percent);
+        const value = parseFloat(percent) / 100;
+        const hue = ((1.07 - value) * 120).toString(10);
+        const color = ["hsl(", hue, ",100%,60%)"].join("");
+        setPercentSkippedColorWithoutSingles(color);
+    }
+
     const getPlayCount = () => {
         const plays = parseInt(numberOfStreams).toLocaleString('en-US');
         setPlayCount(plays);
@@ -91,6 +100,12 @@ const SongCard = ({
         getPlayCount();
 
     }, []);
+
+    useEffect(() => {
+        if (!loadingSinglesData) {
+            getPercentSkippedColorWithoutSingles(percentSkippedWithoutSingles);
+        }
+    }, [percentSkippedWithoutSingles]);
 
     useEffect(() => {
         if (likedSongs.some(song => song.trackID === trackID)) {
@@ -151,7 +166,7 @@ const SongCard = ({
             }
             {withoutSingles && !loadingSinglesData &&
                 <div className="percent-streamed-container" 
-                    style={songIsASingle ? { backgroundColor: '#fff' } : { backgroundColor: percentSkippedColor }}
+                    style={songIsASingle ? { backgroundColor: '#fff' } : { backgroundColor: percentSkippedColorWithoutSingles }}
                     onMouseOver={() => setShowPlayCount(true)}
                     onMouseOut={() => setShowPlayCount(false)}
                 >   
