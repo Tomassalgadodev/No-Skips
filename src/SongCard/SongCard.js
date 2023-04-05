@@ -14,6 +14,8 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
     const [isLiked, setIsLiked] = useState(false);
     const [artistLinkColor, setArtistLinkColor] = useState('#B3B3B3');
     const [percentSkippedColor, setPercentSkippedColor] = useState('green');
+    const [playCount, setPlayCount] = useState('');
+    const [showPlayCount, setShowPlayCount] = useState(false);
 
     const artistLinks = trackArtists.map((artist, index) => {
 
@@ -67,7 +69,13 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
     const getPercentSkippedColor = percent => {
         const value = parseFloat(percent) / 100;
         const hue = ((1.07 - value) * 120).toString(10);
-        return ["hsl(", hue, ",100%,60%)"].join("");
+        const color = ["hsl(", hue, ",100%,60%)"].join("");
+        setPercentSkippedColor(color);
+    }
+
+    const getPlayCount = () => {
+        const plays = parseInt(numberOfStreams).toLocaleString('en-US');
+        setPlayCount(plays);
     }
 
     useEffect(() => {
@@ -75,7 +83,8 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
             setIsLiked(true);
         }
         
-        setPercentSkippedColor(getPercentSkippedColor(percentSkipped));
+        getPercentSkippedColor(percentSkipped);
+        getPlayCount();
 
     }, []);
 
@@ -121,8 +130,17 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
                     onClick={toggleSong} 
                 />
             }
-            <div className="percent-streamed-container" style={{ backgroundColor: percentSkippedColor }}>{specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}</div>
+            <div className="percent-streamed-container" 
+                style={{ backgroundColor: percentSkippedColor }}
+                onMouseOver={() => setShowPlayCount(true)}
+                onMouseOut={() => setShowPlayCount(false)}
+            >   
+                {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
+            </div>
             <p className="track-length">{trackLength}</p>
+            {showPlayCount &&
+                <div className="play-count">{`${playCount} plays`}</div>        
+            }
         </div>
     )
 }
