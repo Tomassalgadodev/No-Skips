@@ -27,6 +27,12 @@
     color: #B3B3B3;
 }
 
+.omit-singles-button {
+    position: absolute;
+    right: 400px;
+    transform: translateX(50%);
+}
+
 .clock-icon {
     position: absolute;
     right: 48px;

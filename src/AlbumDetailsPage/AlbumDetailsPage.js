@@ -7,18 +7,25 @@ import SongContainer from "../SongContainer/SongContainer";
 
 const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, loggedIn, logoutUser }) => {
 
-    const [albumData, setAlbumData] = useState({});
     // const [trackData, setTrackData] = useState({});
+
+    const [albumData, setAlbumData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [loadingSinglesData, setLoadingSinglesData] = useState(true);
     const [albumArt, setAlbumArt] = useState('');
     const [albumTitle, setAlbumTitle] = useState('');
     const [yearReleased, setYearReleased] = useState('');
     const [link, setLink] = useState('');
     const [artistName, setArtistName] = useState('');
     const [artistID, setArtistID] = useState('');
+    const [artistSinglesData, setArtistSinglesData] = useState({});
+    const [singlesByArtist, setSinglesByArtist] = useState([]);
     const [numberOfSongs, setNumberOfSongs] = useState(0);
     const [totalStreams, setTotalStreams] = useState(0);
     const [lowestStreams, setLowestStreams] = useState(0);
+    const [albumHasSingles, setAlbumHasSingles] = useState(false);
+    const [totalStreamsWithoutSingles, setTotalStreamsWithoutSingles] = useState(0);
+    const [lowestStreamsWithoutSingles, setLowestStreamsWithoutSingles] = useState(0);
     const [albumIsLiked, setAlbumIsLiked] = useState(false);
     const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
@@ -58,6 +65,30 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const getLowestStreams = tracks => Math.min(...tracks.map(track => parseInt(track.track.playcount)));
 
+    const getSingleNames = singles => singles.map(single => single.releases.items[0].name);
+
+    const getNonSingleTracks = (tracks, singles) => tracks.filter(track => !singles.includes(track.track.name));
+
+    const fetchSinglesData = async (artistID) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/artistSingleAndEpData/${artistID}`);
+
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            const artistSingleAndEpData = await response.json();
+
+            const singlesByArtistData = getSingleNames(artistSingleAndEpData.data.artistUnion.discography.singles.items);
+
+            setArtistSinglesData(artistSingleAndEpData);
+            setSinglesByArtist(singlesByArtistData);
+            setLoadingSinglesData(false);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
     const fetchAlbumData = async () => {
         try {
             const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
@@ -74,6 +105,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setLink(albumLink);
             setArtistName(albumData.data.albumUnion.artists.items[0].profile.name);
             setArtistID(albumData.data.albumUnion.artists.items[0].id);
+            fetchSinglesData(albumData.data.albumUnion.artists.items[0].id);
             setNumberOfSongs(albumData.data.albumUnion.tracks.totalCount);
             setTotalStreams(getTotalStreams(albumData.data.albumUnion.tracks.items));
             setLowestStreams(getLowestStreams(albumData.data.albumUnion.tracks.items));
@@ -97,6 +129,24 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setHasEditedSongs(true);
         }
     }, [likedSongs]);
+
+    useEffect(() => {
+        if (!loadingSinglesData) {
+            const albumTracks = albumData.data.albumUnion.tracks.items;
+            const nonSingleTracks = getNonSingleTracks(albumTracks, singlesByArtist);
+            if (albumTracks.length !== nonSingleTracks.length) {
+                const highestStreamsWithoutSingles = getTotalStreams(nonSingleTracks);
+                const newLowestStreams = getLowestStreams(nonSingleTracks);
+                setTotalStreamsWithoutSingles(highestStreamsWithoutSingles);
+                setLowestStreamsWithoutSingles(newLowestStreams);
+                setAlbumHasSingles(true);
+            } else {
+                // Tell user that there weren't any singles on this album
+                console.log('No singles');
+            }
+            console.log(albumTracks, nonSingleTracks);
+        }
+    }, [loadingSinglesData]);
 
     const addLikedSong = likedSong => {
         if (!likedSongs.some(song => song.trackID === likedSong.trackID)) {
@@ -220,6 +270,11 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         likedSongs={likedSongs}
                         totalStreams={totalStreams}
                         lowestStreams={lowestStreams}
+                        loadingSinglesData={loadingSinglesData}
+                        totalStreamsWithoutSingles={totalStreamsWithoutSingles}
+                        lowestStreamsWithoutSingles={lowestStreamsWithoutSingles}
+                        albumHasSingles={albumHasSingles}
+                        singlesByArtist={singlesByArtist}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>

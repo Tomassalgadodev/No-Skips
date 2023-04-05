@@ -63,6 +63,26 @@
     cursor: default;
 }
 
+.loading-percent-streamed-container {
+    width: 135px;
+    border-radius: 4px;
+    color: #5a5a5a;
+    position: absolute;
+    right: 400px;
+    transform: translateX(50%);
+    height: 30px;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #5a5a5a;
+    }
+    100% {
+        background-color: #353535;
+    }
+}
+
 .track-length {
     color: #B3B3B3;
     position: absolute;

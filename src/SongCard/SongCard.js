@@ -7,7 +7,11 @@ import likedIcon from '../assets/liked_icon.png';
 import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
-const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, removeLikedSong, songIsLiked, likedSongs, percentSkipped, specialCase }) => {
+const SongCard = ({ 
+    trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, 
+    removeLikedSong, songIsLiked, likedSongs, percentSkipped, specialCase, loadingSinglesData, 
+    withoutSingles, percentSkippedWithoutSingles, songIsASingle, specialCaseWithoutSingles
+}) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
     const [unlikedHeart, setUnlikedHeart] = useState(unlikedIcon);
@@ -130,13 +134,33 @@ const SongCard = ({ trackID, trackNumber, trackName, trackArtists, numberOfStrea
                     onClick={toggleSong} 
                 />
             }
-            <div className="percent-streamed-container" 
-                style={{ backgroundColor: percentSkippedColor }}
-                onMouseOver={() => setShowPlayCount(true)}
-                onMouseOut={() => setShowPlayCount(false)}
-            >   
-                {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
-            </div>
+            {!withoutSingles &&
+                <div className="percent-streamed-container" 
+                    style={{ backgroundColor: percentSkippedColor }}
+                    onMouseOver={() => setShowPlayCount(true)}
+                    onMouseOut={() => setShowPlayCount(false)}
+                >   
+                    {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
+                </div>
+            }
+            {withoutSingles && loadingSinglesData &&
+                <div 
+                    className="loading-percent-streamed-container" 
+                    style={{ backgroundColor: '#b3b3b3' }}
+                ></div>
+            }
+            {withoutSingles && !loadingSinglesData &&
+                <div className="percent-streamed-container" 
+                    style={songIsASingle ? { backgroundColor: '#fff' } : { backgroundColor: percentSkippedColor }}
+                    onMouseOver={() => setShowPlayCount(true)}
+                    onMouseOut={() => setShowPlayCount(false)}
+                >   
+                    {songIsASingle ? 
+                        'Single' : specialCaseWithoutSingles === 'highestWithoutSingles' ? 
+                        'Most streamed' : specialCaseWithoutSingles === 'lowestWithoutSingles' ? 
+                        'Least streamed' : `${percentSkippedWithoutSingles}% skip rate`}
+                </div>
+            }
             <p className="track-length">{trackLength}</p>
             {showPlayCount &&
                 <div className="play-count">{`${playCount} plays`}</div>        
