@@ -140,6 +140,8 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                 setTotalStreamsWithoutSingles(highestStreamsWithoutSingles);
                 setLowestStreamsWithoutSingles(newLowestStreams);
                 setAlbumHasSingles(true);
+            } else {
+                setAlbumHasSingles(false);
             }
         }
     }, [loadingSinglesData]);

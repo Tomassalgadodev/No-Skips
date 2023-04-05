@@ -13,14 +13,6 @@ const SongContainer = ({
 
     const [withoutSingles, setWithoutSingles] = useState(false);
 
-    useEffect(() => {  
-        if (!albumHasSingles && !loadingSinglesData) {
-            setWithoutSingles(false);
-            displayInfoModal(`No singles released for this album`);
-        }
-
-    }, [loadingSinglesData]);
-
     const SongCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
 
         let trackLength = '';
@@ -83,6 +75,7 @@ const SongContainer = ({
                 percentSkippedWithoutSingles={percentSkippedWithoutSingles}
                 songIsASingle={songIsASingle}
                 specialCaseWithoutSingles={specialCaseWithoutSingles}
+                albumHasSingles={albumHasSingles}
             />
         )
     });

@@ -10,7 +10,8 @@ import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 const SongCard = ({ 
     trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, 
     removeLikedSong, songIsLiked, likedSongs, percentSkipped, specialCase, loadingSinglesData, 
-    withoutSingles, percentSkippedWithoutSingles, songIsASingle, specialCaseWithoutSingles
+    withoutSingles, percentSkippedWithoutSingles, songIsASingle, specialCaseWithoutSingles,
+    albumHasSingles
 }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
@@ -164,7 +165,7 @@ const SongCard = ({
                     style={{ backgroundColor: '#b3b3b3' }}
                 ></div>
             }
-            {withoutSingles && !loadingSinglesData &&
+            {withoutSingles && !loadingSinglesData && albumHasSingles &&
                 <div className="percent-streamed-container" 
                     style={songIsASingle ? { backgroundColor: '#fff' } : { backgroundColor: percentSkippedColorWithoutSingles }}
                     onMouseOver={() => setShowPlayCount(true)}
@@ -174,6 +175,15 @@ const SongCard = ({
                         'Single' : specialCaseWithoutSingles === 'highestWithoutSingles' ? 
                         'Most streamed' : specialCaseWithoutSingles === 'lowestWithoutSingles' ? 
                         'Least streamed' : `${percentSkippedWithoutSingles}% skip rate`}
+                </div>
+            }
+            {withoutSingles && !loadingSinglesData && !albumHasSingles &&
+                <div className="percent-streamed-container" 
+                    style={{ backgroundColor: percentSkippedColor }}
+                    onMouseOver={() => setShowPlayCount(true)}
+                    onMouseOut={() => setShowPlayCount(false)}
+                >   
+                    {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
                 </div>
             }
             <p className="track-length">{trackLength}</p>
