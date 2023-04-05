@@ -178,7 +178,7 @@ const SongCard = ({
             }
             {withoutSingles && !loadingSinglesData && albumHasSingles &&
                 <div className="percent-streamed-container" 
-                    style={songIsASingle ? { backgroundColor: '#fff' } : { backgroundColor: percentSkippedColorWithoutSingles }}
+                    style={songIsASingle ? { backgroundColor: '', color: '#b3b3b3', border: '1px solid #b3b3b3', boxSizing: 'border-box' } : { backgroundColor: percentSkippedColorWithoutSingles }}
                     onMouseOver={() => setShowPlayCount(true)}
                     onMouseOut={() => setShowPlayCount(false)}
                 >   
