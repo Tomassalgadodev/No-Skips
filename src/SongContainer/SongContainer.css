@@ -29,8 +29,28 @@
 
 .omit-singles-button {
     position: absolute;
+    background: none;
+    border: #B3B3B3 solid 1px;  
+    border-radius: 5px;
+    height: 25px;
+    font-size: 15px;
+    color: #B3B3B3;
     right: 400px;
     transform: translateX(50%);
+}
+
+.omit-singles-button:not(:disabled):hover {
+    color: #fff;
+    border-color: #fff;
+    cursor: pointer;
+}
+
+.omit-singles-button:not(:disabled):active {
+    background-color: rgba(179, 179, 179, 0.3);
+}
+
+.omit-singles-button:disabled {
+    opacity: .5;
 }
 
 .clock-icon {

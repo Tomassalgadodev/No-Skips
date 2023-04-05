@@ -11,7 +11,7 @@ const SongCard = ({
     trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, 
     removeLikedSong, songIsLiked, likedSongs, percentSkipped, specialCase, loadingSinglesData, 
     withoutSingles, percentSkippedWithoutSingles, songIsASingle, specialCaseWithoutSingles,
-    albumHasSingles
+    albumHasSingles, handleAlbumDoesntHaveSingles
 }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
@@ -73,16 +73,28 @@ const SongCard = ({
     }
 
     const getPercentSkippedColor = percent => {
-        const value = parseFloat(percent) / 100;
-        const hue = ((1.07 - value) * 120).toString(10);
-        const color = ["hsl(", hue, ",100%,60%)"].join("");
+        let color;
+
+        if (percent === '0.0') {
+            color = '#25b338';
+        } else {
+            const value = parseFloat(percent) / 100;
+            const hue = ((1.07 - value) * 120).toString(10);
+            color = ["hsl(", hue, ",100%,60%)"].join("");
+        }
         setPercentSkippedColor(color);
     }
 
     const getPercentSkippedColorWithoutSingles = percent => {
-        const value = parseFloat(percent) / 100;
-        const hue = ((1.07 - value) * 120).toString(10);
-        const color = ["hsl(", hue, ",100%,60%)"].join("");
+        let color;
+
+        if (percent === '0.0') {
+            color = '#25b338';
+        } else {
+            const value = parseFloat(percent) / 100;
+            const hue = ((1.07 - value) * 120).toString(10);
+            color = ["hsl(", hue, ",100%,60%)"].join("");
+        }
         setPercentSkippedColorWithoutSingles(color);
     }
 
@@ -171,18 +183,9 @@ const SongCard = ({
                     onMouseOut={() => setShowPlayCount(false)}
                 >   
                     {songIsASingle ? 
-                        'Single' : specialCaseWithoutSingles === 'highestWithoutSingles' ? 
+                        'Single release' : specialCaseWithoutSingles === 'highestWithoutSingles' ? 
                         'Most streamed' : specialCaseWithoutSingles === 'lowestWithoutSingles' ? 
                         'Least streamed' : `${percentSkippedWithoutSingles}% skip rate`}
-                </div>
-            }
-            {withoutSingles && !loadingSinglesData && !albumHasSingles &&
-                <div className="percent-streamed-container" 
-                    style={{ backgroundColor: percentSkippedColor }}
-                    onMouseOver={() => setShowPlayCount(true)}
-                    onMouseOut={() => setShowPlayCount(false)}
-                >   
-                    {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
                 </div>
             }
             <p className="track-length">{trackLength}</p>

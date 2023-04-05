@@ -8,10 +8,34 @@ import clockIcon from '../assets/clock-icon.png';
 const SongContainer = ({ 
     albumData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs, totalStreams, lowestStreams, 
     loadingSinglesData, totalStreamsWithoutSingles, lowestStreamsWithoutSingles, albumHasSingles, singlesByArtist,
-    displayInfoModal
+    displayInfoModal, singlesDataCalculated
 }) => {
 
     const [withoutSingles, setWithoutSingles] = useState(false);
+    const [buttonMessage, setButtonMessage] = useState('Show without singles');
+    const [disableButton, setDisableButton] = useState(false);
+
+    useEffect(() => {
+        if (buttonMessage === 'No singles') {
+            return;
+        }
+        if (!withoutSingles) {
+            setButtonMessage('Show without singles');
+        } else {    
+            setButtonMessage('Show with singles');
+        }
+    }, [withoutSingles]);
+
+    useEffect(() => {
+        if (singlesDataCalculated && !albumHasSingles) {
+            if (withoutSingles) {
+                displayInfoModal(`No singles released for this album`);
+            }
+            setWithoutSingles(false);
+            setButtonMessage('No singles');
+            setDisableButton(true);
+        }
+    }, [singlesDataCalculated]);
 
     const SongCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
 
@@ -99,7 +123,8 @@ const SongContainer = ({
                             }
                         }
                     }}
-                >Omit singles</button>
+                    disabled={disableButton}
+                >{buttonMessage}</button>
                 <img className="clock-icon" src={clockIcon} />
             </div>
             {SongCards}

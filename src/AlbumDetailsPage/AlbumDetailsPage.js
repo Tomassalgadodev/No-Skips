@@ -26,6 +26,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [albumHasSingles, setAlbumHasSingles] = useState(false);
     const [totalStreamsWithoutSingles, setTotalStreamsWithoutSingles] = useState(0);
     const [lowestStreamsWithoutSingles, setLowestStreamsWithoutSingles] = useState(0);
+    const [singlesDataCalculated, setSinglesDataCalculated] = useState(false);
     const [albumIsLiked, setAlbumIsLiked] = useState(false);
     const [previouslyLikedSongs, setPreviouslyLikedSongs] = useState([]);
     const [likedSongs, setLikedSongs] = useState([]);
@@ -143,6 +144,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             } else {
                 setAlbumHasSingles(false);
             }
+            setSinglesDataCalculated(true);
         }
     }, [loadingSinglesData]);
 
@@ -274,6 +276,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         albumHasSingles={albumHasSingles}
                         singlesByArtist={singlesByArtist}
                         displayInfoModal={displayInfoModal}
+                        singlesDataCalculated={singlesDataCalculated}
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
