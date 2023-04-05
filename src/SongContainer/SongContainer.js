@@ -29,10 +29,10 @@ const SongContainer = ({
 
         let specialCase;
 
-        if (lowestStreams == song.track.playcount) {
+        if (totalStreams == song.track.playcount) {
+            specialCase = 'Highest';
+        } else if (lowestStreams == song.track.playcount) {
             specialCase = 'Lowest';
-        } else if (totalStreams == song.track.playcount) {
-            specialCase = 'Highest'
         } 
 
         let songIsASingle = false;

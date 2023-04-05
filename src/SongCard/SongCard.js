@@ -80,7 +80,6 @@ const SongCard = ({
     }
 
     const getPercentSkippedColorWithoutSingles = percent => {
-        console.log(percent);
         const value = parseFloat(percent) / 100;
         const hue = ((1.07 - value) * 120).toString(10);
         const color = ["hsl(", hue, ",100%,60%)"].join("");
