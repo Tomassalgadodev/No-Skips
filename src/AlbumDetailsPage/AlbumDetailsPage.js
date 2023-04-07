@@ -175,6 +175,17 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const submitAlbum = async () => {
         const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
+
+        let albumScore = (likedSongs.length / numberOfSongs) * 100;
+
+        if (albumScore % 1) { albumScore = albumScore.toFixed(1) }
+        
+        albumScore = albumScore + '%';
+
+        // Add this to the album object and save it. Display the score if the album is liked
+
+        console.log(albumScore);
+
         const result = await saveAlbum(albumObject);
         if (result === 'Success!') {
             setAlbumIsLiked(true);
@@ -191,6 +202,17 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const submitAlbumWithTracks = async (tracksToAdd) => {
         const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(tracksToAdd)};
+
+        let albumScore = (likedSongs.length / numberOfSongs) * 100;
+
+        if (albumScore % 1) { albumScore = albumScore.toFixed(1) }
+        
+        albumScore = albumScore + '%';
+
+        // Add this to the album object and save it. Display the score if the album is liked
+
+        console.log(albumScore);
+        
         const result = await saveAlbum(albumObject);
         if (result === 'Success!') {
             setAlbumIsLiked(true);
@@ -289,7 +311,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                             >Submit album</button>
                         }
                         {showSuccessMessage &&
-                            <button className="album-submit-button" style={{ backgroundColor: '#1DB954', color: '#181818' }}>Success!</button>
+                            <button className="album-submit-button" style={{ backgroundColor: '#1DB954', color: '#181818' }}>Saved!</button>
                         }
                         {albumIsLiked && hasEditedSongs &&
                             <button 
