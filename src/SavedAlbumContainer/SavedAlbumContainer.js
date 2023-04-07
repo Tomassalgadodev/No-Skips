@@ -6,6 +6,9 @@ import SavedAlbumCard from "../SavedAlbumCard/SavedAlbumCard";
 const SavedAlbumContainer = ({ savedAlbums, removeAlbum, savedAlbum }) => {
 
     const savedAlbumCards = savedAlbums.map(album => {
+
+        const likedSongs = JSON.parse(album.likedSongs);
+
         return (
             <SavedAlbumCard 
                 albumArt={album.albumArt}
@@ -18,6 +21,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, savedAlbum }) => {
                 artistID={album.artistID}
                 albumID={album.albumID}
                 savedAlbum={savedAlbum}
+                previouslyLikedSongs={likedSongs}
             />
         )
     })

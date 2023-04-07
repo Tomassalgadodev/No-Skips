@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import './SavedAlbumCard.css';
 
@@ -7,7 +7,7 @@ import LoadingSongModal from "../LoadingSongModal/LoadingSongModal";
 
 import likedIcon from '../assets/liked_icon.png';
 
-const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum }) => {
+const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum, previouslyLikedSongs }) => {
 
     const history = useHistory();
     
@@ -99,6 +99,10 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
             fetchAlbumData();
         }
     }
+
+    useEffect(() => {
+        setLikedSongs(previouslyLikedSongs); 
+     }, []);
 
     return (
         <div className="album-card-wrapper">
