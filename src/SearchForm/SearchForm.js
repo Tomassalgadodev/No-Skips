@@ -28,6 +28,7 @@ const SearchForm = () => {
                 <input
                     className="search-bar"
                     placeholder="Search for Artists" 
+                    spellCheck="false"
                     value={artistInput} 
                     onChange={handleChange} 
                     required
