@@ -178,6 +178,7 @@ const App = () => {
             loggedIn={loggedIn}
             savedAlbums={savedAlbums}
             removeAlbum={removeAlbum}
+            saveAlbum={saveAlbum}
           />
         )
       }}/>

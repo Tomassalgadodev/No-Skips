@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import './SavedAlbumCard.css';
 
+import SongModal from "../SongModal/SongModal";
+import LoadingSongModal from "../LoadingSongModal/LoadingSongModal";
+
 import likedIcon from '../assets/liked_icon.png';
 
-const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID }) => {
+const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum }) => {
 
     const history = useHistory();
+    
+    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID};
 
     const [albumArtTop, setAlbumArtTop] = useState('20px');
     const [albumTitleTop, setAlbumTitleTop] = useState('295px');
@@ -18,6 +23,49 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
     const [albumData, setAlbumData] = useState({});
     const [likedSongs, setLikedSongs] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
+
+    const fetchAlbumData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
+
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
+
+            const albumData = await response.json();
+
+            setAlbumData(albumData);
+            // setTrackData(trackData);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const addLikedSong = likedSong => {
+        if (!likedSongs.some(song => song.trackID === likedSong.trackID)) {
+            setLikedSongs([...likedSongs, likedSong]);
+        }
+    }
+
+    const removeLikedSong = unLikedSong => {
+        setLikedSongs(likedSongs.filter(song => song.trackID !== unLikedSong.trackID));
+    }
+
+    const submitAlbum = () => {
+        albumObject.likedSongs = JSON.stringify(likedSongs);
+        saveAlbum(albumObject);
+        toggleSongModal();
+    }
+
+    const replaceAlbum = async () => {
+        const result = await removeAlbum({ link });
+        if (result === 'Successfully removed') {
+            submitAlbum();
+        } else {
+            console.log('Something went wrong');
+        }
+    }
 
     const toggleSongModal = () => {
         if (songModalActive) {
@@ -43,6 +91,15 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
         }
     }
 
+    const showSongs = () => {
+        toggleSongModal();
+        setShowDropDown(false);
+        if (Object.keys(albumData).length === 0 && !startedFetch) {
+            setStartedFetch(true);
+            fetchAlbumData();
+        }
+    }
+
     return (
         <div className="album-card-wrapper">
             <div className="album-card" id={link}>
@@ -50,8 +107,12 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
                     className="album-art" 
                     src={albumArt} 
                     onClick={() => window.open(link, '_blank')}
+                    style={{ top: albumArtTop }}
                 />
-                <div className="title-container">
+                <div 
+                    className="title-container"
+                    style={{ top: albumTitleTop }}
+                >
                     <div className="title-box">
                         <h2 onClick={() => history.push(`/album/${albumID}`)} className="album-title">{albumTitle}</h2>
                     </div>
@@ -61,15 +122,34 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
                         onClick={handleHeartIconClick}
                     />
                 </div>
-                <div className="details-container">
+                <div 
+                    className="details-container"
+                    style={{ top: albumDetailsTop }}  
+                >
                     <p className="album-details">{yearReleased} • <span className="saved-album-artist-link" onClick={() => history.push(`/artist/${artistID}`)}>{artistName}</span></p>
+                </div>
+                <div 
+                    className="song-modal-container"
+                    style={songModalStyle}
+                >
+                    {loading && <LoadingSongModal />}
+                    {!loading && 
+                        <SongModal 
+                            albumData={albumData} 
+                            submitAlbum={submitAlbum} 
+                            replaceAlbum={replaceAlbum}
+                            addLikedSong={addLikedSong} 
+                            removeLikedSong={removeLikedSong}
+                            likedSongs={likedSongs}
+                            albumIsLiked={true}
+                        />}
                 </div>
             </div>
             {showDropDown &&
                 <div className="remove-edit-menu">
                     <div 
                         className="remove-edit-menu-button"
-                        // onClick={showSongs}
+                        onClick={showSongs}
                     >Edit album</div>
                     <div 
                         className="remove-edit-menu-button"
