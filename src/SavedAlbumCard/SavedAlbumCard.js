@@ -73,7 +73,7 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
                     >Edit album</div>
                     <div 
                         className="remove-edit-menu-button"
-                        // onClick={handleRemoveAlbum}
+                        onClick={() => removeAlbum({ link })}
                     >Remove album</div>
                 </div>        
             }
