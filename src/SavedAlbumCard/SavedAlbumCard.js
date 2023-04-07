@@ -149,7 +149,10 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
                 </div>
             </div>
             {showDropDown &&
-                <div className="remove-edit-menu">
+                <div 
+                    className="remove-edit-menu"
+                    onMouseLeave={() => setShowDropDown(false)}
+                >
                     <div 
                         className="remove-edit-menu-button"
                         onClick={showSongs}

@@ -209,7 +209,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
                 </div>
             </div>
             {showDropDown &&
-                <div className="remove-edit-menu">
+                <div 
+                    className="remove-edit-menu"
+                    onMouseLeave={() => setShowDropDown(false)}
+                >
                     <div 
                         className="remove-edit-menu-button"
                         onClick={showSongs}
