@@ -140,7 +140,6 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
                     {!loading && 
                         <SongModal 
                             albumData={albumData} 
-                            submitAlbum={submitAlbum} 
                             replaceAlbum={replaceAlbum}
                             addLikedSong={addLikedSong} 
                             removeLikedSong={removeLikedSong}

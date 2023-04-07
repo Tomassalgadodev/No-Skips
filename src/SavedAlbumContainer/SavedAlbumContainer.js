@@ -3,7 +3,7 @@ import './SavedAlbumContainer.css';
 
 import SavedAlbumCard from "../SavedAlbumCard/SavedAlbumCard";
 
-const SavedAlbumContainer = ({ savedAlbums, removeAlbum, savedAlbum }) => {
+const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum }) => {
 
     const savedAlbumCards = savedAlbums.map(album => {
 
@@ -20,7 +20,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, savedAlbum }) => {
                 removeAlbum={removeAlbum}
                 artistID={album.artistID}
                 albumID={album.albumID}
-                savedAlbum={savedAlbum}
+                saveAlbum={saveAlbum}
                 previouslyLikedSongs={likedSongs}
             />
         )

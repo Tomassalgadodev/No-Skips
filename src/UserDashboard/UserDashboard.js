@@ -3,13 +3,13 @@ import './UserDashboard.css';
 
 import SavedAlbumContainer from "../SavedAlbumContainer/SavedAlbumContainer";
 
-const UserDashboard = ({ savedAlbums, removeAlbum, savedAlbum }) => {
+const UserDashboard = ({ savedAlbums, removeAlbum, saveAlbum }) => {
     return (
         <React.Fragment>
             <SavedAlbumContainer 
                 savedAlbums={savedAlbums}
                 removeAlbum={removeAlbum}
-                savedAlbum={savedAlbum}
+                saveAlbum={saveAlbum}
             />
         </React.Fragment>
     )
