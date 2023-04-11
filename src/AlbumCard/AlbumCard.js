@@ -23,13 +23,14 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const [loading, setLoading] = useState(true);
     const [startedFetch, setStartedFetch] = useState(false);
     const [albumData, setAlbumData] = useState({});
+    const [albumColor, setAlbumColor] = useState('');
     // const [trackData, setTrackData] = useState({});
     const [likedSongs, setLikedSongs] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
 
     const history = useHistory();
 
-    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID};
+    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID };
 
     const fetchAlbumData = async () => {
         try {
@@ -40,6 +41,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             }
 
             const albumData = await response.json();
+
+            const albumColorHex = albumData.data.albumUnion.coverArt.extractedColors.colorRaw.hex;
+
+            if (albumColorHex) setAlbumColor(albumColorHex);
 
             setAlbumData(albumData);
             // setTrackData(trackData);
@@ -61,7 +66,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     const submitAlbum = () => {
         albumObject.likedSongs = JSON.stringify(likedSongs);
-        saveAlbum(albumObject);
+        saveAlbum([albumObject, albumColor]);
         toggleSongModal();
     }
 

@@ -13,6 +13,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [loading, setLoading] = useState(true);
     const [loadingSinglesData, setLoadingSinglesData] = useState(true);
     const [albumArt, setAlbumArt] = useState('');
+    const [albumColor, setAlbumColor] = useState('');
     const [albumTitle, setAlbumTitle] = useState('');
     const [yearReleased, setYearReleased] = useState('');
     const [link, setLink] = useState('');
@@ -100,6 +101,10 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
             const albumData = await response.json();
 
+            const albumColorHex = albumData.data.albumUnion.coverArt.extractedColors.colorRaw.hex;
+
+            if (albumColorHex) setAlbumColor(albumColorHex);
+
             setAlbumArt(albumData.data.albumUnion.coverArt.sources[0].url);
             setAlbumTitle(albumData.data.albumUnion.name);
             setYearReleased(albumData.data.albumUnion.date.isoString.substring(0, 4));
@@ -186,7 +191,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
         console.log(albumScore);
 
-        const result = await saveAlbum(albumObject);
+        const result = await saveAlbum([albumObject, albumColor]);
         if (result === 'Success!') {
             setAlbumIsLiked(true);
             setPreviouslyLikedSongs(likedSongs);
@@ -213,7 +218,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
         console.log(albumScore);
         
-        const result = await saveAlbum(albumObject);
+        const result = await saveAlbum([albumObject, albumColor]);
         if (result === 'Success!') {
             setAlbumIsLiked(true);
             setPreviouslyLikedSongs(likedSongs);

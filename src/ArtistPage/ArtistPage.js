@@ -7,10 +7,11 @@ import ArtistLoadingPage from "../ArtistLoadingPage/ArtistLoadingPage";
 
 let artistImage;
 
-const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
+const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn }) => {
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
+    // const [artistColor, setArtistColor] = useState('');
     const [hasPopularReleases, setHasPopularReleases] = useState(false);
     const [hasAlbums, setHasAlbums] = useState(false);
     const [hasSingles, setHasSingles] = useState(false);
@@ -56,6 +57,9 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum }) => {
             data.data.artistUnion.discography.popularReleasesAlbums.totalCount > 0 && setHasPopularReleases(true);
             data.data.artistUnion.discography.albums.totalCount > 0 && setHasAlbums(true);
             data.data.artistUnion.discography.singles.totalCount > 0 && setHasSingles(true);
+
+            // const artistColorHex = data.data.artistUnion.visuals.avatarImage.extractedColors.colorRaw.hex; 
+            // if (artistColorHex) setArtistColor(artistColorHex);
 
             setArtistData(data);
             setLoading(false);

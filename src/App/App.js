@@ -9,6 +9,7 @@ import ArtistPage from '../ArtistPage/ArtistPage';
 import LogInPage from '../LogInPage/LogInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
+import SignUpPopUp from '../SignUpPopUp/SignUpPopUp';
 
 const App = () => {
 
@@ -17,6 +18,8 @@ const App = () => {
   const [accountInfo, setAccountInfo] = useState({});
   const [savedAlbums, setSavedAlbums] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
+  const [signUpPopUpData, setSignUpPopUpData] = useState([]);
+  const [showSignUpPopUp, setShowSignUpPopUp] = useState(false);
   
   const fetchUserData = async () => {
     try {
@@ -86,7 +89,10 @@ const App = () => {
     }
   }
 
-  const saveAlbum = async (album) => {
+  const saveAlbum = async (albumData) => {
+
+    const [album, albumColor] = albumData
+
     try {
       const addAlbumAttempt = await fetch('http://localhost:8000/api/v1/addSavedAlbum', {
         method: 'POST',
@@ -111,7 +117,10 @@ const App = () => {
       }
 
     } catch (err) {
-      console.log(err);
+      if (err.message === '401') {
+        setSignUpPopUpData(albumData);
+        setShowSignUpPopUp(true);
+      }
     }
   }
 
@@ -164,6 +173,10 @@ const App = () => {
     setSavedAlbums([]);
     setFriendsList([]);
   }
+
+  const hideSignUpPopUp = () => {
+    setShowSignUpPopUp(false);
+  }
   
   return (
     <React.Fragment>
@@ -194,6 +207,7 @@ const App = () => {
             likedAlbums={loggedIn ? savedAlbums : []}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
+            loggedIn={loggedIn}
           />
         )
       }}/>
@@ -225,6 +239,12 @@ const App = () => {
           />
         )
       }}/>
+      {showSignUpPopUp &&
+        <SignUpPopUp 
+          signUpPopUpData={signUpPopUpData}
+          hideSignUpPopUp={hideSignUpPopUp}
+        />
+      }
     </React.Fragment>
   );
   }
