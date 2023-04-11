@@ -119,7 +119,7 @@ const App = () => {
     } catch (err) {
       if (err.message === '401') {
         setSignUpPopUpData(albumData);
-        setShowSignUpPopUp(true);
+        setShowSignUpPopUp(true)
       }
     }
   }
