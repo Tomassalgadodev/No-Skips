@@ -31,6 +31,12 @@
     animation: skeleton-loading 1s linear infinite alternate;
 }
 
+.fake-album-title-container,
+.fake-album-details-container {
+    width: 255px;
+    margin-top: 15px;
+}
+
 @keyframes skeleton-loading {
     0% {
         background-color: #5a5a5a;

@@ -6,6 +6,10 @@
     margin-bottom: 90px;
 }
 
+.dashboard-container {
+    position: relative;
+}
+
 .heading {
     margin: 0;
     margin-top: 20px;

@@ -1,0 +1,20 @@
+.discography-header {
+    height: 39px;
+    position: relative;
+    border-bottom: 1px solid hsla(0,0%,100%,.1);
+}
+
+.artist-name-heading {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    position: absolute;
+    margin: 0;
+    top: 3px;
+    left: 32px;
+}
+
+.artist-name-heading:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

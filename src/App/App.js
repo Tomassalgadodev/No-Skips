@@ -10,6 +10,7 @@ import LogInPage from '../LogInPage/LogInPage';
 import SignUpPage from '../SignUpPage/SignUpPage';
 import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 import SignUpPopUp from '../SignUpPopUp/SignUpPopUp';
+import DiscographyPage from '../DiscographyPage/DiscographyPage';
 
 const App = () => {
 
@@ -221,6 +222,28 @@ const App = () => {
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
             logoutUser={logoutUser}
+          />
+        )
+      }}/>
+      <Route exact path='/singles/:artistName/:artistID' render={({ match }) => {
+        return (
+          <DiscographyPage 
+            type='singles'
+            artistID={match.params.artistID}
+            artistName={match.params.artistName}
+            saveAlbum={saveAlbum}
+            removeAlbum={removeAlbum}
+          />
+        )
+      }}/>
+      <Route exact path='/albums/:artistName/:artistID' render={({ match }) => {
+        return (
+          <DiscographyPage 
+            type='albums'
+            artistID={match.params.artistID}
+            artistName={match.params.artistName}
+            saveAlbum={saveAlbum}
+            removeAlbum={removeAlbum}
           />
         )
       }}/>
