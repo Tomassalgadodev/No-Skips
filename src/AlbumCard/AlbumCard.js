@@ -64,10 +64,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
         setLikedSongs(likedSongs.filter(song => song.trackID !== unLikedSong.trackID));
     }
 
-    const submitAlbum = () => {
+    const submitAlbum = async () => {
         albumObject.likedSongs = JSON.stringify(likedSongs);
-        saveAlbum([albumObject, albumColor]);
-        toggleSongModal();
+        const result = await saveAlbum([albumObject, albumColor]);
+        if (result !== 'Logged out') { toggleSongModal(); }
     }
 
     const replaceAlbum = async () => {

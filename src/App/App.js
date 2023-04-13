@@ -120,6 +120,7 @@ const App = () => {
       if (err.message === '401') {
         setSignUpPopUpData(albumData);
         setShowSignUpPopUp(true)
+        return 'Logged out';
       }
     }
   }
