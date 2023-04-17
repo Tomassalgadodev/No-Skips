@@ -4,39 +4,39 @@ import './SearchPage.css';
 import ArtistContainer from "../ArtistContainer/ArtistContainer";
 import SearchLoadingPage from "../SearchLoadingPage/SearchLoadingPage";
 
-const SearchPage = ({ searchTerm }) => {
+const SearchPage = ({ searchTerm, searchArtists }) => {
 
     const [loading, setLoading] = useState(true);
-    const [searchResults, setSearchResults] = useState({});
+    const [searchResults, setSearchResults] = useState([]);
 
     const fetchSearchData = async () => {
         setLoading(true);
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/artistSearchData/${searchTerm}`);
+            const artistResults = await searchArtists(searchTerm);
+            const artists = artistResults.artists.items;
 
-            if (!response.ok) {
-                throw new Error(response.status);
+            if (artists.length === 0) {
+                throw new Error('No artists for that search term');
             }
 
-            const data = await response.json();
-
-            setSearchResults(data.data.searchV2.artists.items);
+            setSearchResults(artists)
             setLoading(false);
         } catch (err) {
             console.log(err);
         }
     }
 
+    const getSearchResults = async () => {
+        const artistResults = await searchArtists(searchTerm);
+        console.log(artistResults.artists.items);
+        return artistResults;
+    }
+
     useEffect(() => {
         setLoading(true);
         fetchSearchData();
-        // fetch(`http://localhost:8000/api/v1/artistSearch/${searchTerm}`)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         setSearchResults(data);
-        //         setLoading(false);
-        //     });
+        getSearchResults();
             
     }, [searchTerm]);
 

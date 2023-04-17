@@ -8,14 +8,19 @@ const ArtistContainer = ({ artistData }) => {
 
     const artistCards = artistData.map((dataPoint, index) => {
 
-        const artistID = dataPoint.data.uri.split(':').pop();
-        const avatarImage = dataPoint.data.visuals.avatarImage
+        let avatarImage;
+
+        if (dataPoint.images.length > 0) {
+            avatarImage = dataPoint.images[0].url;
+        } else {
+            avatarImage = noArtist;
+        }
 
         return (
             <ArtistCard 
-                artistImage={avatarImage ? avatarImage.sources[0].url : noArtist}
-                artistName={dataPoint.data.profile.name}
-                artistID={artistID}
+                artistImage={avatarImage}
+                artistName={dataPoint.name}
+                artistID={dataPoint.id}
                 key={index}
             />
         )

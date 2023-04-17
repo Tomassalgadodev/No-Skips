@@ -21,6 +21,10 @@ const App = () => {
   const [friendsList, setFriendsList] = useState([]);
   const [signUpPopUpData, setSignUpPopUpData] = useState([]);
   const [showSignUpPopUp, setShowSignUpPopUp] = useState(false);
+  const [spotifyAccessToken, setSpotifyAccessToken] = useState('');
+
+  const CLIENT_ID = 'c2cf185725914d9eb939d6539e5d3dfb';
+  const CLIENT_SECRET = 'eb8f270a21a04f25be4734f91e4f520a';
   
   const fetchUserData = async () => {
     try {
@@ -155,12 +159,67 @@ const App = () => {
     }
   }
 
+  const getSpotifyToken = async () => {
+    
+    const authParameters = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`
+    }
+
+    try {
+
+      const response = await fetch('https://accounts.spotify.com/api/token', authParameters);
+
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+
+      const data = await response.json();
+
+      setSpotifyAccessToken(data.access_token);
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const searchArtists = async (searchTerm) => {
+    
+    const artistParameters = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${spotifyAccessToken}`
+      }
+    }
+
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`, artistParameters)
+
+      if (!response.ok) {
+        throw new Error(response.status);
+      }
+
+      const data = await response.json();
+
+      return data;
+
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
   window.onpopstate = e => {
     fetchUserData();
   };
 
   useEffect(() => {
     fetchUserData();
+    getSpotifyToken();
   }, []);
 
   const loginUser = (loginInfo) => {
@@ -199,7 +258,10 @@ const App = () => {
       }}/>
       <Route exact path='/search/:searchTerm' render={({ match }) => {
         return (
-          <SearchPage searchTerm={match.params.searchTerm} />
+          <SearchPage 
+            searchTerm={match.params.searchTerm} 
+            searchArtists={searchArtists}
+          />
         )
       }}/>
       <Route exact path='/artist/:artistID' render={({ match }) => {
