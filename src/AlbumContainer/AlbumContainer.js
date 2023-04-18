@@ -4,7 +4,7 @@ import './AlbumContainer.css'
 import AlbumCard from "../AlbumCard/AlbumCard";
 import { useHistory } from "react-router-dom";
 
-const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums, saveAlbum, removeAlbum, discography }) => {
+const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums, saveAlbum, removeAlbum, discography, spotifyAccessToken }) => {
 
     const history = useHistory();
 
@@ -15,7 +15,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
             const albumLink = `https://open.spotify.com/album/${album.id}`;
     
             const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
-    
+            
             return (
                 <AlbumCard 
                     albumArt={album.images[0].url}
@@ -29,6 +29,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     saveAlbum={saveAlbum}
                     removeAlbum={removeAlbum}
                     albumID={album.id}
+                    spotifyAccessToken={spotifyAccessToken}
                 />
             )
         });

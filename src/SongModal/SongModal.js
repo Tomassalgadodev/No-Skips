@@ -10,21 +10,21 @@ const SongModal = ({ albumData, submitAlbum, addLikedSong, removeLikedSong, like
     let songCards
 
     if (albumData) {
-        songCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
+        songCards = albumData.tracks.items.map((song, index) => {
     
             let isLiked;
     
             if (likedSongs.length > 0) {
-                isLiked = likedSongs.find(likedSong => likedSong.trackID === song.uid);
+                isLiked = likedSongs.find(likedSong => likedSong.trackID === song.id);
             }
     
     
             return (
                 <SongModalSongCard 
                     key={index}
-                    trackID={song.uid}
-                    trackNumber={song.track.trackNumber}
-                    trackName={song.track.name}
+                    trackID={song.id}
+                    trackNumber={song.track_number}
+                    trackName={song.name}
                     addLikedSong={addLikedSong}
                     removeLikedSong={removeLikedSong}
                     songIsLiked={isLiked ? true : false}

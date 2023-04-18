@@ -5,7 +5,7 @@ import singleArtistData from "../singleArtistData";
 import AlbumContainer from "../AlbumContainer/AlbumContainer";
 import ArtistLoadingPage from "../ArtistLoadingPage/ArtistLoadingPage";
 
-import getArtistData from "../fetchRequests";
+import { getArtistData } from "../fetchRequests";
 
 let artistImage;
 
@@ -136,6 +136,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                             likedAlbums={usersLikedAlbumsFromArtist}
                             saveAlbum={saveAlbum}
                             removeAlbum={removeAlbum}
+                            spotifyAccessToken={spotifyAccessToken}
                         />
                     }
                     {artistSingles.length > 0 &&
@@ -147,6 +148,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                             likedAlbums={usersLikedAlbumsFromArtist}
                             saveAlbum={saveAlbum}
                             removeAlbum={removeAlbum}
+                            spotifyAccessToken={spotifyAccessToken}
                         />
                     }
             </div>
@@ -170,6 +172,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                             likedAlbums={usersLikedAlbumsFromArtist}
                             saveAlbum={saveAlbum}
                             removeAlbum={removeAlbum}
+                            spotifyAccessToken={spotifyAccessToken}
                         />
                     }
                     {artistSingles.length > 0 &&
@@ -181,6 +184,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                             likedAlbums={usersLikedAlbumsFromArtist}
                             saveAlbum={saveAlbum}
                             removeAlbum={removeAlbum}
+                            spotifyAccessToken={spotifyAccessToken}
                         />
                     }
                 </div>
