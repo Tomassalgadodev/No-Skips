@@ -285,6 +285,7 @@ const App = () => {
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
             logoutUser={logoutUser}
+            spotifyAccessToken={spotifyAccessToken}
           />
         )
       }}/>

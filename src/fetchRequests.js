@@ -51,7 +51,7 @@ export const getSingleAlbumData = async (albumID, token) => {
         }
 
         const data = await response.json();
-        console.log(data);
+
         return data;
       } catch (err) {
         return err.message;
