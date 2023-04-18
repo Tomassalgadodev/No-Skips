@@ -8,29 +8,22 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
 
     const history = useHistory();
 
-    let albumCards;
+    albumData = albumData.slice(0, 5);
 
-    if (heading === 'Popular Releases') {
-        albumCards = albumData.items.map((album, index) => {
+    const albumCards = albumData.map((album, index) => {
+    
             const albumLink = `https://open.spotify.com/album/${album.id}`;
     
-            const likedAlbum = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
-
-            let likedSongs = [];
-
-            if (likedAlbum) {
-                likedSongs = JSON.parse(likedAlbum.likedSongs);
-            }
+            const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
     
             return (
                 <AlbumCard 
-                    albumArt={album.coverArt.sources[0].url}
+                    albumArt={album.images[0].url}
                     albumTitle={album.name}
-                    yearReleased={album.date.year}
+                    yearReleased={album.release_date.substring(0, 4)}
                     link={albumLink}
                     key={index}
-                    isLiked={likedAlbum ? true : false}
-                    previouslyLikedSongs={likedSongs}
+                    isLiked={isLiked ? true : false}
                     artistName={artistName}
                     artistID={artistID}
                     saveAlbum={saveAlbum}
@@ -39,31 +32,6 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                 />
             )
         });
-    } else {
-         albumCards = albumData.items.map((album, index) => {
-    
-            const albumLink = `https://open.spotify.com/album/${album.releases.items[0].id}`;
-    
-            const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
-    
-            return (
-                <AlbumCard 
-                    albumArt={album.releases.items[0].coverArt.sources[0].url}
-                    albumTitle={album.releases.items[0].name}
-                    yearReleased={album.releases.items[0].date.year}
-                    link={albumLink}
-                    key={index}
-                    isLiked={isLiked ? true : false}
-                    artistName={artistName}
-                    artistID={artistID}
-                    saveAlbum={saveAlbum}
-                    removeAlbum={removeAlbum}
-                    albumID={album.releases.items[0].id}
-                />
-            )
-        });
-    }
-
 
     return (
         <div className="dashboard-container">

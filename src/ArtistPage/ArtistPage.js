@@ -20,6 +20,8 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
     const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
     const [isLoadingSpotifyData, setIsLoadingSpotifyData] = useState(true);
     const [artistName, setArtistName] = useState('');
+    const [artistAlbums, setArtistAlbums] = useState([]);
+    const [artistSingles, setArtistSingles] = useState([]);
 
     // const fetchArtistData = async () => {
     //     try {
@@ -81,7 +83,12 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                 throw new Error(data);
             }
 
-            setArtistName(data.name);
+            const albums = data[1].items.filter(release => release.album_group === 'album' && release.album_type === 'album');
+            const singles = data[1].items.filter(release => release.album_group === 'single' && release.album_type === 'single');
+
+            setArtistName(data[0].name);
+            setArtistAlbums(albums);
+            setArtistSingles(singles);
             setIsLoadingSpotifyData(false);
             console.log(data);
 
@@ -120,37 +127,28 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                     </div>
                     <h2 className="artist-page-title">{artistData.data.artistUnion.profile.name}</h2>
                 </div>
-                {hasPopularReleases &&
-                <AlbumContainer 
-                    heading="Popular Releases"
-                    albumData={artistData.data.artistUnion.discography.popularReleasesAlbums} 
-                    artistID={artistID}
-                    artistName={artistData.data.artistUnion.profile.name}
-                    likedAlbums={usersLikedAlbumsFromArtist}
-                    saveAlbum={saveAlbum}
-                    removeAlbum={removeAlbum}
-                />}
-                {hasAlbums &&
-                <AlbumContainer 
-                    heading="Albums"
-                    albumData={artistData.data.artistUnion.discography.albums} 
-                    artistID={artistID}
-                    artistName={artistData.data.artistUnion.profile.name}
-                    likedAlbums={usersLikedAlbumsFromArtist}
-                    saveAlbum={saveAlbum}
-                    removeAlbum={removeAlbum}
-                />}
-                {hasSingles && 
-                    <AlbumContainer 
-                        heading="Singles and EPs"
-                        albumData={artistData.data.artistUnion.discography.singles} 
-                        artistID={artistID}
-                        artistName={artistData.data.artistUnion.profile.name}
-                        likedAlbums={usersLikedAlbumsFromArtist}
-                        saveAlbum={saveAlbum}
-                        removeAlbum={removeAlbum}
-                    />
-                }
+                {artistAlbums.length > 0 && 
+                        <AlbumContainer 
+                            heading="Albums"
+                            albumData={artistAlbums}
+                            artistID={artistID}
+                            artistName={artistName}
+                            likedAlbums={usersLikedAlbumsFromArtist}
+                            saveAlbum={saveAlbum}
+                            removeAlbum={removeAlbum}
+                        />
+                    }
+                    {artistSingles.length > 0 &&
+                        <AlbumContainer 
+                            heading="Singles and EPs"
+                            albumData={artistSingles}
+                            artistID={artistID}
+                            artistName={artistName}
+                            likedAlbums={usersLikedAlbumsFromArtist}
+                            saveAlbum={saveAlbum}
+                            removeAlbum={removeAlbum}
+                        />
+                    }
             </div>
         )
         } else if (!isLoadingSpotifyData && loading) {
@@ -163,6 +161,28 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                         </div>
                         <h2 className="artist-page-title">{artistName}</h2>
                     </div>
+                    {artistAlbums.length > 0 && 
+                        <AlbumContainer 
+                            heading="Albums"
+                            albumData={artistAlbums}
+                            artistID={artistID}
+                            artistName={artistName}
+                            likedAlbums={usersLikedAlbumsFromArtist}
+                            saveAlbum={saveAlbum}
+                            removeAlbum={removeAlbum}
+                        />
+                    }
+                    {artistSingles.length > 0 &&
+                        <AlbumContainer 
+                            heading="Singles and EPs"
+                            albumData={artistSingles}
+                            artistID={artistID}
+                            artistName={artistName}
+                            likedAlbums={usersLikedAlbumsFromArtist}
+                            saveAlbum={saveAlbum}
+                            removeAlbum={removeAlbum}
+                        />
+                    }
                 </div>
             )
         } else if (isLoadingSpotifyData && loading) {
