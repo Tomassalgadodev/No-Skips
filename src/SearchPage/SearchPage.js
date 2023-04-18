@@ -23,21 +23,20 @@ const SearchPage = ({ searchTerm, searchArtists }) => {
             setSearchResults(artists)
             setLoading(false);
         } catch (err) {
+            // Handle case where there are no artists for a search term
             console.log(err);
         }
     }
 
-    const getSearchResults = async () => {
-        const artistResults = await searchArtists(searchTerm);
-        console.log(artistResults.artists.items);
-        return artistResults;
-    }
+    // const getSearchResults = async () => {
+    //     const artistResults = await searchArtists(searchTerm);
+    //     console.log(artistResults.artists.items);
+    //     return artistResults;
+    // }
 
     useEffect(() => {
         setLoading(true);
-        fetchSearchData();
-        getSearchResults();
-            
+        fetchSearchData();            
     }, [searchTerm]);
 
 

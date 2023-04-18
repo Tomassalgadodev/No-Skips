@@ -5,9 +5,11 @@ import singleArtistData from "../singleArtistData";
 import AlbumContainer from "../AlbumContainer/AlbumContainer";
 import ArtistLoadingPage from "../ArtistLoadingPage/ArtistLoadingPage";
 
+import getArtistData from "../fetchRequests";
+
 let artistImage;
 
-const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn }) => {
+const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, spotifyAccessToken }) => {
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
@@ -16,6 +18,8 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn })
     const [hasAlbums, setHasAlbums] = useState(false);
     const [hasSingles, setHasSingles] = useState(false);
     const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
+    const [isLoadingSpotifyData, setIsLoadingSpotifyData] = useState(true);
+    const [artistName, setArtistName] = useState('');
 
     // const fetchArtistData = async () => {
     //     try {
@@ -69,9 +73,31 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn })
         }
     }
 
+    const fetchArtistDataFromSpotifyApi = async () => {
+        try {
+            const data = await getArtistData(artistID, spotifyAccessToken);
+
+            if (typeof data === 'string') {
+                throw new Error(data);
+            }
+
+            setArtistName(data.name);
+            setIsLoadingSpotifyData(false);
+            console.log(data);
+
+        } catch (err) {
+            if (err.message === '400') {
+
+                // Handle case where there isnt an artist with a given id
+                console.log('no artist with that id');
+            }
+        }
+    }
+
     useEffect(() => {
         setLoading(true);
         fetchArtistData();
+        fetchArtistDataFromSpotifyApi();
     }, [artistID]);
 
     useEffect(() => {
@@ -83,7 +109,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn })
         }
     }, [likedAlbums]);
 
-    if (!loading) {
+    if (!isLoadingSpotifyData && !loading) {
         return (
             <div>
                 <div className="heading-container">
@@ -127,19 +153,34 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn })
                 }
             </div>
         )
-    } else if (artistData.errorMsg === 'Not verified') {
-        return (
-            <h2>-- This Artist Is Not Verified --</h2>
-        )
-    } else if (artistData.errorMsg === `Artist doesn't exist`) {
-        return (
-            <h2>-- 404: No Artist With This ID --</h2>
-        )
-    } else {
-        return (
+        } else if (!isLoadingSpotifyData && loading) {
+            return (
+                <div>
+                    <div className="heading-container">
+                        <div 
+                            className="fake-artist-heading"
+                        >
+                        </div>
+                        <h2 className="artist-page-title">{artistName}</h2>
+                    </div>
+                </div>
+            )
+        } else if (isLoadingSpotifyData && loading) {
             <ArtistLoadingPage />
-        )
-    }
+        }
+    // } else if (artistData.errorMsg === 'Not verified') {
+    //     return (
+    //         <h2>-- This Artist Is Not Verified --</h2>
+    //     )
+    // } else if (artistData.errorMsg === `Artist doesn't exist`) {
+    //     return (
+    //         <h2>-- 404: No Artist With This ID --</h2>
+    //     )
+    // } else {
+    //     return (
+    //         <ArtistLoadingPage />
+    //     )
+    // }
 
 
 }

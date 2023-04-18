@@ -272,6 +272,7 @@ const App = () => {
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
             loggedIn={loggedIn}
+            spotifyAccessToken={spotifyAccessToken}
           />
         )
       }}/>
