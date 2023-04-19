@@ -6,17 +6,30 @@ import SongCard from "../SongCard/SongCard";
 import clockIcon from '../assets/clock-icon.png';
 
 const SongContainer = ({ 
-    albumData, addLikedSong, removeLikedSong, previouslyLikedSongs, likedSongs, totalStreams, lowestStreams, 
-    loadingSinglesData, totalStreamsWithoutSingles, lowestStreamsWithoutSingles, albumHasSingles, singlesByArtist,
-    displayInfoModal, singlesDataCalculated
+    albumData, 
+    addLikedSong, 
+    removeLikedSong, 
+    previouslyLikedSongs, 
+    likedSongs, 
+    loadingStreamingData, 
+    totalStreams, 
+    lowestStreams, 
+    loadingSinglesData, 
+    totalStreamsWithoutSingles, 
+    lowestStreamsWithoutSingles, 
+    albumHasSingles, 
+    singlesByArtist,
+    displayInfoModal, 
+    singlesDataCalculated, 
+    streamingData
 }) => {
 
     const [withoutSingles, setWithoutSingles] = useState(false);
-    const [buttonMessage, setButtonMessage] = useState('Show without singles');
-    const [disableButton, setDisableButton] = useState(false);
+    const [buttonMessage, setButtonMessage] = useState('Loading streaming data');
+    const [disableButton, setDisableButton] = useState(true);
 
     useEffect(() => {
-        if (buttonMessage === 'No singles') {
+        if (buttonMessage === 'No singles' || !singlesDataCalculated) {
             return;
         }
         if (!withoutSingles) {
@@ -34,60 +47,70 @@ const SongContainer = ({
             setWithoutSingles(false);
             setButtonMessage('No singles');
             setDisableButton(true);
+        } else if (albumHasSingles) {
+            setDisableButton(false);
+            setButtonMessage('Show without singles');
         }
     }, [singlesDataCalculated]);
 
-    const SongCards = albumData.data.albumUnion.tracks.items.map((song, index) => {
+    const SongCards = albumData.map((song, index) => {
 
         let trackLength = '';
-        trackLength += Math.floor(song.track.duration.totalMilliseconds / 60000);
+        trackLength += Math.floor(song.duration_ms / 60000);
         trackLength += ':';
-        trackLength += Math.floor((song.track.duration.totalMilliseconds % 60000) / 1000);
+        trackLength += Math.floor((song.duration_ms % 60000) / 1000);
         if (trackLength.length === 3) trackLength = trackLength.slice(0, 2) + '0' + trackLength.substring(2);
 
         let songIsLiked = false;
 
         if (previouslyLikedSongs) {
-            songIsLiked = previouslyLikedSongs.some(likedSong => likedSong.trackID === song.uid);
+            songIsLiked = previouslyLikedSongs.some(likedSong => likedSong.trackID === song.id);
         }
 
         let specialCase;
 
-        if (totalStreams == song.track.playcount) {
-            specialCase = 'Highest';
-        } else if (lowestStreams == song.track.playcount) {
-            specialCase = 'Lowest';
-        } 
+        if (!loadingStreamingData) {
+            if (totalStreams == streamingData[index]) {
+                specialCase = 'Highest';
+            } else if (lowestStreams == streamingData[index]) {
+                specialCase = 'Lowest';
+            } 
+        }
+
 
         let songIsASingle = false;
         let specialCaseWithoutSingles;
 
-        if (albumHasSingles) {
-            if (lowestStreamsWithoutSingles == song.track.playcount) {
+        if (albumHasSingles && !loadingStreamingData) {
+            if (lowestStreamsWithoutSingles == streamingData[index]) {
                 specialCaseWithoutSingles = 'lowestWithoutSingles';
-            } else if (totalStreamsWithoutSingles == song.track.playcount) {
+            } else if (totalStreamsWithoutSingles == streamingData[index]) {
                 specialCaseWithoutSingles = 'highestWithoutSingles';
             }
 
-            if (singlesByArtist.includes(song.track.name)) {
+            if (singlesByArtist.includes(song.name)) {
                 songIsASingle = true;
             }
         }
 
-        const percentSkipped = ((1 - ((parseInt(song.track.playcount) / totalStreams))) * 100).toFixed(1);
+        let percentSkipped;
+        let percentSkippedWithoutSingles;
 
-        const percentSkippedWithoutSingles = ((1 - ((parseInt(song.track.playcount) / totalStreamsWithoutSingles))) * 100).toFixed(1);
-
+        if (!loadingStreamingData) {
+            percentSkipped = ((1 - ((parseInt(streamingData[index]) / totalStreams))) * 100).toFixed(1);
+            percentSkippedWithoutSingles = ((1 - ((parseInt(streamingData[index]) / totalStreamsWithoutSingles))) * 100).toFixed(1);
+        }
 
         return (
             <SongCard 
                 key={index}
-                trackID={song.uid}
-                trackNumber={song.track.trackNumber}
-                trackName={song.track.name}
-                numberOfStreams={song.track.playcount}
+                loadingStreamingData={loadingStreamingData}
+                trackID={song.id}
+                trackNumber={song.track_number}
+                trackName={song.name}
+                numberOfStreams={streamingData[index]}
                 trackLength={trackLength}
-                trackArtists={song.track.artists.items}
+                trackArtists={song.artists}
                 addLikedSong={addLikedSong}
                 removeLikedSong={removeLikedSong}
                 songIsLiked={songIsLiked}

@@ -8,10 +8,24 @@ import unlikedIcon from '../assets/unliked_icon.png';
 import whiteUnlikedIcon from '../assets/unliked_white_icon.png';
 
 const SongCard = ({ 
-    trackID, trackNumber, trackName, trackArtists, numberOfStreams, trackLength, addLikedSong, 
-    removeLikedSong, songIsLiked, likedSongs, percentSkipped, specialCase, loadingSinglesData, 
-    withoutSingles, percentSkippedWithoutSingles, songIsASingle, specialCaseWithoutSingles,
-    albumHasSingles, handleAlbumDoesntHaveSingles
+    trackID, 
+    trackNumber, 
+    trackName, 
+    trackArtists, 
+    numberOfStreams, 
+    trackLength, 
+    addLikedSong, 
+    removeLikedSong, 
+    songIsLiked, 
+    likedSongs, 
+    percentSkipped, 
+    specialCase, 
+    withoutSingles, 
+    percentSkippedWithoutSingles, 
+    songIsASingle, 
+    specialCaseWithoutSingles,
+    albumHasSingles, 
+    loadingStreamingData
 }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
@@ -25,12 +39,10 @@ const SongCard = ({
 
     const artistLinks = trackArtists.map((artist, index) => {
 
-        const artistID = artist.uri.split(':').pop();
-
         return (
             <ArtistLink 
-                artistName={artist.profile.name}
-                artistID={artistID}
+                artistName={artist.name}
+                artistID={artist.id}
                 key={index}
             />
         )
@@ -107,14 +119,17 @@ const SongCard = ({
         if (songIsLiked) {
             setIsLiked(true);
         }
-        
-        getPercentSkippedColor(percentSkipped);
-        getPlayCount();
-
     }, []);
 
     useEffect(() => {
-        if (!loadingSinglesData) {
+        if (!loadingStreamingData) {
+            getPercentSkippedColor(percentSkipped);
+            getPlayCount();
+        }
+    }, [loadingStreamingData])
+
+    useEffect(() => {
+        if (!loadingStreamingData) {
             getPercentSkippedColorWithoutSingles(percentSkippedWithoutSingles);
         }
     }, [percentSkippedWithoutSingles]);
@@ -161,7 +176,7 @@ const SongCard = ({
                     onClick={toggleSong} 
                 />
             }
-            {!withoutSingles &&
+            {!withoutSingles && !loadingStreamingData &&
                 <div className="percent-streamed-container" 
                     style={{ backgroundColor: percentSkippedColor }}
                     onMouseOver={() => setShowPlayCount(true)}
@@ -170,13 +185,13 @@ const SongCard = ({
                     {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
                 </div>
             }
-            {withoutSingles && loadingSinglesData &&
+            {loadingStreamingData &&
                 <div 
                     className="loading-percent-streamed-container" 
                     style={{ backgroundColor: '#b3b3b3' }}
                 ></div>
             }
-            {withoutSingles && !loadingSinglesData && albumHasSingles &&
+            {withoutSingles && albumHasSingles && !loadingStreamingData &&
                 <div className="percent-streamed-container" 
                     style={songIsASingle ? { backgroundColor: '', color: '#b3b3b3', border: '1px solid #b3b3b3', boxSizing: 'border-box' } : { backgroundColor: percentSkippedColorWithoutSingles }}
                     onMouseOver={() => setShowPlayCount(true)}

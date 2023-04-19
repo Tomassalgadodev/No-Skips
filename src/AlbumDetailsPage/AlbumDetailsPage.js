@@ -12,9 +12,11 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     // const [trackData, setTrackData] = useState({});
 
     const [albumData, setAlbumData] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [loadingSinglesData, setLoadingSinglesData] = useState(true);
+    const [albumTracks, setAlbumTracks] = useState([]);
     const [isLoadingSpotifyData, setIsLoadingSpotifyData] = useState(true);
+    const [loadingStreamingData, setLoadingStreamingData] = useState(true);
+    const [streamingData, setStreamingData] = useState([]);
+    const [loadingSinglesData, setLoadingSinglesData] = useState(true);
     const [albumArt, setAlbumArt] = useState('');
     const [albumColor, setAlbumColor] = useState('');
     const [albumTitle, setAlbumTitle] = useState('');
@@ -72,31 +74,9 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const getLowestStreams = tracks => Math.min(...tracks.map(track => parseInt(track.track.playcount)));
 
-    const getSingleNames = singles => singles.map(single => single.releases.items[0].name);
-
     const getNonSingleTracks = (tracks, singles) => tracks.filter(track => !singles.includes(track.track.name));
 
-    const fetchSinglesData = async (artistID) => {
-        try {
-            const response = await fetch(`http://localhost:8000/api/v1/artistSingleAndEpData/${artistID}`);
-
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
-
-            const artistSingleAndEpData = await response.json();
-
-            const singlesByArtistData = getSingleNames(artistSingleAndEpData.data.artistUnion.discography.singles.items);
-
-            setArtistSinglesData(artistSingleAndEpData);
-            setSinglesByArtist(singlesByArtistData);
-            setLoadingSinglesData(false);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
-    const fetchAlbumData = async () => {
+    const fetchStreamingData = async () => {
         try {
             const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
 
@@ -105,24 +85,14 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             }
 
             const albumData = await response.json();
-console.log(albumData);
-            // const albumColorHex = albumData.data.albumUnion.coverArt.extractedColors.colorRaw.hex;
 
-            // if (albumColorHex) setAlbumColor(albumColorHex);
+            const streamingData = albumData.data.albumUnion.tracks.items.map(track => track.track.playcount);
 
-            // setAlbumArt(albumData.data.albumUnion.coverArt.sources[0].url);
-            // setAlbumTitle(albumData.data.albumUnion.name);
-            // setYearReleased(albumData.data.albumUnion.date.isoString.substring(0, 4));
-            // setLink(albumLink);
-            // setArtistName(albumData.data.albumUnion.artists.items[0].profile.name);
-            // setArtistID(albumData.data.albumUnion.artists.items[0].id);
-            fetchSinglesData(albumData.data.albumUnion.artists.items[0].id);
-            // setNumberOfSongs(albumData.data.albumUnion.tracks.totalCount);
+            setStreamingData(streamingData);
+            setAlbumData(albumData);
             setTotalStreams(getTotalStreams(albumData.data.albumUnion.tracks.items));
             setLowestStreams(getLowestStreams(albumData.data.albumUnion.tracks.items));
-            setAlbumData(albumData);
-            // setTrackData(trackData);
-            setLoading(false);
+            setLoadingStreamingData(false);
         } catch (err) {
             console.log(err.message);
         }
@@ -172,7 +142,35 @@ console.log(albumData);
           }
     }
 
-    const fetchAlbumDataViaApi = async () => {
+    const getSinglesData = async (releases) => {
+
+        const singles = [];
+        const rawSingles = releases.items.filter(release => release.album_group === 'single' && release.album_type === 'single');
+
+        for (let i = 0; i < rawSingles.length; i++) {
+            if (rawSingles[i].total_tracks > 1) {
+                try {
+                    const data = await getSingleAlbumData(rawSingles[i].id, spotifyAccessToken);
+
+                    if (typeof data === 'string') {
+                        throw new Error(data);
+                    }
+
+                    const epTracks = data.tracks.items.map(track => track.name);
+
+                    singles.push(...epTracks);
+                } catch (err) {
+                    console.log(err);
+                }
+            } else {
+                singles.push(rawSingles[i].name);
+            }
+        }
+
+        return singles;
+    }
+
+    const fetchAlbumData = async () => {
         try {
             const data = await getSingleAlbumData(albumID, spotifyAccessToken);
             const data2 = await getArtistData(data.artists[0].id, spotifyAccessToken);
@@ -188,7 +186,9 @@ console.log(albumData);
             const albumImage = data.images[2].url;
 
             const albumColor = await getAlbumColor(albumImage);
+            const singles = await getSinglesData(data2[1]);
 
+            setAlbumTracks(data.tracks.items);
             setAlbumColor(albumColor);
             setAlbumArt(data.images[0].url);
             setAlbumTitle(data.name);
@@ -198,12 +198,13 @@ console.log(albumData);
             setArtistID(data.artists[0].id);
             setArtistThumbnail(data2[0].images[2].url)
             setAlbumType(data.type.toUpperCase());
-            // fetchSinglesData(data.artists[0].id);
             setNumberOfSongs(data.total_tracks);
+            setSinglesByArtist(singles);
             setIsLoadingSpotifyData(false);
 
-            console.log(data);
-            console.log(data2);
+            // console.log(data);
+            // console.log(data2);
+            // console.log(singles);
         } catch (err) {
             console.log(err);
         }
@@ -211,8 +212,8 @@ console.log(albumData);
 
     useEffect(() => {   
         fetchSavedAlbumData();
+        fetchStreamingData();
         fetchAlbumData();
-        fetchAlbumDataViaApi();
     }, []);
 
     useEffect(() => {
@@ -224,9 +225,10 @@ console.log(albumData);
     }, [likedSongs]);
 
     useEffect(() => {
-        if (!loadingSinglesData) {
-            const albumTracks = albumData.data.albumUnion.tracks.items;
-            const nonSingleTracks = getNonSingleTracks(albumTracks, singlesByArtist);
+        if (!isLoadingSpotifyData && !loadingStreamingData) {
+
+            const nonSingleTracks = getNonSingleTracks(albumData.data.albumUnion.tracks.items, singlesByArtist);
+
             if (albumTracks.length !== nonSingleTracks.length) {
                 const highestStreamsWithoutSingles = getTotalStreams(nonSingleTracks);
                 const newLowestStreams = getLowestStreams(nonSingleTracks);
@@ -238,7 +240,7 @@ console.log(albumData);
             }
             setSinglesDataCalculated(true);
         }
-    }, [loadingSinglesData]);
+    }, [isLoadingSpotifyData, loadingStreamingData]);
 
     const addLikedSong = likedSong => {
         if (!likedSongs.some(song => song.trackID === likedSong.trackID)) {
@@ -252,9 +254,9 @@ console.log(albumData);
 
     const likeAllSongs = () => {
         const allSongs = [];
-
-        albumData.data.albumUnion.tracks.items.forEach(track => {
-            allSongs.push({ trackNumber: track.track.trackNumber, trackName: track.track.name, trackID: track.uid })
+        console.log(albumData);
+        albumTracks.forEach(track => {
+            allSongs.push({ trackNumber: track.track_number, trackName: track.name, trackID: track.id })
         });
 
         setLikedSongs(allSongs);
@@ -355,15 +357,15 @@ console.log(albumData);
 
     return (
         <React.Fragment>
-            {loading && isLoadingSpotifyData && <LoadingAlbumDetailsPage />}
-            {!isLoadingSpotifyData && loading && 
+            {isLoadingSpotifyData && <LoadingAlbumDetailsPage />}
+            {!isLoadingSpotifyData &&
                 <React.Fragment>
                     <AlbumDetailsHeader 
                         albumImage={albumArt}
                         albumTitle={albumTitle}
                         artistThumbnail={artistThumbnail}
                         artistName={artistName}
-                        // artistID={albumData.data.albumUnion.artists.items[0].id}
+                        artistID={artistID}
                         albumType={albumType}
                         numberOfSongs={numberOfSongs}
                         backgroundColor={albumColor}
@@ -376,12 +378,13 @@ console.log(albumData);
                         submitAlbumWithTracks={submitAlbumWithTracks}
                         displayInfoModal={displayInfoModal}
                     />
-                    {/* <SongContainer 
-                        albumData={albumData} 
+                    <SongContainer 
+                        albumData={albumTracks} 
                         addLikedSong={addLikedSong}
                         removeLikedSong={removeLikedSong}
                         previouslyLikedSongs={previouslyLikedSongs}
                         likedSongs={likedSongs}
+                        loadingStreamingData={loadingStreamingData}
                         totalStreams={totalStreams}
                         lowestStreams={lowestStreams}
                         loadingSinglesData={loadingSinglesData}
@@ -391,7 +394,8 @@ console.log(albumData);
                         singlesByArtist={singlesByArtist}
                         displayInfoModal={displayInfoModal}
                         singlesDataCalculated={singlesDataCalculated}
-                    /> */}
+                        streamingData={streamingData}
+                    />
                     <div className="album-submit-button-container">
                         {/* <p className="album-release-date">{albumData.data.albumUnion.label}</p> */}
                         {/* <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p> */}
@@ -416,7 +420,7 @@ console.log(albumData);
                                 <div className={fadeOut ? "info-modal info-modal-fadeout" : "info-modal"}>{infoModalMessage}</div>
                     }
                 </React.Fragment>}
-                {!isLoadingSpotifyData && !loading && 
+                {/* {!isLoadingSpotifyData && !loading && 
                 <React.Fragment>
                     <AlbumDetailsHeader 
                         albumImage={albumArt}
@@ -454,9 +458,9 @@ console.log(albumData);
                     />
                     <div className="album-submit-button-container">
                         <p className="album-release-date">{albumData.data.albumUnion.label}</p>
-                        <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p>
+                        <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p> */}
                         {/* <p className="record-label2">{albumData.data.albumUnion.copyright.items[1] ? albumData.data.albumUnion.copyright.items[1].text : albumData.data.albumUnion.copyright.items[0].text}</p> */}
-                        {!albumIsLiked && 
+                        {/* {!albumIsLiked && 
                             <button 
                                 onClick={submitAlbum} 
                                 className="album-submit-button"
@@ -475,7 +479,7 @@ console.log(albumData);
                     {showInfoModal && 
                                 <div className={fadeOut ? "info-modal info-modal-fadeout" : "info-modal"}>{infoModalMessage}</div>
                     }
-                </React.Fragment>}
+                </React.Fragment>} */}
         </React.Fragment>
     )
 }
