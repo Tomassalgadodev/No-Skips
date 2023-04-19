@@ -195,7 +195,6 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     useEffect(() => {
         if (previouslyLikedSongs) {
-            console.log(previouslyLikedSongs);
             setLikedSongs(previouslyLikedSongs);
         }
     }, [previouslyLikedSongs]);

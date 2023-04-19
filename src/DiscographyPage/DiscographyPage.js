@@ -73,6 +73,7 @@ const DiscographyPage = ({ type, artistID, saveAlbum, removeAlbum, artistName, s
                         discography={true}
                         showAll={true}
                         spotifyAccessToken={spotifyAccessToken}
+                        artistName={artistName}
                     />
             }
         </React.Fragment>

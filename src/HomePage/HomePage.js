@@ -3,7 +3,7 @@ import './HomePage.css';
 
 import UserDashboard from "../UserDashboard/UserDashboard";
 
-const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum }) => {
+const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
 
     if (loggedIn) {
         return (
@@ -11,6 +11,7 @@ const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum }) => {
                 savedAlbums={savedAlbums}
                 removeAlbum={removeAlbum}
                 saveAlbum={saveAlbum}
+                spotifyAccessToken={spotifyAccessToken}
             />
         )
     }

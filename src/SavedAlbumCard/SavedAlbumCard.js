@@ -7,7 +7,9 @@ import LoadingSongModal from "../LoadingSongModal/LoadingSongModal";
 
 import likedIcon from '../assets/liked_icon.png';
 
-const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum, previouslyLikedSongs }) => {
+import { getSingleAlbumData } from "../fetchRequests";
+
+const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum, previouslyLikedSongs, spotifyAccessToken }) => {
 
     const history = useHistory();
     
@@ -21,21 +23,67 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
     const [loading, setLoading] = useState(true);
     const [startedFetch, setStartedFetch] = useState(false);
     const [albumData, setAlbumData] = useState({});
+    const [albumColor, setAlbumColor] = useState('');
     const [likedSongs, setLikedSongs] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
 
+    const getAverageColor = (image) => {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const { width, height } = image;
+        let r = 0;
+        let g = 0;
+        let b = 0;
+      
+        canvas.width = width;
+        canvas.height = height;
+      
+        context.drawImage(image, 0, 0, width, height);
+      
+        const imageData = context.getImageData(0, 0, width, height);
+        const data = imageData.data;
+      
+        for (let i = 0; i < data.length; i += 4) {
+          r += data[i];
+          g += data[i + 1];
+          b += data[i + 2];
+        }
+      
+        const pixels = data.length / 4;
+        const avgR = r / pixels;
+        const avgG = g / pixels;
+        const avgB = b / pixels;
+      
+        return `rgb(${avgR}, ${avgG}, ${avgB})`;
+      }
+
+    const getAlbumColor = async (url) => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const img = new Image();
+            img.src = URL.createObjectURL(blob);
+            await new Promise((resolve) => (img.onload = resolve));
+            const avgColor = getAverageColor(img);
+            return avgColor;
+          } catch (error) {
+            console.error(error);
+          }
+    }
+
     const fetchAlbumData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
+            const data = await getSingleAlbumData(albumID, spotifyAccessToken);
 
-            if (!response.ok) {
-                throw new Error(response.status);
+            if (typeof data === 'string') {
+                throw new Error(data);
             }
 
-            const albumData = await response.json();
+            const albumImage = data.images[2].url;
+            const albumColorHex = await getAlbumColor(albumImage);
 
-            setAlbumData(albumData);
-            // setTrackData(trackData);
+            setAlbumColor(albumColorHex);
+            setAlbumData(data);
             setLoading(false);
         } catch (err) {
             console.log(err);
@@ -54,7 +102,7 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
 
     const submitAlbum = () => {
         albumObject.likedSongs = JSON.stringify(likedSongs);
-        saveAlbum(albumObject);
+        saveAlbum([albumObject, albumColor]);
         toggleSongModal();
     }
 
