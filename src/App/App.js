@@ -297,6 +297,8 @@ const App = () => {
             artistName={match.params.artistName}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
+            spotifyAccessToken={spotifyAccessToken}
+            likedAlbums={loggedIn ? savedAlbums : []}
           />
         )
       }}/>
@@ -308,6 +310,8 @@ const App = () => {
             artistName={match.params.artistName}
             saveAlbum={saveAlbum}
             removeAlbum={removeAlbum}
+            spotifyAccessToken={spotifyAccessToken}
+            likedAlbums={loggedIn ? savedAlbums : []}
           />
         )
       }}/>

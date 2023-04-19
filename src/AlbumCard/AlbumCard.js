@@ -26,7 +26,6 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
     const [startedFetch, setStartedFetch] = useState(false);
     const [albumData, setAlbumData] = useState({});
     const [albumColor, setAlbumColor] = useState('');
-    // const [trackData, setTrackData] = useState({});
     const [likedSongs, setLikedSongs] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
 
@@ -87,11 +86,9 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
             }
 
             const albumImage = data.images[2].url;
-
             const albumColorHex = await getAlbumColor(albumImage);
-            console.log(albumColorHex);
-            setAlbumColor(albumColorHex);
 
+            setAlbumColor(albumColorHex);
             setAlbumData(data);
             setLoading(false);
         } catch (err) {
@@ -198,10 +195,10 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     useEffect(() => {
         if (previouslyLikedSongs) {
+            console.log(previouslyLikedSongs);
             setLikedSongs(previouslyLikedSongs);
         }
-        // console.log(spotifyAccessToken)
-    }, []);
+    }, [previouslyLikedSongs]);
 
     return (
         <div className="album-card-wrapper">

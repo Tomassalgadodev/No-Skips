@@ -5,43 +5,54 @@ import ArtistCard from "../ArtistCard/ArtistCard";
 import AlbumContainer from "../AlbumContainer/AlbumContainer";
 import { useHistory } from "react-router-dom";
 
-const DiscographyPage = ({ type, artistID, saveAlbum, removeAlbum, artistName }) => {
+import { getArtistData } from "../fetchRequests";
+
+const DiscographyPage = ({ type, artistID, saveAlbum, removeAlbum, artistName, spotifyAccessToken, likedAlbums }) => {
     
-    const [discographyData, setDiscographyData] = useState({});
     const [loading, setLoading] = useState(true);
+    const [singles, setSingles] = useState([]);
+    const [albums, setAlbums] = useState([]);
+    const [compilations, setCompilations] = useState([]);
+    const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
     
     const history = useHistory()
-    
-    const fetchDiscographyData = async () => {
-        let fetchUrl;
 
-        if (type === 'singles') { fetchUrl = `http://localhost:8000/api/v1/artistSingleAndEpData/${artistID}` }
-        if (type === 'albums') { fetchUrl = `http://localhost:8000/api/v1/artistAlbumData/${artistID}` }
-
+    const getDiscographyData = async () => {        
         try {
-            const response = await fetch(fetchUrl);
+            const data = await getArtistData(artistID, spotifyAccessToken);
 
-            if (!response.ok) {
-                throw new Error(response.status)
+            if (typeof data === 'string') {
+                throw new Error(data)
             }
 
-            const data = await response.json();
+            const singles = data[1].items.filter(release => release.album_group === 'single' && release.album_type === 'single');
+            const albums = data[1].items.filter(release => release.album_group === 'album' && release.album_type === 'album');
+            const compilations = data[1].items.filter(release => release.album_group === 'appears_on');
 
-            setDiscographyData(data);
+            setSingles(singles);
+            setAlbums(albums);
             setLoading(false);
         } catch (err) {
-            console.log(err.message);
+            console.log(err);
         }
     }
 
     useEffect(() => {
-        fetchDiscographyData();
+        getDiscographyData();
     }, [])
+
+    useEffect(() => {
+        if (likedAlbums.length > 0) {
+            const albums = likedAlbums.filter(album => album.artistID === artistID);
+
+            setUsersLikedAlbumsFromArtist(albums);
+        } else {
+            setUsersLikedAlbumsFromArtist([]);
+        }
+    }, [likedAlbums]);
 
     return (
         <React.Fragment>
-            {loading && <h1 style={{ color: 'white' }}>-- LOADING --</h1>}
-            {!loading && 
                 <React.Fragment>
                     <div className="discography-header">
                         <p 
@@ -49,16 +60,20 @@ const DiscographyPage = ({ type, artistID, saveAlbum, removeAlbum, artistName })
                             onClick={() => history.push(`/artist/${artistID}`)}
                         >{artistName}</p>
                     </div>
+                </React.Fragment>
+            {loading && <h1>-- LOADING --</h1>}
+            {!loading && 
                     <AlbumContainer 
                         heading={type[0].toUpperCase() + type.substring(1)}
-                        albumData={discographyData.data.artistUnion.discography[type]}
+                        albumData={type === 'singles' ? singles : type === 'albums' ? albums : compilations}
                         artistID={artistID}
                         saveAlbum={saveAlbum}
                         removeAlbum={removeAlbum}
-                        likedAlbums={[]}
+                        likedAlbums={usersLikedAlbumsFromArtist}
                         discography={true}
+                        showAll={true}
+                        spotifyAccessToken={spotifyAccessToken}
                     />
-                </React.Fragment>
             }
         </React.Fragment>
     )

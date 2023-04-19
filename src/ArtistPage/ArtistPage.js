@@ -13,42 +13,13 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
 
     const [loading, setLoading] = useState(true);
     const [artistData, setArtistData] = useState({});
-    // const [artistColor, setArtistColor] = useState('');
-    const [hasPopularReleases, setHasPopularReleases] = useState(false);
-    const [hasAlbums, setHasAlbums] = useState(false);
-    const [hasSingles, setHasSingles] = useState(false);
     const [usersLikedAlbumsFromArtist, setUsersLikedAlbumsFromArtist] = useState([]);
     const [isLoadingSpotifyData, setIsLoadingSpotifyData] = useState(true);
     const [artistName, setArtistName] = useState('');
     const [artistAlbums, setArtistAlbums] = useState([]);
     const [artistSingles, setArtistSingles] = useState([]);
 
-    // const fetchArtistData = async () => {
-    //     try {
-    //         const response = await fetch(`http://localhost:8000/api/v1/artist/${artistID}`);
-
-    //         if (!response.ok) {
-    //             throw new Error(response.status);
-    //         }
-
-    //         const data = await response.json();
-
-    //         if (data.artistInfo.errorMsg) {
-    //             setArtistData({ errorMsg: data.artistInfo.errorMsg })
-    //             return;
-    //         }
-
-    //         setArtistData(data);
-    //         setLoading(false);
-    //         artistImage = data.artistInfo.artistImage;
-    //         if (artistImage.includes('background')) {
-    //             artistImage = artistImage.substring(23, singleArtistData.artistImage.length - 3);
-    //         }
-
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
+    // RENAME TO FETCH ARTIST HEADER IMAGE
 
     const fetchArtistData = async () => {
         try {
@@ -59,13 +30,6 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
             }
 
             const data = await response.json();
-            
-            data.data.artistUnion.discography.popularReleasesAlbums.totalCount > 0 && setHasPopularReleases(true);
-            data.data.artistUnion.discography.albums.totalCount > 0 && setHasAlbums(true);
-            data.data.artistUnion.discography.singles.totalCount > 0 && setHasSingles(true);
-
-            // const artistColorHex = data.data.artistUnion.visuals.avatarImage.extractedColors.colorRaw.hex; 
-            // if (artistColorHex) setArtistColor(artistColorHex);
 
             setArtistData(data);
             setLoading(false);
@@ -90,7 +54,6 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
             setArtistAlbums(albums);
             setArtistSingles(singles);
             setIsLoadingSpotifyData(false);
-            console.log(data);
 
         } catch (err) {
             if (err.message === '400') {

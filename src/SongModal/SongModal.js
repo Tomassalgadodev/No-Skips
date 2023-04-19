@@ -13,11 +13,11 @@ const SongModal = ({ albumData, submitAlbum, addLikedSong, removeLikedSong, like
         songCards = albumData.tracks.items.map((song, index) => {
     
             let isLiked;
-    
+
+            
             if (likedSongs.length > 0) {
                 isLiked = likedSongs.find(likedSong => likedSong.trackID === song.id);
             }
-    
     
             return (
                 <SongModalSongCard 

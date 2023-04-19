@@ -4,18 +4,36 @@ import './AlbumContainer.css'
 import AlbumCard from "../AlbumCard/AlbumCard";
 import { useHistory } from "react-router-dom";
 
-const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums, saveAlbum, removeAlbum, discography, spotifyAccessToken }) => {
+const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums, saveAlbum, removeAlbum, discography, spotifyAccessToken, showAll }) => {
 
     const history = useHistory();
 
-    albumData = albumData.slice(0, 5);
+    const extractDuplicates = releases => {
+        const withoutDuplicates = [];
+        releases.forEach(release => {
+            if (!withoutDuplicates.some(album => album.name.toLowerCase() === release.name.toLowerCase() && album.release_date === release.release_date)) {
+                withoutDuplicates.push(release);
+            }
+        });
+        return withoutDuplicates;
+    }
+    
+    albumData = extractDuplicates(albumData);
+
+    if (!showAll) albumData = albumData.slice(0, 5);
 
     const albumCards = albumData.map((album, index) => {
     
             const albumLink = `https://open.spotify.com/album/${album.id}`;
     
             const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
-            
+
+            let likedSongs;
+
+            if (isLiked) {
+                likedSongs = JSON.parse(isLiked.likedSongs);
+            }
+
             return (
                 <AlbumCard 
                     albumArt={album.images[0].url}
@@ -30,6 +48,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     removeAlbum={removeAlbum}
                     albumID={album.id}
                     spotifyAccessToken={spotifyAccessToken}
+                    previouslyLikedSongs={likedSongs}
                 />
             )
         });
