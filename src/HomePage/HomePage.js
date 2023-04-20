@@ -1,22 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './HomePage.css';
 
+import { authorizeUser } from "../spotifyUserAuthorization";
+
 import UserDashboard from "../UserDashboard/UserDashboard";
+import AccountSetUpPage from "../AccountSetUpPage/AccountSetUpPage";
 
-const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
+const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, clientID }) => {
 
-    if (loggedIn) {
-        return (
-            <UserDashboard 
-                savedAlbums={savedAlbums}
-                removeAlbum={removeAlbum}
-                saveAlbum={saveAlbum}
-                spotifyAccessToken={spotifyAccessToken}
-            />
-        )
+    useEffect(() => {
+        console.log(window.location.search.substring(0, 6) === '?code=');
+    }, []);
+
+    let oAuthCode;
+
+    if (window.location.search.substring(0, 6) === '?code=') {
+        const urlParams = new URLSearchParams(window.location.search);
+        oAuthCode = urlParams.get('code');
+        console.log(oAuthCode);
     }
+
     return (
-        <h1>-- This is where the home page will go --</h1>
+        <>
+            {loggedIn &&
+                <UserDashboard 
+                    savedAlbums={savedAlbums}
+                    removeAlbum={removeAlbum}
+                    saveAlbum={saveAlbum}
+                    spotifyAccessToken={spotifyAccessToken}
+                />            
+            }
+            {!loggedIn && window.location.search.substring(0, 6) !== '?code=' &&
+                <>
+                    <h1 style={{ color: 'white' }}>-- This is where the home page will go --</h1>
+                    <button
+                        onClick={() => authorizeUser(clientID)}
+                    >Sign up with Spotify</button>
+                </>
+            }
+            {!loggedIn && window.location.search.substring(0, 6) === '?code=' &&
+                <AccountSetUpPage 
+                    oAuthCode={oAuthCode} 
+                    clientID={clientID}
+                />
+            }
+        </>
     )
 }
 

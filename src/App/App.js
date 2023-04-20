@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
+
 import './App.css';
 
 import Header from '../Header/Header';
@@ -11,6 +12,7 @@ import SignUpPage from '../SignUpPage/SignUpPage';
 import AlbumDetailsPage from '../AlbumDetailsPage/AlbumDetailsPage';
 import SignUpPopUp from '../SignUpPopUp/SignUpPopUp';
 import DiscographyPage from '../DiscographyPage/DiscographyPage';
+
 
 const App = () => {
 
@@ -25,7 +27,7 @@ const App = () => {
 
   const CLIENT_ID = 'c2cf185725914d9eb939d6539e5d3dfb';
   const CLIENT_SECRET = 'eb8f270a21a04f25be4734f91e4f520a';
-  
+
   const fetchUserData = async () => {
     try {
       const user = await fetch('http://localhost:8000/api/v1/userdata', {
@@ -254,9 +256,26 @@ const App = () => {
             removeAlbum={removeAlbum}
             saveAlbum={saveAlbum}
             spotifyAccessToken={spotifyAccessToken}
+            clientID={CLIENT_ID}
           />
         )
       }}/>
+      {/* <Route exact path='/:authorizationCode' render={({ match }) => {
+        console.log(match.params)
+        return (
+          <>
+            <h1>-- working --</h1>
+            <HomePage 
+              loggedIn={loggedIn}
+              savedAlbums={savedAlbums}
+              removeAlbum={removeAlbum}
+              saveAlbum={saveAlbum}
+              spotifyAccessToken={spotifyAccessToken}
+              clientID={CLIENT_ID}
+            />
+          </>
+        )
+      }}/> */}
       <Route exact path='/search/:searchTerm' render={({ match }) => {
         return (
           <SearchPage 
