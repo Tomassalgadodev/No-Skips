@@ -8,16 +8,11 @@ import AccountSetUpPage from "../AccountSetUpPage/AccountSetUpPage";
 
 const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, clientID }) => {
 
-    useEffect(() => {
-        console.log(window.location.search.substring(0, 6) === '?code=');
-    }, []);
-
     let oAuthCode;
 
     if (window.location.search.substring(0, 6) === '?code=') {
         const urlParams = new URLSearchParams(window.location.search);
         oAuthCode = urlParams.get('code');
-        console.log(oAuthCode);
     }
 
     return (
