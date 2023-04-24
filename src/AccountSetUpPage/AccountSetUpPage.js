@@ -150,7 +150,12 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
             {isLoading && <h1 style={{ color: 'white' }}>-- LOADING --</h1>}
             {!isLoading && <h1 style={{ color: 'white' }}>Hello {userData.display_name.split(' ')[0]}</h1>}
             {!isLoading && isLoadingTrackData && <h1 style={{ color: 'white' }}>One moment while we get your tracks.</h1>}
-            {!isLoading && !isLoadingTrackData && <h1 style={{ color: 'white' }}>{numberOfLikedSongs} songs found in {numberOfAlbums} albums and {numberOfSingles} singles.</h1>}
+            {!isLoading && !isLoadingTrackData && 
+                <>
+                    <h1 style={{ color: 'white' }}>{numberOfLikedSongs} songs found in {numberOfAlbums} albums and {numberOfSingles} singles.</h1>
+                    <button>Create Account</button>
+                </>
+            }
         
         </>
     )

@@ -13,19 +13,13 @@ const LogInPage = ({ loginUser, loggedIn }) => {
 
     const history = useHistory();
 
-    // useEffect(() => {
-    //     return () => {
-    //         console.log('it does mount');            
-    //     }
-    //   }, []);
-
     const login = async e => {
 
         e.preventDefault();
 
         try {
 
-            const loginBody = { username, password };
+            const loginBody = { username, password, linkedToSpotify: false };
 
             const attempt = await fetch('http://localhost:8000/api/v1/login', {
                 method: 'POST',
@@ -48,9 +42,12 @@ const LogInPage = ({ loginUser, loggedIn }) => {
 
         } catch (err) {
             if (err.message === '401') {
+                console.log(err)
                 setErrorMessage('Wrong password');
             } else if (err.message === '404') {
                 setErrorMessage('No account with that username');
+            } else if (err.message === '422') {
+                setErrorMessage('Account linked with Spotify. Log in with Spotify');
             } else {
                 console.log(err.message);
             }
