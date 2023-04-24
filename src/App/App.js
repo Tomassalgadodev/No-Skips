@@ -260,22 +260,6 @@ const App = () => {
           />
         )
       }}/>
-      {/* <Route exact path='/:authorizationCode' render={({ match }) => {
-        console.log(match.params)
-        return (
-          <>
-            <h1>-- working --</h1>
-            <HomePage 
-              loggedIn={loggedIn}
-              savedAlbums={savedAlbums}
-              removeAlbum={removeAlbum}
-              saveAlbum={saveAlbum}
-              spotifyAccessToken={spotifyAccessToken}
-              clientID={CLIENT_ID}
-            />
-          </>
-        )
-      }}/> */}
       <Route exact path='/search/:searchTerm' render={({ match }) => {
         return (
           <SearchPage 

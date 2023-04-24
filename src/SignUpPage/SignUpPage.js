@@ -53,7 +53,8 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
                 password,
                 firstname: firstName,
                 lastname: lastName,
-                email
+                email,
+                linkedToSpotify: false
             };
 
             const attempt = await fetch('http://localhost:8000/api/v1/users', {

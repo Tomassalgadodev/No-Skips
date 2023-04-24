@@ -12,6 +12,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
     const [numberOfLikedSongs, setNumberOfLikedSongs] = useState(0);
     const [numberOfSingles, setNumberOfSingles] = useState(0);
     const [numberOfAlbums, setNumberOfAlbums] = useState(0);
+    const [username, setUsername] = useState('');
     
     const fetchUserData = async (accessToken, endPoint) => {
         
@@ -125,25 +126,59 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
             setIsLoadingTrackData(false);
         }
     }
+
+    const checkForUserInDatabase = async () => {
+
+    }
+
+    const createNewUser = async () => {
+
+        const name = userData.display_name.split(' ');
+
+        const signupBody = {
+            username: userData.id,
+            password: userData.id,
+            firstname: name[0],
+            lastname: name[1],
+            email: userData.email,
+            linkedToSpotify: true,
+            spotifyID: userData.id
+        };
+
+        console.log(signupBody);
+
+        const response = await fetch('http://localhost:8000/api/v1/users', {
+            method: 'POST',
+            body: JSON.stringify(signupBody),
+            headers: {
+                "Content-Type": "application/JSON"
+            },
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error (response.status);
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+    }
     
     useEffect(() => {
         fetchSpotifyAccessToken();
     }, []);
 
     useEffect(() => {
+
+        if (!isLoading) {
+        }
+
         if (!isLoading) {
             const accessToken = localStorage.getItem('access_token');
             fetchUsersLikedSongs(accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', []);
         }
     }, [isLoading]);
-
-    // useEffect(() => {
-    //     if (!isLoadingTrackData) {
-    //         const likedSongs = formatTrackData(rawTrackData);
-    //         setUsersLikedSongs(likedSongs);
-    //     }
-    // }, [isLoadingTrackData])
-
 
     return (
         <>
@@ -153,7 +188,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
             {!isLoading && !isLoadingTrackData && 
                 <>
                     <h1 style={{ color: 'white' }}>{numberOfLikedSongs} songs found in {numberOfAlbums} albums and {numberOfSingles} singles.</h1>
-                    <button>Create Account</button>
+                    <button onClick={createNewUser}>Create Account</button>
                 </>
             }
         
