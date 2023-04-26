@@ -47,7 +47,6 @@
 .skips-dropdown {
     box-sizing: border-box;
     position: absolute;
-    /* height: 89px; */
     width: 196px;
     background-color: #282828;
     top: 42px;

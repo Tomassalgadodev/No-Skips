@@ -9,9 +9,9 @@ import upArrow from '../assets/up-arrow.png';
 const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
 
     const [dropDownActive, setDropDownActive] = useState(false);
-    const [selectedButton, setSelectedButton] = useState()
+    const [selectedButton, setSelectedButton] = useState(0);
 
-    console.log(savedAlbums);
+    // console.log(savedAlbums);
 
     savedAlbums = savedAlbums.slice(0, 10);
 
@@ -35,7 +35,12 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
                 spotifyAccessToken={spotifyAccessToken}
             />
         )
-    })
+    });
+
+    const setSelectedSkipRate = (skipRate) => {
+        setSelectedButton(skipRate);
+        setDropDownActive(false);
+    }
 
 
 
@@ -52,33 +57,53 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
                 >
                     <div 
                         className="skips-dropdown-button"
+                        style={selectedButton === 0 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(0)}
                     >No skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 1 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(1)}
                     >1 skip</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 2 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(2)}
                     >2 skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 3 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(3)}
                     >3 skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 4 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(4)}
                     >4 skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 5 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(5)}
                     >5 skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 6 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(6)}
                     >6 skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 7 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(7)}
                     >7 skips</div>
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 8 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(8)}
                     >8 skips</div> 
                     <div 
                         className="remove-edit-menu-button"
+                        style={selectedButton === 9 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
+                        onClick={() => setSelectedSkipRate(9)}
                     >9+ skips</div>                                                                               
                 </div>
                 }
