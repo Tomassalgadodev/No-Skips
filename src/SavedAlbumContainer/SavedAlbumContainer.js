@@ -14,8 +14,8 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
     savedAlbums = savedAlbums.map(album => {
         if (typeof album.likedSongs === 'string') {
             album.likedSongs = JSON.parse(album.likedSongs);
-            album.skips = album.numberOfSongs - album.likedSongs.length
-            album.skipRate = album.likedSongs.length / album.numberOfSongs
+            album.skips = album.numberOfSongs - album.likedSongs.length;
+            album.skipRate = album.likedSongs.length / album.numberOfSongs;
         }
         return album;
     });
@@ -26,9 +26,11 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
         savedAlbums = savedAlbums.filter(album => album.skips === selectedButton);
     }
 
-    console.log(savedAlbums);
-
-    // savedAlbums = savedAlbums.slice(0, 10);
+    if (selectedButton === 0) {
+        savedAlbums = savedAlbums.sort((a, b) => b.numberOfSongs - a.numberOfSongs);
+    } else {
+        savedAlbums = savedAlbums.sort((a, b) => b.skipRate - a.skipRate);
+    }
 
     const savedAlbumCards = savedAlbums.map(album => {
 
@@ -46,26 +48,15 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
                 saveAlbum={saveAlbum}
                 previouslyLikedSongs={album.likedSongs}
                 spotifyAccessToken={spotifyAccessToken}
+                numberOfSongs={album.numberOfSongs}
             />
         )
     });
-
-    const createSkipsObject = (savedAlbums) => {
-        savedAlbums = savedAlbums.map(album => {
-            album.likedSongs = JSON.parse(album.likedSongs);
-            return album;
-        });
-        console.log(savedAlbums);
-    }
 
     const setSelectedSkipRate = (skipRate) => {
         setSelectedButton(skipRate);
         setDropDownActive(false);
     }
-
-    // useEffect(() => {
-    //     createSkipsObject(savedAlbums);
-    // }, []);
 
     return (
         <div className="dashboard-container">

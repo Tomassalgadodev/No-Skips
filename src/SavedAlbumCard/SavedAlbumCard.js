@@ -9,11 +9,11 @@ import likedIcon from '../assets/liked_icon.png';
 
 import { getSingleAlbumData } from "../fetchRequests";
 
-const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum, previouslyLikedSongs, spotifyAccessToken }) => {
+const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, removeAlbum, artistID, albumID, saveAlbum, previouslyLikedSongs, spotifyAccessToken, numberOfSongs }) => {
 
     const history = useHistory();
     
-    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID};
+    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, numberOfSongs};
 
     const [albumArtTop, setAlbumArtTop] = useState('20px');
     const [albumTitleTop, setAlbumTitleTop] = useState('295px');
