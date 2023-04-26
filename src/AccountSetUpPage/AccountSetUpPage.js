@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import './AccountSetUpPage.css';
+import { useHistory } from "react-router-dom";
 
-const AccountSetUpPage = ({ oAuthCode, clientID }) => {
+const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
+
+    const history = useHistory();
     
     const [isLoading, setIsLoading] =useState(true);
     const [userData, setUserData] = useState({});
     const [isLoadingTrackData, setIsLoadingTrackData] = useState(true);
-    const [rawTrackData, setRawTrackData] = useState([]);
-    const [usersSingles, setUsersSingles] = useState([]);
-    const [usersAlbums, setUsersAlbums] = useState({});
+    const [userMusicData, setUserMusicData] = useState([]);
     const [numberOfLikedSongs, setNumberOfLikedSongs] = useState(0);
     const [numberOfSingles, setNumberOfSingles] = useState(0);
     const [numberOfAlbums, setNumberOfAlbums] = useState(0);
     const [username, setUsername] = useState('');
+    const [accountCreated, setAccountCreated] = useState(false);
     
     const fetchUserData = async (accessToken, endPoint) => {
         
@@ -110,6 +112,54 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
         return [formattedAlbumData, singles];
     }
 
+    const formatDataForDatabase = albumData => {
+        const [albums, singles] = albumData;
+        const albumIDs = Object.keys(albums);
+
+        const formattedSingleData = singles.map(track => {
+            const song = track.track.album;
+            const likedSongs = JSON.stringify([{ 
+                trackNumber: 1,
+                trackName: song.name,
+                trackID: track.track.id
+            }]);
+            return {
+                link: `https://open.spotify.com/album/${song.id}`,
+                albumID: song.id,
+                albumArt: song.images[0].url,
+                artistID: song.artists[0].id,
+                albumTitle: song.name,
+                artistName: song.artists[0].name,
+                likedSongs: likedSongs,
+                yearReleased: song.release_date.substring(0, 4)
+            }
+        });
+
+        const formattedAlbumData = albumIDs.map(albumID => {
+            const tracks = albums[albumID];
+            const formattedTracks = tracks.map(track => {
+                return {
+                    trackNumber: track.track_number,
+                    trackName: track.name,
+                    trackID: track.id
+                }
+            });
+            const stringifiedTracks = JSON.stringify(formattedTracks);
+            const album = tracks[0].album;
+            return {
+                link: `https://open.spotify.com/album/${albumID}`,
+                albumID: albumID,
+                albumArt: album.images[0].url,
+                albumTitle: album.name,
+                artistName: album.artists[0].name,
+                likedSongs: stringifiedTracks,
+                yearReleased: album.release_date.substring(0, 4),
+                artistID: album.artists[0].id
+            }
+        });
+        return [formattedAlbumData, formattedSingleData];
+    }
+
     const fetchUsersLikedSongs = async (accessToken, url, likedSongs) => {
         const trackData = await fetchUserData(accessToken, url);
         const newLikedSongs = [...likedSongs, trackData];
@@ -119,16 +169,101 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
             fetchUsersLikedSongs(accessToken, nextURL, newLikedSongs);
         } else {
             const formattedTrackData = formatTrackData(newLikedSongs);
-            console.log(formattedTrackData);
-            setRawTrackData(newLikedSongs);
-            setUsersAlbums(formattedTrackData[0]);
-            setUsersSingles(formattedTrackData[1]);
+            const formattedDatabaseData = formatDataForDatabase(formattedTrackData);
+            setUserMusicData(formattedDatabaseData);
             setIsLoadingTrackData(false);
         }
     }
 
-    const checkForUserInDatabase = async () => {
+    const checkForUserInDatabase = async (spotifyID) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/user/${spotifyID}`);
+            
+            if (!response.ok) {
+                throw new Error(response.status);
+            }
 
+            const data = await response.json();
+
+            return data;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const login = async () => {
+        try {
+
+            const loginBody = { username, linkedToSpotify: true };
+
+            const attempt = await fetch('http://localhost:8000/api/v1/login', {
+                method: 'POST',
+                body: JSON.stringify(loginBody),
+                headers: {
+                    "Content-Type": "application/JSON"
+                },
+                credentials: 'include'
+            });
+    
+            if (!attempt.ok) {
+                throw new Error (attempt.status);
+            }
+
+            setIsLoadingTrackData(false);
+            setIsLoading(false);
+
+            const loginInfo = await attempt.json();
+
+            loginUser();
+
+            history.push('/');
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const logInOrFetchData = async (spotifyID) => {
+        const doesUserExist = await checkForUserInDatabase(spotifyID);
+
+        if (doesUserExist.msg === 'account exists') {
+            setUsername(spotifyID);
+            setAccountCreated(true);
+            console.log('working');
+        } else if (doesUserExist.msg === 'account not created yet') {
+            const accessToken = localStorage.getItem('access_token');
+            fetchUsersLikedSongs(accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', []);
+        }
+    }
+
+    const addMusicCollectionToDatabase = async (username) => {
+        const body = {
+            albums: userMusicData[0],
+            singles: userMusicData[1],
+            username: username
+        }
+
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/addMusicCollectionFromSpotify', {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/JSON"
+                },
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error (response.status);
+            }
+
+            const data = await response.json();
+
+            return data;
+
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const createNewUser = async () => {
@@ -145,50 +280,70 @@ const AccountSetUpPage = ({ oAuthCode, clientID }) => {
             spotifyID: userData.id
         };
 
-        console.log(signupBody);
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/users', {
+                method: 'POST',
+                body: JSON.stringify(signupBody),
+                headers: {
+                    "Content-Type": "application/JSON"
+                },
+                credentials: 'include'
+            });
+    
+            if (!response.ok) {
+                throw new Error (response.status);
+            }
+    
+            const data = await response.json();
 
-        const response = await fetch('http://localhost:8000/api/v1/users', {
-            method: 'POST',
-            body: JSON.stringify(signupBody),
-            headers: {
-                "Content-Type": "application/JSON"
-            },
-            credentials: 'include'
-        });
+            setUsername(data.username);
 
-        if (!response.ok) {
-            throw new Error (response.status);
+            const result = await addMusicCollectionToDatabase(data.username);
+
+            console.log(result);
+
+            setAccountCreated(true);
+
+        } catch (err) {
+            if (err.message === '401') {
+                // If a user exists then log them in
+                console.log('user already exists');
+            }
         }
-
-        const data = await response.json();
-
-        console.log(data);
     }
     
     useEffect(() => {
         fetchSpotifyAccessToken();
+        console.log('here');
     }, []);
 
     useEffect(() => {
-
         if (!isLoading) {
-        }
-
-        if (!isLoading) {
-            const accessToken = localStorage.getItem('access_token');
-            fetchUsersLikedSongs(accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', []);
+            logInOrFetchData(userData.id);
         }
     }, [isLoading]);
 
+    useEffect(() => {
+        if (!isLoadingTrackData) {
+            createNewUser();
+        }
+    }, [isLoadingTrackData]);
+
+    useEffect(() => {
+        if (accountCreated) {
+            login();
+        }
+    }, [accountCreated]);
+
     return (
         <>
-            {isLoading && <h1 style={{ color: 'white' }}>-- LOADING --</h1>}
+            {isLoading && isLoadingTrackData && <h1 style={{ color: 'white' }}>-- LOADING --</h1>}
             {!isLoading && <h1 style={{ color: 'white' }}>Hello {userData.display_name.split(' ')[0]}</h1>}
             {!isLoading && isLoadingTrackData && <h1 style={{ color: 'white' }}>One moment while we get your tracks.</h1>}
             {!isLoading && !isLoadingTrackData && 
                 <>
                     <h1 style={{ color: 'white' }}>{numberOfLikedSongs} songs found in {numberOfAlbums} albums and {numberOfSingles} singles.</h1>
-                    <button onClick={createNewUser}>Create Account</button>
+                    <h1 style={{ color: 'white' }}>One moment while we create your account.</h1>
                 </>
             }
         

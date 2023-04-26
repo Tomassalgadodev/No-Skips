@@ -225,6 +225,7 @@ const App = () => {
   }, []);
 
   const loginUser = (loginInfo) => {
+    console.log('in app');
     setLoggedIn(true);
     fetchUserData();
   }
@@ -257,6 +258,7 @@ const App = () => {
             saveAlbum={saveAlbum}
             spotifyAccessToken={spotifyAccessToken}
             clientID={CLIENT_ID}
+            loginUser={loginUser}
           />
         )
       }}/>

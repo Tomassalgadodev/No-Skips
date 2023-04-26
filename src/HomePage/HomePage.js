@@ -6,7 +6,7 @@ import { authorizeUser } from "../spotifyUserAuthorization";
 import UserDashboard from "../UserDashboard/UserDashboard";
 import AccountSetUpPage from "../AccountSetUpPage/AccountSetUpPage";
 
-const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, clientID }) => {
+const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, clientID, loginUser }) => {
 
     let oAuthCode;
 
@@ -37,6 +37,7 @@ const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccess
                 <AccountSetUpPage 
                     oAuthCode={oAuthCode} 
                     clientID={clientID}
+                    loginUser={loginUser}
                 />
             }
         </>
