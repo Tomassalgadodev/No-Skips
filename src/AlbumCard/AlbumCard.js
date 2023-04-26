@@ -13,7 +13,7 @@ import whiteMinusIcon from '../assets/white-minus-icon.png';
 
 import { getSingleAlbumData } from "../fetchRequests";
 
-const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum, albumID, liked, previouslyLikedSongs, spotifyAccessToken }) => {
+const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistName, artistID, saveAlbum, removeAlbum, albumID, liked, previouslyLikedSongs, spotifyAccessToken, numberOfSongs }) => {
 
     const [icon, setIcon] = useState(greyPlusIcon);
     const [iconVisible, setIconVisible] = useState(false);
@@ -31,7 +31,7 @@ const AlbumCard = ({ albumArt, albumTitle, yearReleased, link, isLiked, artistNa
 
     const history = useHistory();
 
-    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID };
+    let albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, numberOfSongs };
 
     const getAverageColor = (image) => {
         const canvas = document.createElement('canvas');

@@ -254,7 +254,6 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const likeAllSongs = () => {
         const allSongs = [];
-        console.log(albumData);
         albumTracks.forEach(track => {
             allSongs.push({ trackNumber: track.track_number, trackName: track.name, trackID: track.id })
         });
@@ -268,17 +267,13 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     }
 
     const submitAlbum = async () => {
-        const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(likedSongs)};
+        const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, numberOfSongs, likedSongs: JSON.stringify(likedSongs)};
 
         let albumScore = (likedSongs.length / numberOfSongs) * 100;
 
         if (albumScore % 1) { albumScore = albumScore.toFixed(1) }
         
         albumScore = albumScore + '%';
-
-        // Add this to the album object and save it. Display the score if the album is liked
-
-        console.log(albumScore);
 
         const result = await saveAlbum([albumObject, albumColor]);
         if (result === 'Success!') {
@@ -295,7 +290,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     }
 
     const submitAlbumWithTracks = async (tracksToAdd) => {
-        const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, likedSongs: JSON.stringify(tracksToAdd)};
+        const albumObject = { albumArt, albumTitle, yearReleased, link, artistName, artistID, albumID, numberOfSongs, likedSongs: JSON.stringify(tracksToAdd)};
 
         let albumScore = (likedSongs.length / numberOfSongs) * 100;
 

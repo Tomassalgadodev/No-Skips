@@ -147,7 +147,6 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
             });
             const stringifiedTracks = JSON.stringify(formattedTracks);
             const album = tracks[0].album;
-            console.log(album);
             return {
                 link: `https://open.spotify.com/album/${albumID}`,
                 albumID: albumID,
@@ -317,7 +316,6 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
     
     useEffect(() => {
         fetchSpotifyAccessToken();
-        console.log('here');
     }, []);
 
     useEffect(() => {

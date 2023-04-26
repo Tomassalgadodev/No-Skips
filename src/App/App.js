@@ -225,7 +225,6 @@ const App = () => {
   }, []);
 
   const loginUser = (loginInfo) => {
-    console.log('in app');
     setLoggedIn(true);
     fetchUserData();
   }

@@ -23,7 +23,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
     if (!showAll) albumData = albumData.slice(0, 5);
 
     const albumCards = albumData.map((album, index) => {
-    
+
             const albumLink = `https://open.spotify.com/album/${album.id}`;
     
             const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
@@ -49,6 +49,7 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
                     albumID={album.id}
                     spotifyAccessToken={spotifyAccessToken}
                     previouslyLikedSongs={likedSongs}
+                    numberOfSongs={album.total_tracks}
                 />
             )
         });
