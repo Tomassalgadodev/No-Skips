@@ -131,7 +131,8 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
                 albumTitle: song.name,
                 artistName: song.artists[0].name,
                 likedSongs: likedSongs,
-                yearReleased: song.release_date.substring(0, 4)
+                yearReleased: song.release_date.substring(0, 4),
+                numberOfSongs: 1
             }
         });
 
@@ -146,6 +147,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
             });
             const stringifiedTracks = JSON.stringify(formattedTracks);
             const album = tracks[0].album;
+            console.log(album);
             return {
                 link: `https://open.spotify.com/album/${albumID}`,
                 albumID: albumID,
@@ -154,7 +156,8 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
                 artistName: album.artists[0].name,
                 likedSongs: stringifiedTracks,
                 yearReleased: album.release_date.substring(0, 4),
-                artistID: album.artists[0].id
+                artistID: album.artists[0].id,
+                numberOfSongs: album.total_tracks
             }
         });
         return [formattedAlbumData, formattedSingleData];

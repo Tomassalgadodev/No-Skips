@@ -5,6 +5,8 @@ import SavedAlbumCard from "../SavedAlbumCard/SavedAlbumCard";
 
 const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
 
+    savedAlbums = savedAlbums.slice(0, 10);
+
     const savedAlbumCards = savedAlbums.map(album => {
 
         const likedSongs = JSON.parse(album.likedSongs);
