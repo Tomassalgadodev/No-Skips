@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './SavedAlbumContainer.css';
 
 import SavedAlbumCard from "../SavedAlbumCard/SavedAlbumCard";
@@ -11,13 +11,26 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
     const [dropDownActive, setDropDownActive] = useState(false);
     const [selectedButton, setSelectedButton] = useState(0);
 
-    // console.log(savedAlbums);
+    savedAlbums = savedAlbums.map(album => {
+        if (typeof album.likedSongs === 'string') {
+            album.likedSongs = JSON.parse(album.likedSongs);
+            album.skips = album.numberOfSongs - album.likedSongs.length
+            album.skipRate = album.likedSongs.length / album.numberOfSongs
+        }
+        return album;
+    });
 
-    savedAlbums = savedAlbums.slice(0, 10);
+    if (selectedButton === 9) {
+        savedAlbums = savedAlbums.filter(album => album.skips >= 9);
+    } else {
+        savedAlbums = savedAlbums.filter(album => album.skips === selectedButton);
+    }
+
+    console.log(savedAlbums);
+
+    // savedAlbums = savedAlbums.slice(0, 10);
 
     const savedAlbumCards = savedAlbums.map(album => {
-
-        const likedSongs = JSON.parse(album.likedSongs);
 
         return (
             <SavedAlbumCard 
@@ -31,18 +44,28 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
                 artistID={album.artistID}
                 albumID={album.albumID}
                 saveAlbum={saveAlbum}
-                previouslyLikedSongs={likedSongs}
+                previouslyLikedSongs={album.likedSongs}
                 spotifyAccessToken={spotifyAccessToken}
             />
         )
     });
+
+    const createSkipsObject = (savedAlbums) => {
+        savedAlbums = savedAlbums.map(album => {
+            album.likedSongs = JSON.parse(album.likedSongs);
+            return album;
+        });
+        console.log(savedAlbums);
+    }
 
     const setSelectedSkipRate = (skipRate) => {
         setSelectedButton(skipRate);
         setDropDownActive(false);
     }
 
-
+    // useEffect(() => {
+    //     createSkipsObject(savedAlbums);
+    // }, []);
 
     return (
         <div className="dashboard-container">
