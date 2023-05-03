@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { Redirect, useHistory, NavLink } from "react-router-dom";
 import './SignUpPage.css';
 
+import { authorizeUser } from "../spotifyUserAuthorization";
+
 import logo from '../assets/anthology-logo.png';
 import errorIcon from '../assets/error-icon.png';
+import greySpotifyIcon from '../assets/spotify-icon-grey.png';
+import whiteSpotifyIcon from '../assets/spotify-icon-white.png';
 
-const SignUpPage = ({ loggedIn, loginUser }) => {
+const SignUpPage = ({ loggedIn, loginUser, clientID }) => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -16,6 +20,8 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
     const [passwordMatch, setPasswordMatch] = useState(false);
     const [userExistsError, setUserExistsError] = useState(false);
     const [passwordsMustMatchError, setPasswordsMustMatchError] = useState(false);
+    const [buttonImage, setButtonImage] = useState(greySpotifyIcon);
+
 
     const history = useHistory();
 
@@ -120,6 +126,23 @@ const SignUpPage = ({ loggedIn, loginUser }) => {
                 <p className="sign-up-heading">Anthology</p>
             </div>
             <h2 className="sign-up-sub-heading">Sign up for free to start discovering.</h2>
+            <button
+                className="spotify-log-in-button"
+                onClick={(e) => {
+                    e.preventDefault();
+                    authorizeUser(clientID);
+                }}
+                onMouseEnter={() => setButtonImage(whiteSpotifyIcon)}
+                onMouseLeave={() => setButtonImage(greySpotifyIcon)}
+            >
+                <img src={buttonImage} />
+                CONTINUE WITH SPOTIFY
+            </button>
+            <div className="login-or-container">
+                <hr className="login-or-line"></hr>
+                <p className="login-or-text">OR</p>
+                <hr className="login-or-line"></hr>
+            </div>
             <div className="input-container">
                 <p className="input-label">What's your first name?</p>
                 <input className="input" placeholder="Enter your first name." value={firstName} onChange={e => setFirstName(e.target.value)} required/>

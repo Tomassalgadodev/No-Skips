@@ -334,6 +334,7 @@ const App = () => {
           <SignUpPage 
             loginUser={loginUser}
             loggedIn={loggedIn}
+            clientID={CLIENT_ID}
           />
         )
       }}/>
