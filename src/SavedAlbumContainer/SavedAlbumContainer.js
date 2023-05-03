@@ -64,7 +64,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
             <div 
                 className="sort-button"
                 onClick={() => setDropDownActive(!dropDownActive)}
-            >Sort <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow}/></div>
+            >{selectedButton === 0 ? 'No Skips' : `${selectedButton} Skips`} <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow}/></div>
             {dropDownActive &&
                 <div 
                     className="skips-dropdown"
