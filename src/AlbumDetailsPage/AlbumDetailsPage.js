@@ -88,8 +88,6 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
             const albumData = await response.json();
 
-            console.log(albumData);
-
             const streamingData = albumData.data.albumUnion.tracks.items.map(track => track.track.playcount);
 
             setStreamingData(streamingData);
