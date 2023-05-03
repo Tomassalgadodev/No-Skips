@@ -21,7 +21,9 @@ const SongContainer = ({
     singlesByArtist,
     displayInfoModal, 
     singlesDataCalculated, 
-    streamingData
+    streamingData,
+    jsonError,
+    fetchStreamingData
 }) => {
 
     const [withoutSingles, setWithoutSingles] = useState(false);
@@ -149,6 +151,15 @@ const SongContainer = ({
                     disabled={disableButton}
                 >{buttonMessage}</button>
                 <img className="clock-icon" src={clockIcon} />
+                {jsonError && 
+                    <div className="json-error">
+                        <h2 className="json-error-heading">Oh snap!</h2>
+                        <p className="json-error-sub-heading">Something went wrong while we were fetching this albums streaming data.</p>
+                        <button
+                            onClick={fetchStreamingData}
+                        >Try again?</button>
+                    </div>
+                }
             </div>
             {SongCards}
         </div>

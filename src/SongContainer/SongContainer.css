@@ -60,3 +60,41 @@
     height: 16px;
     width: 16px;
 }
+
+.json-error {
+    position: absolute;
+    width: 300px;
+    background-color: #dc3055;
+    border-radius: 10px;
+    padding: 13px;
+    top: 60px;
+    right: 160px;
+    z-index: 10;
+    color: #fff;
+    height: 95px;
+}
+
+.json-error h2 {
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.json-error p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.json-error button {
+    border: none;
+    border-radius: 8px;
+    height: 30px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #851c3f;
+    margin-left: 180px;
+}
+
+.json-error button:hover {
+    cursor: pointer;
+    background-color: #a3234e;
+}

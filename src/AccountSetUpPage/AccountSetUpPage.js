@@ -338,7 +338,6 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
 
     return (
         <>
-            {isLoading && isLoadingTrackData && <h1 style={{ color: 'white' }}>-- LOADING --</h1>}
             {!isLoading && <h1 style={{ color: 'white' }}>Hello {userData.display_name.split(' ')[0]}</h1>}
             {!isLoading && isLoadingTrackData && <h1 style={{ color: 'white' }}>One moment while we get your tracks.</h1>}
             {!isLoading && !isLoadingTrackData && 

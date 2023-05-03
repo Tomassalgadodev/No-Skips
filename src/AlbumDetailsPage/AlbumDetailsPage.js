@@ -43,6 +43,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const [showInfoModal, setShowInfoModal] = useState(false);
     const [infoModalMessage, setInfoModalMessage] = useState('Album added to your collection');
     const [fadeOut, setFadeOut] = useState(false);
+    const [jsonError, setJsonError] = useState(false);
 
     const albumLink = `https://open.spotify.com/album/${albumID}`;
 
@@ -78,6 +79,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const fetchStreamingData = async () => {
         try {
+            setJsonError(false);
             const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
 
             if (!response.ok) {
@@ -85,6 +87,8 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             }
 
             const albumData = await response.json();
+
+            console.log(albumData);
 
             const streamingData = albumData.data.albumUnion.tracks.items.map(track => track.track.playcount);
 
@@ -95,6 +99,10 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
             setLoadingStreamingData(false);
         } catch (err) {
             console.log(err.message);
+            if (err.message = 'Unexpected end of JSON input') {
+                console.log('Something went wrong. Prompt the user to retry');
+                setJsonError(true);
+            } 
         }
     }
 
@@ -390,11 +398,12 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                         displayInfoModal={displayInfoModal}
                         singlesDataCalculated={singlesDataCalculated}
                         streamingData={streamingData}
+                        jsonError={jsonError}
+                        fetchStreamingData={fetchStreamingData}
                     />
                     <div className="album-submit-button-container">
                         {/* <p className="album-release-date">{albumData.data.albumUnion.label}</p> */}
-                        {/* <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p> */}
-                        
+                        {/* <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p> */}  
                         {!albumIsLiked && 
                             <button 
                                 onClick={submitAlbum} 
@@ -415,66 +424,6 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
                                 <div className={fadeOut ? "info-modal info-modal-fadeout" : "info-modal"}>{infoModalMessage}</div>
                     }
                 </React.Fragment>}
-                {/* {!isLoadingSpotifyData && !loading && 
-                <React.Fragment>
-                    <AlbumDetailsHeader 
-                        albumImage={albumArt}
-                        albumTitle={albumTitle}
-                        artistThumbnail={albumData.data.albumUnion.artists.items[0].visuals.avatarImage.sources[1].url}
-                        artistName={artistName}
-                        artistID={albumData.data.albumUnion.artists.items[0].id}
-                        albumType={albumData.data.albumUnion.type}
-                        numberOfSongs={albumData.data.albumUnion.tracks.totalCount}
-                        backgroundColor={albumColor}
-                        albumLength={''}
-                        yearReleased={yearReleased}
-                        albumIsLiked={albumIsLiked}
-                        likeAllSongs={likeAllSongs}
-                        removeAllSongs={removeAllSongs}
-                        handleRemoveAlbum={handleRemoveAlbum}
-                        submitAlbumWithTracks={submitAlbumWithTracks}
-                        displayInfoModal={displayInfoModal}
-                    />
-                    <SongContainer 
-                        albumData={albumData} 
-                        addLikedSong={addLikedSong}
-                        removeLikedSong={removeLikedSong}
-                        previouslyLikedSongs={previouslyLikedSongs}
-                        likedSongs={likedSongs}
-                        totalStreams={totalStreams}
-                        lowestStreams={lowestStreams}
-                        loadingSinglesData={loadingSinglesData}
-                        totalStreamsWithoutSingles={totalStreamsWithoutSingles}
-                        lowestStreamsWithoutSingles={lowestStreamsWithoutSingles}
-                        albumHasSingles={albumHasSingles}
-                        singlesByArtist={singlesByArtist}
-                        displayInfoModal={displayInfoModal}
-                        singlesDataCalculated={singlesDataCalculated}
-                    />
-                    <div className="album-submit-button-container">
-                        <p className="album-release-date">{albumData.data.albumUnion.label}</p>
-                        <p className="record-label1">{albumData.data.albumUnion.copyright.items[0].text}</p> */}
-                        {/* <p className="record-label2">{albumData.data.albumUnion.copyright.items[1] ? albumData.data.albumUnion.copyright.items[1].text : albumData.data.albumUnion.copyright.items[0].text}</p> */}
-                        {/* {!albumIsLiked && 
-                            <button 
-                                onClick={submitAlbum} 
-                                className="album-submit-button"
-                            >Submit album</button>
-                        }
-                        {showSuccessMessage &&
-                            <button className="album-submit-button" style={{ backgroundColor: '#1DB954', color: '#181818' }}>Saved!</button>
-                        }
-                        {albumIsLiked && hasEditedSongs &&
-                            <button 
-                                onClick={replaceAlbum}
-                                className="album-submit-button"
-                            >Edit album</button>
-                        }
-                    </div>
-                    {showInfoModal && 
-                                <div className={fadeOut ? "info-modal info-modal-fadeout" : "info-modal"}>{infoModalMessage}</div>
-                    }
-                </React.Fragment>} */}
         </React.Fragment>
     )
 }
