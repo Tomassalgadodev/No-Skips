@@ -20,8 +20,6 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
     
     albumData = extractDuplicates(albumData);
 
-    console.log(albumData);
-
     if (!showAll) albumData = albumData.slice(0, 5);
 
     const albumCards = albumData.map((album, index) => {
@@ -30,10 +28,15 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
     
             const isLiked = likedAlbums.find(likedAlbum => likedAlbum.link === albumLink);
 
+            
             let likedSongs;
-
+            
             if (isLiked) {
-                likedSongs = JSON.parse(isLiked.likedSongs);
+                if (typeof isLiked.likedSongs === 'string') {
+                    likedSongs = JSON.parse(isLiked.likedSongs);
+                } else {
+                    likedSongs = isLiked.likedSongs;
+                }
             }
 
             return (
