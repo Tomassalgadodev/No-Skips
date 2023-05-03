@@ -85,7 +85,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
                 <div className="heading-container">
                     <div 
                         className="artist-heading"
-                        style={{backgroundImage: `url(${artistData.data.artistUnion.visuals.headerImage.sources[0].url})`}}
+                        style={{backgroundImage: artistData.data.artistUnion.visuals.headerImage !== null ? `url(${artistData.data.artistUnion.visuals.headerImage.sources[0].url})` : ''}}
                     >
                     </div>
                     <h2 className="artist-page-title">{artistData.data.artistUnion.profile.name}</h2>
