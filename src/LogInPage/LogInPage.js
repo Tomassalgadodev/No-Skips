@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Redirect, useHistory, NavLink } from "react-router-dom";
 import './LogInPage.css';
 
+import { authorizeUser } from "../spotifyUserAuthorization";
+
 import logo from '../assets/anthology-logo.png';
 import errorIcon from '../assets/error-icon.png';
+import greySpotifyIcon from '../assets/spotify-icon-grey.png';
+import whiteSpotifyIcon from '../assets/spotify-icon-white.png';
 
-const LogInPage = ({ loginUser, loggedIn }) => {
+const LogInPage = ({ loginUser, loggedIn, clientID }) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [buttonImage, setButtonImage] = useState(greySpotifyIcon);
 
     const history = useHistory();
 
@@ -67,6 +72,23 @@ const LogInPage = ({ loginUser, loggedIn }) => {
                 <p className="sign-up-heading">Anthology</p>
             </div>
             <h2 className="sign-up-sub-heading">To continue, log in to Anthology.</h2>
+            <button
+                className="spotify-log-in-button"
+                onClick={(e) => {
+                    e.preventDefault();
+                    authorizeUser(clientID);
+                }}
+                onMouseEnter={() => setButtonImage(whiteSpotifyIcon)}
+                onMouseLeave={() => setButtonImage(greySpotifyIcon)}
+            >
+                <img src={buttonImage} />
+                CONTINUE WITH SPOTIFY
+            </button>
+            <div className="login-or-container">
+                <hr className="login-or-line"></hr>
+                <p className="login-or-text">OR</p>
+                <hr className="login-or-line"></hr>
+            </div>
             <div className={errorMessage ? 'log-in-error-container' : 'hidden log-in-error-container'}>
                 <img className="log-in-error-icon" src={errorIcon} />
                 <p className="log-in-error-message">{errorMessage}</p>

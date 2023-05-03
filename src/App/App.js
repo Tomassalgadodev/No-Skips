@@ -325,6 +325,7 @@ const App = () => {
           <LogInPage 
             loginUser={loginUser}
             loggedIn={loggedIn}
+            clientID={CLIENT_ID}
           />
         )
       }}/>
