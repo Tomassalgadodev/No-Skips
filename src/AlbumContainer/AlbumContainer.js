@@ -20,6 +20,8 @@ const AlbumContainer = ({ heading, albumData, artistID, artistName, likedAlbums,
     
     albumData = extractDuplicates(albumData);
 
+    console.log(albumData);
+
     if (!showAll) albumData = albumData.slice(0, 5);
 
     const albumCards = albumData.map((album, index) => {

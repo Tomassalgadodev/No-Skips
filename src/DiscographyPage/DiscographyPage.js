@@ -44,6 +44,7 @@ const DiscographyPage = ({ type, artistID, saveAlbum, removeAlbum, artistName, s
     useEffect(() => {
         if (likedAlbums.length > 0) {
             const albums = likedAlbums.filter(album => album.artistID === artistID);
+            console.log(albums)
 
             setUsersLikedAlbumsFromArtist(albums);
         } else {

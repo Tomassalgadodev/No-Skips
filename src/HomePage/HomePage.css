@@ -1,3 +1,115 @@
 h1 {
     text-align: center;
+    margin: 0;
+}
+
+.homepage-container {
+    position: relative;
+}
+
+.homepage-image-container {
+    position: absolute;
+    width: 40vw;
+    height: 87vh;
+    top: 20px;
+    left: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 15px;
+}
+
+.homepage-image-container img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+}
+
+.welcome-container {
+    position: absolute;
+    top: 20px;
+    left: 48vw;
+    padding-top: 150px;
+}
+
+.welcome-header {
+    text-align: left;
+}
+
+.spotify-sign-up-button {
+    margin-top: 30px;
+    width: 575px;
+    height: 60px;
+    border: none;
+    border-radius: 500px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #1ED760;
+    color: #dfdfdf;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spotify-sign-up-button img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.spotify-sign-up-button:hover {
+    cursor: pointer;
+    color: #fff;
+}
+
+.or-container {
+    display: flex;
+    justify-content: center;
+    width: 575px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.or-line {
+    width: 44%;
+    height: 1px;
+    border: none;
+    border-top: 1px solid white;
+    margin-top: 7px;
+}
+
+.or-text {
+    margin: 0 20px;
+}
+
+.homepage-log-in-button {
+    margin-top: 30px;
+    width: 575px;
+    height: 60px;
+    border: none;
+    border-radius: 500px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #efefef;
+    color: #4a4a4a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.homepage-log-in-button:hover {
+    cursor: pointer;
+    color: #000;
+}
+
+.dont-have-an-account-tag {
+    margin-top: 50px;
+}
+
+.homepage-input {
+    width: 575px;
 }
