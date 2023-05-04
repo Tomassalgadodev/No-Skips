@@ -5,6 +5,8 @@ import SavedAlbumCard from "../SavedAlbumCard/SavedAlbumCard";
 
 import downArrow from '../assets/down-arrow.png';
 import upArrow from '../assets/up-arrow.png';
+import forwardButton from '../assets/forward-arrow.png';
+import backButton from '../assets/back-arrow.png';
 
 const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
 
@@ -61,10 +63,12 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
     return (
         <div className="dashboard-container">
             <h1 className="heading">Your albums</h1>
+            <img className="back-button" src={backButton}/>
+            <img className="forward-button" src={forwardButton} />
             <div 
                 className="sort-button"
                 onClick={() => setDropDownActive(!dropDownActive)}
-            >{selectedButton === 0 ? 'No Skips' : `${selectedButton} Skips`} <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow}/></div>
+            >{selectedButton === 0 ? 'No skips' : selectedButton === 1 ? '1 skip' : `${selectedButton} skips`} <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow}/></div>
             {dropDownActive &&
                 <div 
                     className="skips-dropdown"

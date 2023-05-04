@@ -10,6 +10,27 @@
     position: relative;
 }
 
+.back-button,
+.forward-button {
+    position: absolute;
+    height: 40px;
+    top: 2px;
+}
+
+.back-button:hover,
+.forward-button:hover {
+    cursor: pointer;
+}
+
+.back-button {
+    left: 200px;
+    opacity: .6;
+}
+
+.forward-button {
+    left: 250px;
+}
+
 .heading {
     margin: 0;
     margin-top: 20px;
