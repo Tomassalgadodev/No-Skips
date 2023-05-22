@@ -22,3 +22,27 @@
         background-color: #353535;
     }
 }
+
+@media (max-width: 1200px) {    
+    .fake-artist-heading {
+        height: 300px;
+    }
+}
+
+@media (max-width: 850px) {   
+    .fake-artist-heading {
+        height: 250px;
+    }
+}
+
+@media (max-width: 600px) {        
+    .fake-artist-heading {
+        height: 200px;
+    }
+}
+
+@media (max-width: 320px) {    
+    .fake-artist-heading {
+        height: 150px;
+    }
+}
