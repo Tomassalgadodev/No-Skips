@@ -164,3 +164,9 @@ header {
         margin-left: 15px;
     }
 }
+
+@media (max-width: 510px) {
+    .profile-picture {
+        display: none;
+    }
+}

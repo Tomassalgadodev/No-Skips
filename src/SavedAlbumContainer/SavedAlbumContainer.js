@@ -7,6 +7,8 @@ import downArrow from '../assets/down-arrow.png';
 import upArrow from '../assets/up-arrow.png';
 import forwardButton from '../assets/forward-arrow.png';
 import backButton from '../assets/back-arrow.png';
+import mobileForwardButton from '../assets/mobile-forward-arrow.png';
+import mobileBackButton from '../assets/mobile-back-arrow.png';
 
 const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
 
@@ -65,6 +67,26 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
         setDropDownActive(false);
     }
 
+    const goBack = () => {
+        if (selectedPage > 0) {
+            setSelectedPage(selectedPage - 1);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    const goForward = () => {
+        if (selectedPage !== numberOfPages - 1) {
+            setSelectedPage(selectedPage + 1);
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }
+
     useEffect(() => {
         setSelectedPage(0);
         console.log(numberOfPages);
@@ -75,11 +97,19 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
             <h1 className="heading">Your albums</h1>
             <img 
                 className={`back-button ${selectedPage === 0 ? 'inactive' : ''}`} src={backButton}
-                onClick={() => selectedPage > 0 ? setSelectedPage(selectedPage - 1) : ''}
+                onClick={goBack}
             />
             <img 
                 className={`forward-button ${selectedPage === numberOfPages - 1 ? 'inactive' : ''}`} src={forwardButton} 
-                onClick={() => selectedPage !== numberOfPages - 1 ? setSelectedPage(selectedPage + 1) : ''}
+                onClick={goForward}
+            />
+            <img 
+                className={`mobile-back-button ${selectedPage === 0 ? 'inactive' : ''}`} src={mobileBackButton}
+                onClick={goBack}
+            />
+            <img 
+                className={`mobile-forward-button ${selectedPage === numberOfPages - 1 ? 'inactive' : ''}`} src={mobileForwardButton} 
+                onClick={goForward}
             />
             <div 
                 className="sort-button"

@@ -50,3 +50,9 @@
         display: none;
     }
 }
+
+@media (max-width: 360px) {
+    .search-bar::placeholder {
+        content: 'Search';
+    }
+}

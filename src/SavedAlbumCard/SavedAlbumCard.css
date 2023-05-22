@@ -94,6 +94,16 @@
     text-decoration: underline;
 }
 
+@media (max-width: 400px) {
+    .album-card:hover > .album-art {
+        transform: none;
+    }
+
+    .album-card:hover {
+        background-color: #181818;
+    }
+}
+
 @media (max-width: 320px) {
 
     .album-card {
