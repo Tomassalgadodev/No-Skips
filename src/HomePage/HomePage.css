@@ -113,3 +113,96 @@ h1 {
 .homepage-input {
     width: 575px;
 }
+
+.spotify-sign-up-button,
+.homepage-log-in-button,
+.or-container {
+    transition: .7s;
+}
+
+@media (max-width: 1200px) {
+    .spotify-sign-up-button {
+        width: 400px;
+    }
+
+    .homepage-log-in-button {
+        width: 400px;
+    }
+
+    .or-container {
+        width: 400px;
+    }
+}
+
+@media (max-width: 850px) {
+
+    .homepage-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .homepage-image-container {
+        position: static;
+        width: 600px;
+        height: 300px;
+        margin-top: 30px;
+    }
+
+    .welcome-container {
+        position: static;
+        padding-top: 30px;
+    }
+
+    .spotify-sign-up-button,
+    .homepage-log-in-button,
+    .or-container {
+        width: 600px;
+    }
+}
+
+@media (max-width: 680px) {
+
+    .homepage-image-container,
+    .spotify-sign-up-button,
+    .homepage-log-in-button,
+    .or-container {
+        width: 400px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .homepage-image-container {
+        margin-top: 15px;
+        width: 340px;
+        height: 200px;
+    }
+
+    .spotify-sign-up-button,
+    .homepage-log-in-button,
+    .or-container {
+        width: 340px;
+    }
+
+    .welcome-container {
+        padding-top: 15px;
+    }
+
+    .welcome-header {
+        font-size: 25px;
+    }
+
+    .dont-have-an-account-tag {
+        margin-top: 30px;
+    }
+
+    .spotify-sign-up-button,
+    .homepage-log-in-button {
+        font-size: 17px;
+    }
+
+    .homepage-image-container {
+        transition: .7s;
+    }
+}

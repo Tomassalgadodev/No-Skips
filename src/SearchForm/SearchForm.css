@@ -28,6 +28,10 @@
     top: 10px
 }
 
+.search-form {
+    transition: .7s;
+}
+
 
 @media (max-width: 1200px) {
     .search-form {
