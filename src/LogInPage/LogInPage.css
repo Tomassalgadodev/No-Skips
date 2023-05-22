@@ -100,3 +100,23 @@
 .login-or-text {
     margin: 0 20px;
 }
+
+@media (max-width: 650px) {
+    .spotify-log-in-button,
+    .login-or-container,
+    .input-container,
+    .input,
+    .line-break,
+    .signup-redirect-button {
+        width: 300px;
+    }   
+    .signup-redirect-button {
+        padding: 0;
+        height: 49px;
+        display: flex;
+        flex-direction: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+}

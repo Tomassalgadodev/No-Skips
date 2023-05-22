@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import './Header.css';
 
 import SearchForm from "../SearchForm/SearchForm";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import profilePic from '../assets/profile-pic.png';
 import downArrow from '../assets/down-arrow.png';
@@ -78,7 +78,17 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
                 <button className="sign-up-button" onClick={() => history.push('/signup')}>Sign up</button>
                 <button className="log-in-button" onClick={() => history.push('/login')}>Log in</button>
             </div>
-            <img className="hamburger-icon" src={hamburger} />
+            <img    
+                className="hamburger-icon" 
+                src={hamburger} 
+                onClick={() => setDropDownActive(!dropDownActive)}
+            />
+            {dropDownActive &&
+                <div className="logged-out-drop-down-container">
+                    <NavLink onClick={hideDropDown} to="/signup" className="drop-down-button">Sign up</NavLink>
+                    <NavLink onClick={hideDropDown} to="/login" className="drop-down-button">Log in</NavLink>
+                </div>
+            }
         </header>
     )
 }

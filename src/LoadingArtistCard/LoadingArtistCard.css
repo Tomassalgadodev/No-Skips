@@ -34,7 +34,7 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .artist-card {
         width: 100%;
         height: 80px;
