@@ -49,7 +49,12 @@
     bottom: 70px;
     position: absolute;
     transition: bottom 1s ease-in-out, height 1s ease-in-out;
-    overflow: scroll;
+    overflow: auto;
+}
+
+.song-modal-container::-webkit-scrollbar {
+    width: 0;
+    background-color: transparent;
 }
 
 .hidden {

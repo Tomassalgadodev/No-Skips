@@ -12,6 +12,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
 
     const [dropDownActive, setDropDownActive] = useState(false);
     const [selectedButton, setSelectedButton] = useState(0);
+    const [selectedPage, setSelectedPage] = useState(0);
 
     savedAlbums = savedAlbums.map(album => {
         if (typeof album.likedSongs === 'string') {
@@ -34,7 +35,11 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
         savedAlbums = savedAlbums.sort((a, b) => b.skipRate - a.skipRate);
     }
 
-    const savedAlbumCards = savedAlbums.map(album => {
+    const numberOfPages = Math.ceil(savedAlbums.length / 10);
+
+    const savedAlbumsToDisplay = savedAlbums.slice(selectedPage * 10, selectedPage * 10 + 10);
+
+    const savedAlbumCards = savedAlbumsToDisplay.map(album => {
 
         return (
             <SavedAlbumCard 
@@ -60,11 +65,22 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
         setDropDownActive(false);
     }
 
+    useEffect(() => {
+        setSelectedPage(0);
+        console.log(numberOfPages);
+    }, [selectedButton]);
+
     return (
         <div className="dashboard-container">
             <h1 className="heading">Your albums</h1>
-            <img className="back-button" src={backButton}/>
-            <img className="forward-button" src={forwardButton} />
+            <img 
+                className={`back-button ${selectedPage === 0 ? 'inactive' : ''}`} src={backButton}
+                onClick={() => selectedPage > 0 ? setSelectedPage(selectedPage - 1) : ''}
+            />
+            <img 
+                className={`forward-button ${selectedPage === numberOfPages - 1 ? 'inactive' : ''}`} src={forwardButton} 
+                onClick={() => selectedPage !== numberOfPages - 1 ? setSelectedPage(selectedPage + 1) : ''}
+            />
             <div 
                 className="sort-button"
                 onClick={() => setDropDownActive(!dropDownActive)}

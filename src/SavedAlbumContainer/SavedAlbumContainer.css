@@ -23,12 +23,11 @@
 }
 
 .back-button {
-    left: 200px;
-    opacity: .6;
+    left: 215px;
 }
 
 .forward-button {
-    left: 250px;
+    left: 265px;
 }
 
 .heading {
@@ -96,6 +95,14 @@
 .skips-dropdown-button:hover {
     background-color: hsla(0,0%,100%,.1);
     cursor: pointer;
+}
+
+.inactive {
+    opacity: 0.6;
+}
+
+.inactive:hover {
+    cursor: not-allowed;
 }
 
 @media (max-width: 1630px) {
