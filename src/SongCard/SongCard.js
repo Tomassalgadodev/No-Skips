@@ -25,7 +25,8 @@ const SongCard = ({
     songIsASingle, 
     specialCaseWithoutSingles,
     albumHasSingles, 
-    loadingStreamingData
+    loadingStreamingData,
+    index
 }) => {
 
     const [unlikedVisibility, setUnlikedVisbility] = useState(false);
@@ -35,7 +36,11 @@ const SongCard = ({
     const [percentSkippedColor, setPercentSkippedColor] = useState('green');
     const [playCount, setPlayCount] = useState('');
     const [showPlayCount, setShowPlayCount] = useState(false);
-    const [percentSkippedColorWithoutSingles, setPercentSkippedColorWithoutSingles] = useState('green');
+    const [percentSkippedColorWithoutSingles, setPercentSkippedColorWithoutSingles] = useState('green'); 
+    const [firstBreakPoint, setFirstBreakPoint] = useState(false);
+    const [skipTag, setSkipTag] = useState('Loading');
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    const [titleContainerWidth, setTitleContainerWidth] = useState('auto');
 
     const artistLinks = trackArtists.map((artist, index) => {
 
@@ -49,14 +54,14 @@ const SongCard = ({
     }).flatMap((component, index) => trackArtists.length - 1 === index ? [component] : [component, ', ']);
 
     const setHoverState = () => {
-        if (!isLiked) {
+        if (!isLiked && screenWidth > 1000) {
             setUnlikedVisbility(true);
         }
         setArtistLinkColor('#fff');
     }
 
     const unSetHoverState = () => {
-        if (!isLiked) {
+        if (!isLiked && screenWidth > 1000) {
             setUnlikedVisbility(false);
         }
         setArtistLinkColor('#B3B3B3');
@@ -119,6 +124,43 @@ const SongCard = ({
         if (songIsLiked) {
             setIsLiked(true);
         }
+
+        const handleResize = () => {
+            const firstBreakPointQuery = window.matchMedia('(max-width: 600px)');
+            setFirstBreakPoint(firstBreakPointQuery.matches);
+            setScreenWidth(window.innerWidth);
+        };
+
+        const checkCollision = () => {
+            const percentSkippedContainer = document.querySelector('.percent-streamed-container');
+            const loadingPercentSkippedContainer = document.querySelector('.loading-percent-streamed-container');
+            let cutOffGuide;
+
+            if (percentSkippedContainer) {
+                cutOffGuide = percentSkippedContainer.getBoundingClientRect();
+            } else {
+                cutOffGuide = loadingPercentSkippedContainer.getBoundingClientRect();
+            }
+
+            if (window.innerWidth > 1000) {
+                setTitleContainerWidth(`${cutOffGuide.left - 100}px`);
+            } else if (window.innerWidth > 600) {
+                setTitleContainerWidth(`${cutOffGuide.left - 150}px`);
+            } else {
+                setTitleContainerWidth(`${cutOffGuide.left - 130}px`)
+            }
+        }
+
+        handleResize();
+        checkCollision();
+
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', checkCollision);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', checkCollision);
+        };
     }, []);
 
     useEffect(() => {
@@ -126,7 +168,7 @@ const SongCard = ({
             getPercentSkippedColor(percentSkipped);
             getPlayCount();
         }
-    }, [loadingStreamingData])
+    }, [loadingStreamingData]);
 
     useEffect(() => {
         if (!loadingStreamingData) {
@@ -144,6 +186,25 @@ const SongCard = ({
         }
     }, [likedSongs]);
 
+    useEffect(() => {
+        if (!firstBreakPoint) {
+            if (specialCase === 'Highest') {
+                setSkipTag('Most streamed');
+            } else if (specialCase === 'Lowest') {
+                setSkipTag('Least streamed');
+            } else {
+                setSkipTag(percentSkipped + '% skip rate');
+            }
+        } else if (firstBreakPoint) {
+            setSkipTag('')
+        }
+
+    }, [specialCase, percentSkipped, firstBreakPoint]);
+
+    useEffect(() => {
+
+    }, []);
+
     return (
         <div
             onMouseOver={setHoverState}
@@ -152,15 +213,27 @@ const SongCard = ({
         >
             <p className="track-number">{trackNumber}</p>
             <div className="song-details-container">
-                <p className="track-name">{trackName}</p>
+                <p 
+                    className="track-name"
+                    style={{ width: titleContainerWidth }}
+                    >{trackName}</p>
                 <p 
                     className="artist-links" 
-                    style={{ color: artistLinkColor }}
+                    style={{ color: artistLinkColor, width: titleContainerWidth }}
                 >
                     {artistLinks}
                 </p>
             </div>
             {unlikedVisibility && 
+                <img 
+                    className="song-heart-icon" 
+                    src={unlikedHeart} 
+                    onMouseOver={highlightHeartIcon}
+                    onMouseOut={unhighlightHeartIcon}
+                    onClick={toggleSong}
+                />
+            }
+            {screenWidth <= 1000 && 
                 <img 
                     className="song-heart-icon" 
                     src={unlikedHeart} 
@@ -182,7 +255,7 @@ const SongCard = ({
                     onMouseOver={() => setShowPlayCount(true)}
                     onMouseOut={() => setShowPlayCount(false)}
                 >   
-                    {specialCase === 'Highest' ? 'Most streamed' : specialCase === 'Lowest' ? 'Least streamed' : `${percentSkipped}% skip rate`}
+                    {skipTag}
                 </div>
             }
             {loadingStreamingData &&

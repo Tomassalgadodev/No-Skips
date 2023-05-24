@@ -28,7 +28,7 @@ const AlbumDetailsHeader = ({
     const [mainHeartIcon, setMainHeartIcon] = useState(unlikedIcon);
     const [showAlbumSubmitMessage, setShowAlbumSubmitMessage] = useState(true);
     const [fontSize, setFontSize] = useState(6);
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth); 
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const history = useHistory();
 
@@ -59,12 +59,16 @@ const AlbumDetailsHeader = ({
     }, []);
 
     useEffect(() => {
-        const contentContainer = document.querySelector('.album-details-content-container');
-        const titleContainer = document.querySelector('.album-details-title');
-        const containerWidth = contentContainer.clientWidth - 320;
-        const titleWidth = titleContainer.scrollWidth;
-        if (titleWidth >= containerWidth && fontSize !== 1.5) {
-            setFontSize(fontSize - 1.5);
+        if (windowWidth > 600) {
+            const contentContainer = document.querySelector('.album-details-content-container');
+            const titleContainer = document.querySelector('.album-details-title');
+            const containerWidth = contentContainer.clientWidth - 320;
+            const titleWidth = titleContainer.scrollWidth;
+            if (titleWidth >= containerWidth && fontSize !== 1.5) {
+                setFontSize(fontSize - 1.5);
+            }
+        } else {
+            setFontSize(1.5);
         }
         
     }, [windowWidth, fontSize]);
@@ -85,9 +89,9 @@ const AlbumDetailsHeader = ({
                                 <span 
                                     onClick={() => history.push(`/artist/${artistID}`)} 
                                     className="album-details-artist-link"
-                                >{artistName}</span> • 
-                                <span>{yearReleased}</span> • 
-                                <span>{numberOfSongs} Songs</span>
+                                >{artistName}</span>
+                                    {windowWidth <= 600 ? '' : ' •'}
+                                <span className="sub-details">{' ' + yearReleased + ' • ' + numberOfSongs + ' Songs'}</span> 
                             </p>
                             {!albumIsLiked &&
                                 <img 

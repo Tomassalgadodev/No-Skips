@@ -106,6 +106,7 @@ const SongContainer = ({
         return (
             <SongCard 
                 key={index}
+                index={index}
                 loadingStreamingData={loadingStreamingData}
                 trackID={song.id}
                 trackNumber={song.track_number}

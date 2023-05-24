@@ -98,3 +98,30 @@
     cursor: pointer;
     background-color: #a3234e;
 }
+
+@media (max-width: 1000px) {
+    .omit-singles-button {
+        right: 90px;
+    }
+    .clock-icon {
+        display: none;
+    }
+    .json-error {
+        right: 100px;
+    }
+}
+
+@media (max-width: 600px) {
+    .omit-singles-button {
+        display: none;
+    }
+    .json-error {
+        right: 45px;
+        height: 200px;
+        width: 100px;
+    }
+    .json-error button {
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+}
