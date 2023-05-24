@@ -15,9 +15,9 @@
     background-color: #282828;
 }
 
-.album-card:hover > .album-art {
+/* .album-card:hover > .album-art {
     transform: scale(1.04);
-}
+} */
 
 .album-art {
     width: 85%;
