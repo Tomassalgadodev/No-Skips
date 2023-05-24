@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+::-webkit-scrollbar {
+  width: 3px; 
+  background-color: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+}

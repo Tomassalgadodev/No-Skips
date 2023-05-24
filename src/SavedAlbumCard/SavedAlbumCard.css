@@ -94,7 +94,70 @@
     text-decoration: underline;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 680px) {
+    .album-card-wrapper {
+        width: 200px;
+    }
+
+    .album-card {
+        background-color: transparent;
+        border-radius: 0px;
+        width: 200px;
+        display: block;
+        height: 250px;
+        padding: 8px;
+    }
+
+    .album-art {
+        border-radius: 0px;
+        width: 200px;
+        position: static;
+        margin: 0;
+
+    }
+    
+    .heart-icon {
+        display: none;
+    }
+
+    .title-container {
+        position: static;
+        width: 100%;
+        margin: 0;
+        margin-top: 5px;
+    }
+
+    .title-box {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .details-container {
+        position: static;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .album-title {
+        position: static;
+        font-size: 18px;
+        width: 95%;
+        text-align: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+    }
+
+    .album-details {
+        width: 100%;
+        text-align: center;
+        font-size: 15px;
+    }
+    
+}
+
+/* @media (max-width: 400px) {
     .album-card:hover > .album-art {
         transform: none;
     }
@@ -124,4 +187,4 @@
     .album-details {
         font-size: 13.2px;
     }
-}
+} */

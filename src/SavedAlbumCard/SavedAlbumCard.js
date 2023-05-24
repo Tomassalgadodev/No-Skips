@@ -26,6 +26,7 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
     const [albumColor, setAlbumColor] = useState('');
     const [likedSongs, setLikedSongs] = useState([]);
     const [showDropDown, setShowDropDown] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const getAverageColor = (image) => {
         const canvas = document.createElement('canvas');
@@ -116,19 +117,23 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
     }
 
     const toggleSongModal = () => {
-        if (songModalActive) {
-            setAlbumArtTop('20px');
-            setAlbumTitleTop('295px');
-            setAlbumDetailsTop('335px');
-            setSongModalStyle({ bottom: '70px', height: '0px' });
-            setSongModalActive(false);
-        } else {
-            setAlbumArtTop('-300px');
-            setAlbumTitleTop('20px');
-            setAlbumDetailsTop('410px');
-            setSongModalStyle({ bottom: '20px', height: '320px', border: 'solid 1px #B3B3B3' });
-            setSongModalActive(true);
+
+        if (window.innerWidth > 680) {
+            if (songModalActive) {
+                setAlbumArtTop('20px');
+                setAlbumTitleTop('295px');
+                setAlbumDetailsTop('335px');
+                setSongModalStyle({ bottom: '70px', height: '0px' });
+                setSongModalActive(false);
+            } else {
+                setAlbumArtTop('-300px');
+                setAlbumTitleTop('20px');
+                setAlbumDetailsTop('410px');
+                setSongModalStyle({ bottom: '20px', height: '320px', border: 'solid 1px #B3B3B3' });
+                setSongModalActive(true);
+            }
         }
+
     }
     
     const handleHeartIconClick = () => {
@@ -149,8 +154,26 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
     }
 
     useEffect(() => {
-        setLikedSongs(previouslyLikedSongs); 
+        setLikedSongs(previouslyLikedSongs);
+
+        const getWidth = () => {
+            setWindowWidth(window.innerWidth);
+        }
+
+        window.addEventListener('resize', getWidth);
+
+        return () => {
+            window.removeEventListener('resize', getWidth);
+        }
      }, []);
+
+    //  useEffect(() => {
+    //     if (window.innerWidth <= 680) {
+    //         setAlbumArtTop('0px');
+    //     } else {
+    //         setAlbumArtTop('20px');
+    //     }
+    //  }, [windowWidth])
 
     return (
         <div className="album-card-wrapper">
