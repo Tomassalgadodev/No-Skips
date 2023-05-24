@@ -29,6 +29,9 @@ const AlbumDetailsHeader = ({
     const [showAlbumSubmitMessage, setShowAlbumSubmitMessage] = useState(true);
     const [fontSize, setFontSize] = useState(6);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [firstBreakPoint, setFirstBreakPoint] = useState([]);
+    const [secondBreakPoint, setSecondBreakPoint] = useState([]);
+    const [thirdBreakPoint, setThirdBreakPoint] = useState([]);
 
     const history = useHistory();
 
@@ -64,7 +67,23 @@ const AlbumDetailsHeader = ({
             const titleContainer = document.querySelector('.album-details-title');
             const containerWidth = contentContainer.clientWidth - 320;
             const titleWidth = titleContainer.scrollWidth;
+
+            if (firstBreakPoint.length && window.innerWidth > firstBreakPoint[0]) {
+                setFontSize(firstBreakPoint[1]);
+            } else if (secondBreakPoint.length && window.innerWidth > secondBreakPoint[0]) {
+                setFontSize(secondBreakPoint[1]);
+            } else if (thirdBreakPoint.length && window.innerWidth > thirdBreakPoint[0]) {
+                setFontSize(thirdBreakPoint[1]);
+            }
+
             if (titleWidth >= containerWidth && fontSize !== 1.5) {
+                if (!firstBreakPoint.length) {
+                    setFirstBreakPoint([window.innerWidth, fontSize]);
+                } else if (!secondBreakPoint.length) {
+                    setSecondBreakPoint([window.innerWidth, fontSize]);
+                } else if (!thirdBreakPoint.length) {
+                    setThirdBreakPoint([window.innerWidth, fontSize]);
+                }
                 setFontSize(fontSize - 1.5);
             }
         } else {
