@@ -32,6 +32,7 @@ const AlbumDetailsHeader = ({
     const [firstBreakPoint, setFirstBreakPoint] = useState([]);
     const [secondBreakPoint, setSecondBreakPoint] = useState([]);
     const [thirdBreakPoint, setThirdBreakPoint] = useState([]);
+    const [useWordWrap, setUseWordWrap] = useState(false);
 
     const history = useHistory();
 
@@ -78,13 +79,19 @@ const AlbumDetailsHeader = ({
 
             if (titleWidth >= containerWidth && fontSize !== 1.5) {
                 if (!firstBreakPoint.length) {
-                    setFirstBreakPoint([window.innerWidth, fontSize]);
+                    setFirstBreakPoint([window.innerWidth + 20, fontSize]);
                 } else if (!secondBreakPoint.length) {
-                    setSecondBreakPoint([window.innerWidth, fontSize]);
+                    setSecondBreakPoint([window.innerWidth + 20, fontSize]);
                 } else if (!thirdBreakPoint.length) {
-                    setThirdBreakPoint([window.innerWidth, fontSize]);
+                    setThirdBreakPoint([window.innerWidth + 20, fontSize]);
                 }
                 setFontSize(fontSize - 1.5);
+            }
+            
+            if (fontSize === 1.5) {
+                setUseWordWrap(true);
+            } else {
+                setUseWordWrap(false);
             }
         } else {
             setFontSize(1.5);
@@ -101,7 +108,10 @@ const AlbumDetailsHeader = ({
                 <div className="album-details-wrapper">
                     <div className="album-details-container">
                         <p className="album-type">{albumType}</p>
-                        <p style={{ fontSize: `${fontSize}rem` }} className="album-details-title">{albumTitle}</p>
+                        <p 
+                            style={{ fontSize: `${fontSize}rem` }} 
+                            className={useWordWrap ? "album-details-title use-wrap" : "album-details-title"}
+                        >{albumTitle}</p>
                         <div className="album-details-subheading-container">
                             <img className="album-details-artist-thumbnail" src={artistThumbnail} />
                             <p className="album-details-subheading">

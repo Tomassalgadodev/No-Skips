@@ -231,7 +231,6 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
         if (doesUserExist.msg === 'account exists') {
             setUsername(spotifyID);
             setAccountCreated(true);
-            console.log('working');
         } else if (doesUserExist.msg === 'account not created yet') {
             const accessToken = localStorage.getItem('access_token');
             fetchUsersLikedSongs(accessToken, 'https://api.spotify.com/v1/me/tracks?limit=50', []);

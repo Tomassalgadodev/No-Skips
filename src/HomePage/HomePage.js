@@ -11,7 +11,7 @@ import homepageImage from '../assets/homepage-image.png';
 import greySpotifyIcon from '../assets/spotify-icon-grey.png';
 import whiteSpotifyIcon from '../assets/spotify-icon-white.png';
 
-const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, clientID, loginUser }) => {
+const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, clientID, loginUser, loadingAlbums }) => {
 
     let oAuthCode;
 
@@ -32,6 +32,7 @@ const HomePage = ({ loggedIn, savedAlbums, removeAlbum, saveAlbum, spotifyAccess
                     removeAlbum={removeAlbum}
                     saveAlbum={saveAlbum}
                     spotifyAccessToken={spotifyAccessToken}
+                    loadingAlbums={loadingAlbums}
                 />            
             }
             {!loggedIn && window.location.search.substring(0, 6) !== '?code=' &&

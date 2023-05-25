@@ -3,7 +3,7 @@ import './UserDashboard.css';
 
 import SavedAlbumContainer from "../SavedAlbumContainer/SavedAlbumContainer";
 
-const UserDashboard = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
+const UserDashboard = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, loadingAlbums }) => {
     return (
         <React.Fragment>
             <SavedAlbumContainer 
@@ -11,6 +11,7 @@ const UserDashboard = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken
                 removeAlbum={removeAlbum}
                 saveAlbum={saveAlbum}
                 spotifyAccessToken={spotifyAccessToken}
+                loadingAlbums={loadingAlbums}
             />
         </React.Fragment>
     )

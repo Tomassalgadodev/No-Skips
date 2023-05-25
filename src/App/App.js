@@ -24,6 +24,7 @@ const App = () => {
   const [signUpPopUpData, setSignUpPopUpData] = useState([]);
   const [showSignUpPopUp, setShowSignUpPopUp] = useState(false);
   const [spotifyAccessToken, setSpotifyAccessToken] = useState('');
+  const [loadingAlbums, setLoadingAlbums] = useState(true);
 
   const CLIENT_ID = 'c2cf185725914d9eb939d6539e5d3dfb';
   const CLIENT_SECRET = 'eb8f270a21a04f25be4734f91e4f520a';
@@ -55,6 +56,7 @@ const App = () => {
 
         const userAccount = await accountInfo.json();
         setAccountInfo(userAccount);
+        setLoadingAlbums(false);
 
       } catch (err) {
         setLoggedIn(false);
@@ -75,6 +77,7 @@ const App = () => {
         console.error('Not logged in');
       }
     }
+
   }
 
   const fetchUserAlbumData = async () => {
@@ -258,6 +261,7 @@ const App = () => {
             spotifyAccessToken={spotifyAccessToken}
             clientID={CLIENT_ID}
             loginUser={loginUser}
+            loadingAlbums={loadingAlbums}
           />
         )
       }}/>

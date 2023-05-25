@@ -10,11 +10,13 @@ import backButton from '../assets/back-arrow.png';
 import mobileForwardButton from '../assets/mobile-forward-arrow.png';
 import mobileBackButton from '../assets/mobile-back-arrow.png';
 
-const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken }) => {
+const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAccessToken, loadingAlbums }) => {
 
     const [dropDownActive, setDropDownActive] = useState(false);
     const [selectedButton, setSelectedButton] = useState(0);
     const [selectedPage, setSelectedPage] = useState(0);
+    const [currentAlbumCards, setCurrentAlbumCards] = useState([]);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     savedAlbums = savedAlbums.map(album => {
         if (typeof album.likedSongs === 'string') {
@@ -26,7 +28,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
     });
 
     if (selectedButton === 9) {
-        savedAlbums = savedAlbums.filter(album => album.skips >= 9);
+        savedAlbums = savedAlbums.filter(album => album.skips >= 9 && album.likedSongs.length > 1);
     } else {
         savedAlbums = savedAlbums.filter(album => album.skips === selectedButton);
     }
@@ -43,6 +45,26 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
 
     const savedAlbumCards = savedAlbumsToDisplay.map(album => {
 
+        return (
+            <SavedAlbumCard 
+                albumArt={album.albumArt}
+                albumTitle={album.albumTitle}
+                yearReleased={album.yearReleased}
+                link={album.link}
+                key={album.link}
+                artistName={album.artistName}
+                removeAlbum={removeAlbum}
+                artistID={album.artistID}
+                albumID={album.albumID}
+                saveAlbum={saveAlbum}
+                previouslyLikedSongs={album.likedSongs}
+                spotifyAccessToken={spotifyAccessToken}
+                numberOfSongs={album.numberOfSongs}
+            />
+        )
+    });
+
+    const totalSavedAlbumCards = savedAlbums.map(album => {
         return (
             <SavedAlbumCard 
                 albumArt={album.albumArt}
@@ -87,9 +109,39 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
         }
     }
 
+    const displayAlbumCards = () => {
+        if (window.innerWidth > 680) {
+            setCurrentAlbumCards(savedAlbumCards);
+        } else {
+            setCurrentAlbumCards(totalSavedAlbumCards);
+        }
+    }
+
+    useEffect(() => {
+        const getWidth = () => {
+            setWindowWidth(window.innerWidth);
+        }
+
+        window.addEventListener('resize', getWidth);
+
+        return () => {
+            window.removeEventListener('resize', getWidth);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!loadingAlbums) {
+            displayAlbumCards();
+        }
+    }, [loadingAlbums]);
+
     useEffect(() => {
         setSelectedPage(0);
     }, [selectedButton]);
+
+    useEffect(() => {
+        displayAlbumCards();
+    }, [windowWidth, selectedButton, selectedPage]);
 
     return (
         <div className="dashboard-container">
@@ -113,7 +165,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
             <div 
                 className="sort-button"
                 onClick={() => setDropDownActive(!dropDownActive)}
-            >{selectedButton === 0 ? 'No skips' : selectedButton === 1 ? '1 skip' : `${selectedButton} skips`} <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow}/></div>
+            >{selectedButton === 0 ? 'Perfect albums' : selectedButton === 1 ? '1 skip' : selectedButton === 9 ? '9+ skips' : `${selectedButton} skips`} <img className="arrow-icon" src={dropDownActive ? upArrow : downArrow}/></div>
             {dropDownActive &&
                 <div 
                     className="skips-dropdown"
@@ -122,7 +174,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
                         className="skips-dropdown-button"
                         style={selectedButton === 0 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
                         onClick={() => setSelectedSkipRate(0)}
-                    >No skips</div>
+                    >Perfect albums</div>
                     <div 
                         className="remove-edit-menu-button"
                         style={selectedButton === 1 ? { backgroundColor: 'hsla(0,0%,100%,.1)' } : { backgroundColor: 'none' }}
@@ -171,7 +223,7 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
                 </div>
                 }
             <div className="saved-album-container">
-                {savedAlbumCards}
+                {currentAlbumCards}
             </div>
         </div>
     )

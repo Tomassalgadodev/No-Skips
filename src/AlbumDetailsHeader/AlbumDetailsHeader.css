@@ -42,6 +42,11 @@
     font-weight: bold;
     margin: 0;
     color: #fff;
+    white-space: nowrap;
+}
+
+.use-wrap {
+    white-space: normal;
 }
 
 .album-details-wrapper {
@@ -135,5 +140,9 @@
     }
     .album-details-content-container {
         padding-bottom: 80px;
+    }
+
+    .album-details-title {
+        white-space: normal;
     }
 }
