@@ -42,6 +42,10 @@
   background-color: transparent; 
 }
 
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
 ::-webkit-scrollbar-thumb {
   background-color: gray;
 }

@@ -89,7 +89,6 @@ const SavedAlbumContainer = ({ savedAlbums, removeAlbum, saveAlbum, spotifyAcces
 
     useEffect(() => {
         setSelectedPage(0);
-        console.log(numberOfPages);
     }, [selectedButton]);
 
     return (

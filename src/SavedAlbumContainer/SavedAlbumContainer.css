@@ -197,30 +197,8 @@
     }
 }
 
-/* @media (max-width: 375px) {
-    .mobile-back-button,
-    .mobile-forward-button {
-        height: 25px;
-    }
-
-    .mobile-back-button {
-        left: 5px;
-    }
-
-    .mobile-forward-button {
-        right: 5px;
+@media (max-width: 450px) {
+    .saved-album-container::-webkit-scrollbar {
+        display: none;
     }
 }
-
-@media (max-width: 320px) {
-    .dashboard-container,
-    .saved-album-container {
-        width: 200px;
-    }
-    .heading {
-        font-size: 20px;
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-    
-} */
