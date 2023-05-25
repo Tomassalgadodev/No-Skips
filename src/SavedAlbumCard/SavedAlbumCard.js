@@ -153,6 +153,21 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
         }
     }
 
+    const handleAlbumArtClick = () => {
+        if (window.innerWidth > 680) {
+            window.open(link, '_blank');
+        } else {
+            history.push(`/album/${albumID}`);
+        }
+    }
+
+    const handleAlbumCardClick = () => {
+        if (windowWidth.innerWidth <= 680) {
+            history.push(`/album/${albumID}`);
+            console.log('working');
+        }
+    }
+
     useEffect(() => {
         setLikedSongs(previouslyLikedSongs);
 
@@ -167,21 +182,16 @@ const SavedAlbumCard = ({ link, albumArt, albumTitle, yearReleased, artistName, 
         }
      }, []);
 
-    //  useEffect(() => {
-    //     if (window.innerWidth <= 680) {
-    //         setAlbumArtTop('0px');
-    //     } else {
-    //         setAlbumArtTop('20px');
-    //     }
-    //  }, [windowWidth])
-
     return (
         <div className="album-card-wrapper">
-            <div className="album-card" id={link}>
+            <div className="album-card" 
+                id={link}
+                onClick={handleAlbumCardClick}    
+            >
                 <img 
                     className="album-art" 
                     src={albumArt} 
-                    onClick={() => window.open(link, '_blank')}
+                    onClick={handleAlbumArtClick}
                     style={{ top: albumArtTop }}
                 />
                 <div 
