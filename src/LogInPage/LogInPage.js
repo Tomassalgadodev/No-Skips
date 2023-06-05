@@ -26,7 +26,7 @@ const LogInPage = ({ loginUser, loggedIn, clientID }) => {
 
             const loginBody = { username, password, linkedToSpotify: false };
 
-            const attempt = await fetch('http://localhost:8000/api/v1/login', {
+            const attempt = await fetch('https://anthology-server.herokuapp.com/api/v1/login', {
                 method: 'POST',
                 body: JSON.stringify(loginBody),
                 headers: {

@@ -49,7 +49,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
 
     const fetchSavedAlbumData = async () => {
         try {
-            const fetchAlbumAttempt = await fetch('http://localhost:8000/api/v1/savedAlbums', {
+            const fetchAlbumAttempt = await fetch('https://anthology-server.herokuapp.com/api/v1/savedAlbums', {
             credentials: 'include'
             })
     
@@ -80,7 +80,7 @@ const AlbumDetailsPage = ({ albumID, likedAlbums, saveAlbum, removeAlbum, logged
     const fetchStreamingData = async () => {
         try {
             setJsonError(false);
-            const response = await fetch(`http://localhost:8000/api/v1/album/${albumID}`);
+            const response = await fetch(`https://anthology-server.herokuapp.com/api/v1/album/${albumID}`);
 
             if (!response.ok) {
                 throw new Error(response.status);

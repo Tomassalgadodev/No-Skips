@@ -63,7 +63,7 @@ const SignUpPage = ({ loggedIn, loginUser, clientID }) => {
                 linkedToSpotify: false
             };
 
-            const attempt = await fetch('http://localhost:8000/api/v1/users', {
+            const attempt = await fetch('https://anthology-server.herokuapp.com/api/v1/users', {
                 method: 'POST',
                 body: JSON.stringify(signupBody),
                 headers: {
@@ -86,7 +86,7 @@ const SignUpPage = ({ loggedIn, loginUser, clientID }) => {
 
                 const loginBody = { username, password };
 
-                const attempt = await fetch('http://localhost:8000/api/v1/login', {
+                const attempt = await fetch('https://anthology-server.herokuapp.com/api/v1/login', {
                     method: 'POST',
                     body: JSON.stringify(loginBody),
                     headers: {

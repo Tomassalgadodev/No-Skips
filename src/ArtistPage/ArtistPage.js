@@ -23,7 +23,7 @@ const ArtistPage = ({ artistID, likedAlbums, saveAlbum, removeAlbum, loggedIn, s
 
     const fetchArtistData = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/artistData/${artistID}`);
+            const response = await fetch(`https://anthology-server.herokuapp.com/api/v1/artistData/${artistID}`);
 
             if (!response.ok) {
                 throw new Error(response.status);

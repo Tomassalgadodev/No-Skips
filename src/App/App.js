@@ -31,7 +31,7 @@ const App = () => {
 
   const fetchUserData = async () => {
     try {
-      const user = await fetch('http://localhost:8000/api/v1/userdata', {
+      const user = await fetch('https://anthology-server.herokuapp.com/api/v1/userdata', {
         credentials: 'include'
       });
 
@@ -46,7 +46,7 @@ const App = () => {
       setFriendsList(data.friends_list);
 
       try {
-        const accountInfo = await fetch('http://localhost:8000/api/v1/user', {
+        const accountInfo = await fetch('https://anthology-server.herokuapp.com/api/v1/user', {
           credentials: 'include'
         });
 
@@ -82,7 +82,7 @@ const App = () => {
 
   const fetchUserAlbumData = async () => {
     try {
-      const fetchAlbumAttempt = await fetch('http://localhost:8000/api/v1/savedAlbums', {
+      const fetchAlbumAttempt = await fetch('https://anthology-server.herokuapp.com/api/v1/savedAlbums', {
         credentials: 'include'
       })
 
@@ -104,7 +104,7 @@ const App = () => {
     const [album, albumColor] = albumData
 
     try {
-      const addAlbumAttempt = await fetch('http://localhost:8000/api/v1/addSavedAlbum', {
+      const addAlbumAttempt = await fetch('https://anthology-server.herokuapp.com/api/v1/addSavedAlbum', {
         method: 'POST',
         body: JSON.stringify(album),
         headers: {
@@ -137,7 +137,7 @@ const App = () => {
 
   const removeAlbum = async (link) => {
     try {
-      const removeAlbumAttempt = await fetch('http://localhost:8000/api/v1/removeSavedAlbum', {
+      const removeAlbumAttempt = await fetch('https://anthology-server.herokuapp.com/api/v1/removeSavedAlbum', {
         method: 'POST',
         body: JSON.stringify(link),
         headers: {

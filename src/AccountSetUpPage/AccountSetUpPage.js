@@ -179,7 +179,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
 
     const checkForUserInDatabase = async (spotifyID) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/user/${spotifyID}`);
+            const response = await fetch(`https://anthology-server.herokuapp.com/api/v1/user/${spotifyID}`);
             
             if (!response.ok) {
                 throw new Error(response.status);
@@ -198,7 +198,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
 
             const loginBody = { username, linkedToSpotify: true };
 
-            const attempt = await fetch('http://localhost:8000/api/v1/login', {
+            const attempt = await fetch('https://anthology-server.herokuapp.com/api/v1/login', {
                 method: 'POST',
                 body: JSON.stringify(loginBody),
                 headers: {
@@ -245,7 +245,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
         }
 
         try {
-            const response = await fetch('http://localhost:8000/api/v1/addMusicCollectionFromSpotify', {
+            const response = await fetch('https://anthology-server.herokuapp.com/api/v1/addMusicCollectionFromSpotify', {
                 method: 'POST',
                 body: JSON.stringify(body),
                 headers: {
@@ -282,7 +282,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
         };
 
         try {
-            const response = await fetch('http://localhost:8000/api/v1/users', {
+            const response = await fetch('https://anthology-server.herokuapp.com/api/v1/users', {
                 method: 'POST',
                 body: JSON.stringify(signupBody),
                 headers: {

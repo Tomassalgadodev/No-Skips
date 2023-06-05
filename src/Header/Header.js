@@ -20,7 +20,7 @@ const Header = ({ loggedIn, logoutUser, userFirstName }) => {
     const logout = async () => {
 
         try {
-            const logoutAttempt = await fetch('http://localhost:8000/api/v1/logout', {
+            const logoutAttempt = await fetch('https://anthology-server.herokuapp.com/api/v1/logout', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
