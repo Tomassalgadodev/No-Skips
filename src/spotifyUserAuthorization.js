@@ -1,6 +1,6 @@
 
 export const authorizeUser = (clientID) => {
-    const redirectUri = 'http://localhost:3000';
+    const redirectUri = 'https://anthology-client.herokuapp.com';
 
     const generateRandomString = length => {
         let text = '';

@@ -39,7 +39,7 @@ const AccountSetUpPage = ({ oAuthCode, clientID, loginUser }) => {
     }
 
     const fetchSpotifyAccessToken = async () => {
-        const redirectUri = 'http://localhost:3000';
+        const redirectUri = 'https://anthology-client.herokuapp.com';
         let codeVerifier = localStorage.getItem('code_verifier');
 
         let body = new URLSearchParams({
